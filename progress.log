@@ -1,1 +1,10 @@
 [2018-01-25 17:04:30] START
+[2018-01-25 17:41:19] CREATE pages.py: 0
+[2018-01-25 17:42:31] DELETE ERP/controllers/appadmin.py: -573
+[2018-01-25 17:42:36] DELETE ERP/controllers/default.py: -41
+[2018-01-25 17:42:40] DELETE ERP/controllers/pages.py: -1
+[2018-01-25 17:43:57] CREATE RegistrationPage.py: 0
+[2018-01-25 18:03:41] EDIT ERP/controllers/RegistrationPage.py: -1
+[2018-01-25 18:04:06] CREATE LoginPage.py: 0
+[2018-01-25 18:04:35] CREATE DashBoard.py: 0
+[2018-01-25 18:09:01] EDIT ERP/controllers/RegistrationPage.py: 6
