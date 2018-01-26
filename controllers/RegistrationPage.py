@@ -4,6 +4,7 @@
 #this function should include a mothord to check that it runs only for 1 time
 #it can contain multiple view pages according to the need
 def company_reg_page():
+    #connect to the company info db
     return locals()
 
 # this function is only for the superuser registration 
