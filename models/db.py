@@ -156,31 +156,149 @@ db.define_table('general_master_verification_details',
 )
 
 db.define_table(
+    'general_company_details',
+    Field('company_name',type='string',length=1000, required=True, notnull=True),
+    Field('company_identification',type='string',length=2000, required=True, notnull=True),
+    Field('company_address_line1',type='string',length=5000, required=True, notnull=True),
+    Field('company_address_line2',type='string',length=5000, required=True, notnull=True),
+    Field('country',type='string',length=500, required=True, notnull=True),
+    Field('states',type='string',length=500, required=True, notnull=True),
+    Field('city',type='string',length=500, required=True, notnull=True),
+    Field('pincode',type='integer', required=True, notnull=True),
+    Field('office_number',type='integer', required=True, notnull=True),
+    Field('is_active',type='boolean',default=True, required=True, notnull=True),
+    Field('db_entry_time', type='datetime', default='CURRENT_TIMESTAMP', required=True, notnull=True),
+    Field('db_update_time', type='datetime', notnull=False)
+)
+
+db.define_table(
     'general_superadmin_details',
+    Field('company_id',db.general_company_details),
     Field('first_name',type='string',length=250, required=True, notnull=True),
     Field('last_name',type='string',length=250, required=False, notnull=False),
     Field('email_id',type='string',length=500, required=False, notnull=True, unique=True),
     Field('mobile_number',type='integer', required=True, notnull=True),
     Field('password',type='password', required=True, notnull=True),
     Field('temp_password',type='password', required=False, notnull=False),
-    Field('verification_code',db.general_master_verification_details.verification_code),
-    Field('company_name',type='string',length=1000, required=True, notnull=True),
-    Field('company_identification',type='string',length=2000, required=True, notnull=True),
-    Field('company_address_line1',type='string',length=5000, required=True, notnull=True),
-    Field('company_address_line2',type='string',length=5000, required=True, notnull=True),
-    Field('country',type='string',length=500, required=True, notnull=True),
-    Field('state',type='string',length=500, required=True, notnull=True),
-    Field('city',type='string',length=500, required=True, notnull=True),
-    Field('pincode',type='integer', required=True, notnull=True),
-    Field('office_number',type='integer', required=True, notnull=True),
+    Field('verification_code',type='string', length=5000, required=True, notnull=True),
+    Field('forgot_password_verification',type='string',length=2000,required=False,notnull=False),
     Field('ip_address',type='string',length=500, required=True, notnull=True),
     Field('mac_address',type='string',length=500, required=True, notnull=True),
-    Field('location',type='string',length=500, required=True, notnull=True),
+    Field('locations',type='string',length=500, required=True, notnull=True),
     Field('is_active',type='boolean',default=True, required=True, notnull=True),
     Field('db_entry_time', type='datetime', default='CURRENT_TIMESTAMP', required=True, notnull=True),
-    Field('db_update_time', type='datetime', notnull=False)
+    Field('db_update_time', type='datetime', notnull=False),
+    Field('no_login_attempts', type='integer', notnull=False),
+    Field('last_login_time', type='datetime', notnull=False),
+    Field('last_logout_time', type='datetime', notnull=False)
+)
+
+db.define_table(
+    'general_session',
+    Field('user_id',type='integer',required=True,notnull=True),
+    Field('user_type',type='string',length=250,required=True,notnull=True),
+    Field('login_time',type='datetime',required=False,notnull=False),
+    Field('logout_time',type='datetime',required=False,notnull=False),
+    Field('duration',type='integer', required=False, notnull=False),
+    Field('ip_address',type='string',length=500, required=True, notnull=True),
+    Field('mac_address',type='string',length=500, required=True, notnull=True),
+    Field('locations',type='string',length=500, required=True, notnull=True)
+)
+
+db.define_table(
+    'general_user',
+    Field('company_id',db.general_company_details),
+    Field('first_name',type='string',length=250, required=True, notnull=True),
+    Field('last_name',type='string',length=250, required=False, notnull=False),
+    Field('email_id',type='string',length=500, required=False, notnull=True, unique=True),
+    Field('mobile_number',type='integer', required=True, notnull=True),
+    Field('password',type='password', required=True, notnull=True),
+    Field('temp_password',type='password', required=False, notnull=False),
+    Field('forgot_password_verification',type='string',length=2000,required=False,notnull=False),
+    Field('ip_address',type='string',length=500, required=True, notnull=True),
+    Field('mac_address',type='string',length=500, required=True, notnull=True),
+    Field('locations',type='string',length=500, required=True, notnull=True),
+    Field('is_active',type='boolean',default=True, required=True, notnull=True),
+    Field('db_entry_time', type='datetime', default='CURRENT_TIMESTAMP', required=True, notnull=True),
+    Field('db_update_time', type='datetime', notnull=False),
+    Field('no_login_attempts', type='integer', notnull=False),
+    Field('last_login_time', type='datetime', notnull=False),
+    Field('last_logout_time', type='datetime', notnull=False)
+)
+
+
+db.define_table(
+    'general_master_features',
+    Field('company_id',db.general_company_details),
+    Field('feature_name',type='string',length=500,required=True,notnull=True),
+    Field('category',type='string',length=500,required=False,notnull=False),
+    Field('sub_category',type='string',length=500,required=False,notnull=False),
+    Field('is_active',type='boolean',default=True, required=True, notnull=True),
+    Field('db_entry_time', type='datetime', default='CURRENT_TIMESTAMP', required=True, notnull=True),
+    Field('db_update_time', type='datetime', notnull=False),
+    Field('session_id',db.general_session)
+)
+
+db.define_table(
+    'general_user_features',
+    Field('user_id',db.general_user),
+    Field('feature_id',db.general_master_features),
+    Field('is_active',type='boolean',default=True, required=True, notnull=True),
+    Field('db_entry_time', type='datetime', default='CURRENT_TIMESTAMP', required=True, notnull=True),
+    Field('db_entered_by', type='integer',required=False,notnull=False),
+    Field('db_update_time', type='datetime', notnull=False),
+    Field('db_updated_by',type='integer',required=False,notnull=False),
+    Field('session_id',db.general_session)
+)
+
+db.define(
+    'general_role',
+    Field('company_id',db.general_company_details),
+    Field('role_name',type='string',length=250,required=True,notnull=True),
+    Field('is_active',type='boolean',default=True, required=True, notnull=True),
+    Field('db_entry_time', type='datetime', default='CURRENT_TIMESTAMP', required=True, notnull=True),
+    Field('db_entered_by', type='integer',required=False,notnull=False),
+    Field('db_update_time', type='datetime', notnull=False),
+    Field('db_updated_by',type='integer',required=False,notnull=False),
+    Field('session_id',db.general_session)
+)
+
+db.define(
+    'general_user_role',
+    Field('user_id'db.general_user),
+    Field('role_id'db.general_role),
+    Field('is_active',type='boolean',default=True, required=True, notnull=True),
+    Field('db_entry_time', type='datetime', default='CURRENT_TIMESTAMP', required=True, notnull=True),
+    Field('db_entered_by', type='integer',required=False,notnull=False),
+    Field('db_update_time', type='datetime', notnull=False),
+    Field('db_updated_by',type='integer',required=False,notnull=False),
+    Field('session_id',db.general_session)
+)
+
+db.define(
+    'general_role_features',
+    Field('role_id',db.general_role),
+    Field('feature_id',db.general_master_features),
+    Field('is_active',type='boolean',default=True, required=True, notnull=True),
+    Field('db_entry_time', type='datetime', default='CURRENT_TIMESTAMP', required=True, notnull=True),
+    Field('db_entered_by', type='integer',required=False,notnull=False),
+    Field('db_update_time', type='datetime', notnull=False),
+    Field('db_updated_by',type='integer',required=False,notnull=False),
+    Field('session_id',db.general_session)
+)
+
+db.define(
+    'general_role_hrchy',
+    Field('role_id',db.general_role),
+    Field('upper_role_id',db.general_role),
+    Field('is_active',type='boolean',default=True, required=True, notnull=True),
+    Field('db_entry_time', type='datetime', default='CURRENT_TIMESTAMP', required=True, notnull=True),
+    Field('db_entered_by', type='integer',required=False,notnull=False),
+    Field('db_update_time', type='datetime', notnull=False),
+    Field('db_updated_by',type='integer',required=False,notnull=False),
+    Field('session_id',db.general_session)
 )
 # -------------------------------------------------------------------------
 # after defining tables, uncomment below to enable auditing
 # -------------------------------------------------------------------------
-# auth.enable_record_versioning(db)
+auth.enable_record_versioning(db)
