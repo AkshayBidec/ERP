@@ -147,7 +147,39 @@ if configuration.get('scheduler.enabled'):
 # >>> rows = db(db.mytable.myfield == 'value').select(db.mytable.ALL)
 # >>> for row in rows: print row.id, row.myfield
 # -------------------------------------------------------------------------
+db.define_table('general_master_verification_details',
+    Field('verification_code', type='string', length=5000, required=True, notnull=True, unique=True),
+    Field('is_active', type='boolean', default=True, required=True, notnull=True),
+    Field('db_entry_time', type='datetime', default='CURRENT_TIMESTAMP', required=True, notnull=True),
+    Field('db_update_time', type='datetime', notnull=False),
+    Field('remarks', type='string', length=2000, notnull=False)
+)
 
+db.define_table(
+    'general_superadmin_details',
+    Field('first_name',type='string',length=250, required=True, notnull=True),
+    Field('last_name',type='string',length=250, required=False, notnull=False),
+    Field('email_id',type='string',length=500, required=False, notnull=True, unique=True),
+    Field('mobile_number',type='integer', required=True, notnull=True),
+    Field('password',type='password', required=True, notnull=True),
+    Field('temp_password',type='password', required=False, notnull=False),
+    Field('verification_code',db.general_master_verification_details.verification_code),
+    Field('company_name',type='string',length=1000, required=True, notnull=True),
+    Field('company_identification',type='string',length=2000, required=True, notnull=True),
+    Field('company_address_line1',type='string',length=5000, required=True, notnull=True),
+    Field('company_address_line2',type='string',length=5000, required=True, notnull=True),
+    Field('country',type='string',length=500, required=True, notnull=True),
+    Field('state',type='string',length=500, required=True, notnull=True),
+    Field('city',type='string',length=500, required=True, notnull=True),
+    Field('pincode',type='integer', required=True, notnull=True),
+    Field('office_number',type='integer', required=True, notnull=True),
+    Field('ip_address',type='string',length=500, required=True, notnull=True),
+    Field('mac_address',type='string',length=500, required=True, notnull=True),
+    Field('location',type='string',length=500, required=True, notnull=True),
+    Field('is_active',type='boolean',default=True, required=True, notnull=True),
+    Field('db_entry_time', type='datetime', default='CURRENT_TIMESTAMP', required=True, notnull=True),
+    Field('db_update_time', type='datetime', notnull=False)
+)
 # -------------------------------------------------------------------------
 # after defining tables, uncomment below to enable auditing
 # -------------------------------------------------------------------------
