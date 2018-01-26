@@ -6,3 +6,6 @@ errors/127.0.0.1.2018-01-26.19-47-29.6306eb97-f6f8-4e8c-a515-c7942caac249
 errors/127.0.0.1.2018-01-26.19-48-29.f90be369-e38e-4d4f-8212-93bf9df119ee
 *.a6df7e81-949f-42ce-8d8d-6c7b0af8c588
 *.3537bf04-a1c1-4e7a-834c-170566612606
+*.table
+databases/sql.log
+databases/storage.sqlite

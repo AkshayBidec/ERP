@@ -30,10 +30,12 @@ if not request.env.web2py_runtime_gae:
     # ---------------------------------------------------------------------
     # if NOT running on Google App Engine use SQLite or other DB
     # ---------------------------------------------------------------------
-    db = DAL(configuration.get('db.uri'),
-             pool_size=configuration.get('db.pool_size'),
-             migrate_enabled=configuration.get('db.migrate'),
-             check_reserved=['all'])
+    #db = DAL(configuration.get('db.uri'),
+             # pool_size=configuration.get('db.pool_size'),
+             # migrate_enabled=configuration.get('db.migrate'),
+             # check_reserved=['all'])
+    db = DAL('mysql://root:meranam@localhost/erp_general_db')
+
 else:
     # ---------------------------------------------------------------------
     # connect to Google BigTable (optional 'google:datastore://namespace')
@@ -148,11 +150,11 @@ if configuration.get('scheduler.enabled'):
 # >>> for row in rows: print row.id, row.myfield
 # -------------------------------------------------------------------------
 db.define_table('general_master_verification_details',
-    Field('verification_code', type='string', length=5000, required=True, notnull=True, unique=True),
+    Field('verification_code', type='text', length=5000, required=True, notnull=True, unique=True),
     Field('is_active', type='boolean', default=True, required=True, notnull=True),
     Field('db_entry_time', type='datetime', default='CURRENT_TIMESTAMP', required=True, notnull=True),
     Field('db_update_time', type='datetime', notnull=False),
-    Field('remarks', type='string', length=2000, notnull=False)
+    Field('remarks', type='text', length=2000, notnull=False)
 )
 
 db.define_table(
@@ -251,7 +253,7 @@ db.define_table(
     Field('session_id',db.general_session)
 )
 
-db.define(
+db.define_table(
     'general_role',
     Field('company_id',db.general_company_details),
     Field('role_name',type='string',length=250,required=True,notnull=True),
@@ -263,10 +265,10 @@ db.define(
     Field('session_id',db.general_session)
 )
 
-db.define(
+db.define_table(
     'general_user_role',
-    Field('user_id'db.general_user),
-    Field('role_id'db.general_role),
+    Field('user_id',db.general_user),
+    Field('role_id',db.general_role),
     Field('is_active',type='boolean',default=True, required=True, notnull=True),
     Field('db_entry_time', type='datetime', default='CURRENT_TIMESTAMP', required=True, notnull=True),
     Field('db_entered_by', type='integer',required=False,notnull=False),
@@ -275,7 +277,7 @@ db.define(
     Field('session_id',db.general_session)
 )
 
-db.define(
+db.define_table(
     'general_role_features',
     Field('role_id',db.general_role),
     Field('feature_id',db.general_master_features),
@@ -287,7 +289,7 @@ db.define(
     Field('session_id',db.general_session)
 )
 
-db.define(
+db.define_table(
     'general_role_hrchy',
     Field('role_id',db.general_role),
     Field('upper_role_id',db.general_role),
