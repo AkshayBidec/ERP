@@ -38,7 +38,7 @@ else:
     # ---------------------------------------------------------------------
     # connect to Google BigTable (optional 'google:datastore://namespace')
     # ---------------------------------------------------------------------
-    db = DAL('google:datastore+ndb')
+    db = DAL('mysql://root:meranam@localhost/erp_general_db')
     # ---------------------------------------------------------------------
     # store sessions and tickets there
     # ---------------------------------------------------------------------
