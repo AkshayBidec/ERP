@@ -34,7 +34,7 @@ if not request.env.web2py_runtime_gae:
              # pool_size=configuration.get('db.pool_size'),
              # migrate_enabled=configuration.get('db.migrate'),
              # check_reserved=['all'])
-    db = DAL('mysql://root:meranam@localhost/erp_general_db')
+    db = DAL('mysql://root:@localhost/erp_general_db',migrate=True,migrate_enabled=configuration.get('db.migrate'),check_reserved=['all'])
 
 else:
     # ---------------------------------------------------------------------
@@ -150,11 +150,11 @@ if configuration.get('scheduler.enabled'):
 # >>> for row in rows: print row.id, row.myfield
 # -------------------------------------------------------------------------
 db.define_table('general_master_verification_details',
-    Field('verification_code', type='text', length=5000, required=True, notnull=True, unique=True),
+    Field('verification_code', type='string', length=5000, required=True, notnull=True),
     Field('is_active', type='boolean', default=True, required=True, notnull=True),
-    Field('db_entry_time', type='datetime', default='CURRENT_TIMESTAMP', required=True, notnull=True),
+    Field('db_entry_time', type='datetime', required=True, notnull=True),
     Field('db_update_time', type='datetime', notnull=False),
-    Field('remarks', type='text', length=2000, notnull=False)
+    Field('remarks', type='string', length=2000, notnull=False)
 )
 
 db.define_table(
@@ -169,7 +169,7 @@ db.define_table(
     Field('pincode',type='integer', required=True, notnull=True),
     Field('office_number',type='integer', required=True, notnull=True),
     Field('is_active',type='boolean',default=True, required=True, notnull=True),
-    Field('db_entry_time', type='datetime', default='CURRENT_TIMESTAMP', required=True, notnull=True),
+    Field('db_entry_time', type='datetime',  required=True, notnull=True),
     Field('db_update_time', type='datetime', notnull=False)
 )
 
@@ -178,7 +178,7 @@ db.define_table(
     Field('company_id',db.general_company_details),
     Field('first_name',type='string',length=250, required=True, notnull=True),
     Field('last_name',type='string',length=250, required=False, notnull=False),
-    Field('email_id',type='string',length=500, required=False, notnull=True, unique=True),
+    Field('email_id',type='string',length=500, required=False, notnull=True),
     Field('mobile_number',type='integer', required=True, notnull=True),
     Field('password',type='password', required=True, notnull=True),
     Field('temp_password',type='password', required=False, notnull=False),
@@ -188,7 +188,7 @@ db.define_table(
     Field('mac_address',type='string',length=500, required=True, notnull=True),
     Field('locations',type='string',length=500, required=True, notnull=True),
     Field('is_active',type='boolean',default=True, required=True, notnull=True),
-    Field('db_entry_time', type='datetime', default='CURRENT_TIMESTAMP', required=True, notnull=True),
+    Field('db_entry_time', type='datetime',  required=True, notnull=True),
     Field('db_update_time', type='datetime', notnull=False),
     Field('no_login_attempts', type='integer', notnull=False),
     Field('last_login_time', type='datetime', notnull=False),
@@ -221,7 +221,7 @@ db.define_table(
     Field('mac_address',type='string',length=500, required=True, notnull=True),
     Field('locations',type='string',length=500, required=True, notnull=True),
     Field('is_active',type='boolean',default=True, required=True, notnull=True),
-    Field('db_entry_time', type='datetime', default='CURRENT_TIMESTAMP', required=True, notnull=True),
+    Field('db_entry_time', type='datetime',  required=True, notnull=True),
     Field('db_update_time', type='datetime', notnull=False),
     Field('no_login_attempts', type='integer', notnull=False),
     Field('last_login_time', type='datetime', notnull=False),
@@ -236,7 +236,7 @@ db.define_table(
     Field('category',type='string',length=500,required=False,notnull=False),
     Field('sub_category',type='string',length=500,required=False,notnull=False),
     Field('is_active',type='boolean',default=True, required=True, notnull=True),
-    Field('db_entry_time', type='datetime', default='CURRENT_TIMESTAMP', required=True, notnull=True),
+    Field('db_entry_time', type='datetime',  required=True, notnull=True),
     Field('db_update_time', type='datetime', notnull=False),
     Field('session_id',db.general_session)
 )
@@ -246,7 +246,7 @@ db.define_table(
     Field('user_id',db.general_user),
     Field('feature_id',db.general_master_features),
     Field('is_active',type='boolean',default=True, required=True, notnull=True),
-    Field('db_entry_time', type='datetime', default='CURRENT_TIMESTAMP', required=True, notnull=True),
+    Field('db_entry_time', type='datetime',  required=True, notnull=True),
     Field('db_entered_by', type='integer',required=False,notnull=False),
     Field('db_update_time', type='datetime', notnull=False),
     Field('db_updated_by',type='integer',required=False,notnull=False),
@@ -258,7 +258,7 @@ db.define_table(
     Field('company_id',db.general_company_details),
     Field('role_name',type='string',length=250,required=True,notnull=True),
     Field('is_active',type='boolean',default=True, required=True, notnull=True),
-    Field('db_entry_time', type='datetime', default='CURRENT_TIMESTAMP', required=True, notnull=True),
+    Field('db_entry_time', type='datetime',  required=True, notnull=True),
     Field('db_entered_by', type='integer',required=False,notnull=False),
     Field('db_update_time', type='datetime', notnull=False),
     Field('db_updated_by',type='integer',required=False,notnull=False),
@@ -270,7 +270,7 @@ db.define_table(
     Field('user_id',db.general_user),
     Field('role_id',db.general_role),
     Field('is_active',type='boolean',default=True, required=True, notnull=True),
-    Field('db_entry_time', type='datetime', default='CURRENT_TIMESTAMP', required=True, notnull=True),
+    Field('db_entry_time', type='datetime',  required=True, notnull=True),
     Field('db_entered_by', type='integer',required=False,notnull=False),
     Field('db_update_time', type='datetime', notnull=False),
     Field('db_updated_by',type='integer',required=False,notnull=False),
@@ -282,7 +282,7 @@ db.define_table(
     Field('role_id',db.general_role),
     Field('feature_id',db.general_master_features),
     Field('is_active',type='boolean',default=True, required=True, notnull=True),
-    Field('db_entry_time', type='datetime', default='CURRENT_TIMESTAMP', required=True, notnull=True),
+    Field('db_entry_time', type='datetime',  required=True, notnull=True),
     Field('db_entered_by', type='integer',required=False,notnull=False),
     Field('db_update_time', type='datetime', notnull=False),
     Field('db_updated_by',type='integer',required=False,notnull=False),
@@ -294,7 +294,7 @@ db.define_table(
     Field('role_id',db.general_role),
     Field('upper_role_id',db.general_role),
     Field('is_active',type='boolean',default=True, required=True, notnull=True),
-    Field('db_entry_time', type='datetime', default='CURRENT_TIMESTAMP', required=True, notnull=True),
+    Field('db_entry_time', type='datetime',  required=True, notnull=True),
     Field('db_entered_by', type='integer',required=False,notnull=False),
     Field('db_update_time', type='datetime', notnull=False),
     Field('db_updated_by',type='integer',required=False,notnull=False),
