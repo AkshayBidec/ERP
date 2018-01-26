@@ -53,3 +53,13 @@ CREATE TABLE "auth_cas"(
     "renew" CHAR(1)
 );
 success!
+timestamp: 2018-01-26T19:47:29.436810
+CREATE TABLE "general_master_verification_details"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "verification_code" CHAR(5000) NOT NULL UNIQUE,
+    "is_active" CHAR(1) NOT NULL DEFAULT 'T',
+    "db_entry_time" TIMESTAMP NOT NULL DEFAULT 'CURRENT_TIMESTAMP',
+    "db_update_time" TIMESTAMP,
+    "remarks" CHAR(2000)
+);
+success!

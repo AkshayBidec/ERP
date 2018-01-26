@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+
+        <link href="http://hl360opencodeserver.com/assets/css/corp_food_mgmnt/style.css" rel="stylesheet"
+type="text/css" />         <!--<link rel="stylesheet" href=" css/font-awesome.min.css">         <script src="
+js/jquery-1.10.2.min.js"></script>         <script src=" js/script.js"></script>         <script src="
+js/KeyEvents.js"></script> -->         <!-- <link rel="shortcut icon" type="image/ico"
+href="http://hl360opencodeserver.com/assets/images/hospital.png"/> --> <script
+src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js" ></script>         <script
+src="http://hl360opencodeserver.com/assets/js/city_state.js"></script> <title id="page-title">Project_MNGF</title>
+
+
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    </head>
+
+    <body>
+
+        <header>
+            <div>
+              <!-- <a href="#"><div class="header-logo"></div></a> -->
+                <div class="menu-options float-right">
+                    <div>
+
+                    </div>
+                    <!-- <div class="user-account-icon" id="user-account-icon" onclick="opendropdown('dropdown-useraccount')">
+                        <a>
+                            <img class="head-menu-profile-pic" src="images/icon-user-default.png">
+                        </a>
+                        <div class="dropdown-section" id="dropdown-useraccount">
+                            <a>
+                                <div class="dropdown-content">
+                                    User Name
+                                    ?>
+                                </div>
+                            </a>
+
+                            <a href=" logout"><div class="dropdown-content"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</div></a>
+                        </div>
+
+                    </div> -->
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </header>
+
+        <section class="main-container buyer-dashboard">
+
+            <div class="">
+                <div class="width-100 float-left padding-5">
+					<div>
+                    <div class="PS-heading page-head text-center "><h4>Institution Registration</h4></div>
+                </div>
+                <div id="error_message" class="field-errors text-center text-red padding-10">
+                    <!--  Div to display the error message  -->
+                </div>
+                <div class="main-block width-100 text-center">
+                    <form name="create_corp_menu"  action="{{=URL('other')}}" enctype="multipart/form-data" onsubmit="" method="post">
+                        <input type="hidden" name="temp_code" id="temp_code" value="bb59b9eff14c19ee6cd2b2d06e410f2e">
+                        <input type="hidden" name="local_timezone" id="local_timezone">
+                        <input type="hidden" name="local_entry_time" id="local_entry_time">
+					<div class="campaign-block text-left">
+						<div class="width-100 float-left">
+							<div class="form-block">
+                                <div class="form-label">
+                                    Name *
+                                </div>
+                                <div class="form-field">
+                                    <input type="text" name="institute_name" id="institute_name" value="" placeholder="Institution Name" required>
+                                </div>
+							</div>
+						</div>
+                        <div class="width-50 float-left">
+                            <div class="form-block">
+                                <div class="form-label">
+                                    Legal Reg No
+                                </div>
+                                <div class="form-field">
+                                    <input type="text" name="legal_reg_no" id="legal_reg_no" placeholder="Legal Registration Number" value="">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="width-50 float-left">
+                            <div class="form-block">
+                                <div class="form-label">
+                                    Type of Institution *
+                                </div>
+                                <div class="form-field">
+                                    <select name="industry_type" id="industry_type" > > </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="width-100 float-left">
+                            <div class="form-block">
+                                <div class="form-label">
+                                    Address Line 1 *
+                                </div>
+                                <div class="form-field">
+                                   <input type="text" name="address_line1" value="" placeholder="Address Line 1" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="width-100 float-left">
+                            <div class="form-block">
+                                <div class="form-label">
+                                    Address Line 2
+                                </div>
+                                <div class="form-field">
+                                   <input type="text" name="address_line2" placeholder="Address Line 2" value="">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="width-50 float-left">
+                            <div class="form-block">
+                                <div class="form-label">
+                                    Region *
+                                </div>
+                                <div class="form-field">
+                                   <select onchange="set_country(this,country,city_state)" name="region" id="region" required="">
+                                        <option value="" selected="">Select Region</option>
+                                        <script type="text/javascript">setRegions(this);</script>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="width-50 float-left">
+                            <div class="form-block">
+                                <div class="form-label">
+                                    Country *
+                                </div>
+                                <div class="form-field">
+                                   <select name="country" id="country" disabled="disabled" onchange="set_city_state(this,city_state)" required="">
+                                        <option value="" selected="" disabled="">Select Country</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="width-50 float-left">
+                            <div class="form-block">
+                                <div class="form-label">
+                                    State *
+                                </div>
+                                <div class="form-field">
+                                   <select name="city_state" id="city_state" disabled="disabled" required="">
+                                        <option value="" disabled="" selected="">Select State/Province</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="width-50 float-left">
+                            <div class="form-block">
+                                <div class="form-label">
+                                    City *
+                                </div>
+                                <div class="form-field">
+                                   <input type="text" name="city" value="" placeholder="City" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="width-50 float-left">
+                            <div class="form-block">
+                                <div class="form-label">
+                                    Postal Code *
+                                </div>
+                                <div class="form-field">
+                                   <input type="number" placeholder="Pincode" name="pincode" id="pincode" min=1 step="any" required="">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="width-100 border-bottom-light float-left padding-10"></div>
+
+                        <div class="width-100 float-left">
+                            <div class="form-block">
+                                <div class="form-label">
+                                    <h3>Contact Info : </h3>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="width-50 float-left">
+                            <div class="form-block">
+                                <div class="form-label">
+                                    First Name
+                                </div>
+                                <div class="form-field">
+                                   <input type="text" placeholder="First Name" name="first_name" id="first_name">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="width-50 float-left">
+                            <div class="form-block">
+                                <div class="form-label">
+                                    Last Name
+                                </div>
+                                <div class="form-field">
+                                   <input type="text" placeholder="Last Name" name="last_name" id="last_name">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="width-100 float-left">
+                            <div class="form-block">
+                                <div class="form-label">
+                                    Designation
+                                </div>
+                                <div class="form-field">
+                                   <input type="text" placeholder="Designation" name="designation" id="designation">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="width-50 float-left">
+                            <div class="form-block">
+                                <div class="form-label">
+                                    Email-ID
+                                </div>
+                                <div class="form-field">
+                                   <input type="text" placeholder="Email ID" name="email_id" id="email_id">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="width-50 float-left">
+                            <div class="form-block">
+                                <div class="form-label">
+                                    Mobile Number
+                                </div>
+                                <div class="form-field">
+                                   <input type="number" placeholder="Mobile Number" name="mob_no" id="mob_no" min="1">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="width-50 float-left">
+                            <div class="form-block">
+                                <div class="form-label">
+                                    Work Phone Number
+                                </div>
+                                <div class="form-field">
+                                   <input type="number" placeholder="Work Phone Number" name="work_no" id="work_no" min="1">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="width-50 float-left">
+                            <div class="form-block">
+                                <div class="form-label">
+                                    Fax Number
+                                </div>
+                                <div class="form-field">
+                                   <input type="number" placeholder="Fax Number" name="fax_no" id="fax_no" min="1">
+                                </div>
+                            </div>
+                        </div>
+
+					<!-- form ends here -->
+                        <div class="clearfix"></div>
+					</div>
+                        <input type="submit" id="add_food_item_submit" name="add_food_item_submit" value="Submit">
+                    </form>
+                </div>
+            <div class="clearfix"></div>
+				</div>
+            </div>
+        </section>
+<script type="text/javascript">
+    function setUserTimeZone() {
+        $('#local_timezone').val(Intl.DateTimeFormat().resolvedOptions().timeZone);
+        //debugger;
+        var now = new Date();
+        var month = parseInt(now.getMonth()) + 1;
+        $('#local_entry_time').val(now.getFullYear()+'-'+month+'-'+now.getDate()+' '+now.toLocaleTimeString());
+    }
+    setUserTimeZone();
+</script>
+    </body>
+</html>
