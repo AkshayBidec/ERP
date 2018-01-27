@@ -57,21 +57,25 @@ src="http://hl360opencodeserver.com/assets/js/city_state.js"></script> <title id
                     <!--  Div to display the error message  -->
                 </div>
                 <div class="main-block width-100 text-center">
-                    <form name="create_corp_menu"  action="{{=URL('other')}}" enctype="multipart/form-data" onsubmit="" method="post">
+                    <form name="create_corp_menu"  action="{{=URL('company_reg_page_check')}}" enctype="multipart/form-data" onsubmit="" method="post">
                         <input type="hidden" name="temp_code" id="temp_code" value="bb59b9eff14c19ee6cd2b2d06e410f2e">
                         <input type="hidden" name="local_timezone" id="local_timezone">
                         <input type="hidden" name="local_entry_time" id="local_entry_time">
-					<div class="campaign-block text-left">
+					
+						<div class="campaign-block text-left">
+						
 						<div class="width-100 float-left">
 							<div class="form-block">
                                 <div class="form-label">
-                                    Name *
+                                   Institute Name *
                                 </div>
                                 <div class="form-field">
                                     <input type="text" name="institute_name" id="institute_name" value="" placeholder="Institution Name" required>
                                 </div>
 							</div>
 						</div>
+						
+                    
                         <div class="width-50 float-left">
                             <div class="form-block">
                                 <div class="form-label">
@@ -79,16 +83,6 @@ src="http://hl360opencodeserver.com/assets/js/city_state.js"></script> <title id
                                 </div>
                                 <div class="form-field">
                                     <input type="text" name="legal_reg_no" id="legal_reg_no" placeholder="Legal Registration Number" value="">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="width-50 float-left">
-                            <div class="form-block">
-                                <div class="form-label">
-                                    Type of Institution *
-                                </div>
-                                <div class="form-field">
-                                    <select name="industry_type" id="industry_type" > > </select>
                                 </div>
                             </div>
                         </div>
@@ -242,17 +236,6 @@ src="http://hl360opencodeserver.com/assets/js/city_state.js"></script> <title id
                                 </div>
                                 <div class="form-field">
                                    <input type="number" placeholder="Work Phone Number" name="work_no" id="work_no" min="1">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="width-50 float-left">
-                            <div class="form-block">
-                                <div class="form-label">
-                                    Fax Number
-                                </div>
-                                <div class="form-field">
-                                   <input type="number" placeholder="Fax Number" name="fax_no" id="fax_no" min="1">
                                 </div>
                             </div>
                         </div>
