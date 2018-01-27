@@ -9,3 +9,17 @@ errors/127.0.0.1.2018-01-26.19-48-29.f90be369-e38e-4d4f-8212-93bf9df119ee
 *.table
 databases/sql.log
 databases/storage.sqlite
+*.368b28df-f9fd-4fa8-be31-dc8bfa442e23
+*.4d18f3d5-b413-4e17-be9c-6e5e689d5cb2
+*.034e0307-f8d4-4e8c-a749-f825e4439d09
+*.a4db1ce1-cbf2-4984-8359-050e7677df9b
+*.6c1bef01-021d-46be-9db0-56ccb05b5df0
+*.eb731937-7146-42d0-90a3-41a781d98d93
+*.53ccee9b-61b5-4e33-88d4-757f688f11f3
+*.a3dbfd9e-7068-4382-8f27-43f519f14578
+*.ca3d6485-e2fc-4a3f-bb4f-b46411e215f7
+*.sqlite
+databases/storage.sqlite
+databases/sql.log
+progress.log
+*.log
