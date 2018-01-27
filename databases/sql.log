@@ -63,3 +63,384 @@ CREATE TABLE "general_master_verification_details"(
     "remarks" CHAR(2000)
 );
 success!
+timestamp: 2018-01-26T20:59:31.115680
+CREATE TABLE `auth_user`(
+    `id` INT AUTO_INCREMENT NOT NULL,
+    `first_name` VARCHAR(128),
+    `last_name` VARCHAR(128),
+    `email` VARCHAR(512),
+    `password` VARCHAR(512),
+    `registration_key` VARCHAR(512),
+    `reset_password_key` VARCHAR(512),
+    `registration_id` VARCHAR(512),
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2018-01-26T20:59:31.292887
+CREATE TABLE `auth_group`(
+    `id` INT AUTO_INCREMENT NOT NULL,
+    `role` VARCHAR(512),
+    `description` LONGTEXT,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2018-01-26T20:59:31.532673
+CREATE TABLE `auth_membership`(
+    `id` INT AUTO_INCREMENT NOT NULL,
+    `user_id` INT  , INDEX `user_id__idx` (`user_id`), FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`) ON DELETE CASCADE,
+    `group_id` INT  , INDEX `group_id__idx` (`group_id`), FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`) ON DELETE CASCADE,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2018-01-26T20:59:31.694657
+CREATE TABLE `auth_permission`(
+    `id` INT AUTO_INCREMENT NOT NULL,
+    `group_id` INT  , INDEX `group_id__idx` (`group_id`), FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`) ON DELETE CASCADE,
+    `name` VARCHAR(512),
+    `table_name` VARCHAR(512),
+    `record_id` INTEGER,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2018-01-26T20:59:31.780845
+CREATE TABLE `auth_event`(
+    `id` INT AUTO_INCREMENT NOT NULL,
+    `time_stamp` DATETIME,
+    `client_ip` VARCHAR(512),
+    `user_id` INT  , INDEX `user_id__idx` (`user_id`), FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`) ON DELETE CASCADE,
+    `origin` VARCHAR(512),
+    `description` LONGTEXT,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2018-01-26T20:59:31.856590
+CREATE TABLE `auth_cas`(
+    `id` INT AUTO_INCREMENT NOT NULL,
+    `user_id` INT  , INDEX `user_id__idx` (`user_id`), FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`) ON DELETE CASCADE,
+    `created_on` DATETIME,
+    `service` VARCHAR(512),
+    `ticket` VARCHAR(512),
+    `renew` CHAR(1),
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2018-01-26T20:59:31.933536
+CREATE TABLE `general_master_verification_details`(
+    `id` INT AUTO_INCREMENT NOT NULL,
+    `verification_code` LONGTEXT NOT NULL UNIQUE,
+    `is_active` CHAR(1) NOT NULL DEFAULT 'T',
+    `db_entry_time` DATETIME NOT NULL DEFAULT 'CURRENT_TIMESTAMP',
+    `db_update_time` DATETIME,
+    `remarks` LONGTEXT,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB CHARACTER SET utf8;
+timestamp: 2018-01-26T20:59:54.763451
+CREATE TABLE `general_master_verification_details`(
+    `id` INT AUTO_INCREMENT NOT NULL,
+    `verification_code` LONGTEXT NOT NULL UNIQUE,
+    `is_active` CHAR(1) NOT NULL DEFAULT 'T',
+    `db_entry_time` DATETIME NOT NULL DEFAULT 'CURRENT_TIMESTAMP',
+    `db_update_time` DATETIME,
+    `remarks` LONGTEXT,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB CHARACTER SET utf8;
+timestamp: 2018-01-26T21:01:53.094847
+CREATE TABLE `general_master_verification_details`(
+    `id` INT AUTO_INCREMENT NOT NULL,
+    `verification_code` VARCHAR(5000) NOT NULL UNIQUE,
+    `is_active` CHAR(1) NOT NULL DEFAULT 'T',
+    `db_entry_time` DATETIME NOT NULL DEFAULT 'CURRENT_TIMESTAMP',
+    `db_update_time` DATETIME,
+    `remarks` VARCHAR(2000),
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB CHARACTER SET utf8;
+timestamp: 2018-01-26T21:02:25.728180
+CREATE TABLE `general_master_verification_details`(
+    `id` INT AUTO_INCREMENT NOT NULL,
+    `verification_code` VARCHAR(2000) NOT NULL UNIQUE,
+    `is_active` CHAR(1) NOT NULL DEFAULT 'T',
+    `db_entry_time` DATETIME NOT NULL DEFAULT 'CURRENT_TIMESTAMP',
+    `db_update_time` DATETIME,
+    `remarks` VARCHAR(2000),
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB CHARACTER SET utf8;
+timestamp: 2018-01-26T21:02:42.606420
+CREATE TABLE `general_master_verification_details`(
+    `id` INT AUTO_INCREMENT NOT NULL,
+    `verification_code` VARCHAR(2000) NOT NULL,
+    `is_active` CHAR(1) NOT NULL DEFAULT 'T',
+    `db_entry_time` DATETIME NOT NULL DEFAULT 'CURRENT_TIMESTAMP',
+    `db_update_time` DATETIME,
+    `remarks` VARCHAR(2000),
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB CHARACTER SET utf8;
+timestamp: 2018-01-26T21:02:58.253743
+CREATE TABLE `general_master_verification_details`(
+    `id` INT AUTO_INCREMENT NOT NULL,
+    `verification_code` VARCHAR(5000) NOT NULL,
+    `is_active` CHAR(1) NOT NULL DEFAULT 'T',
+    `db_entry_time` DATETIME NOT NULL DEFAULT 'CURRENT_TIMESTAMP',
+    `db_update_time` DATETIME,
+    `remarks` VARCHAR(2000),
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB CHARACTER SET utf8;
+timestamp: 2018-01-26T21:07:17.390624
+CREATE TABLE `general_master_verification_details`(
+    `id` INT AUTO_INCREMENT NOT NULL,
+    `verification_code` VARCHAR(5000) NOT NULL,
+    `is_active` CHAR(1) NOT NULL DEFAULT 'T',
+    `db_entry_time` DATETIME NOT NULL,
+    `db_update_time` DATETIME,
+    `remarks` VARCHAR(2000),
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2018-01-26T21:07:17.528468
+CREATE TABLE `general_company_details`(
+    `id` INT AUTO_INCREMENT NOT NULL,
+    `company_name` VARCHAR(1000) NOT NULL,
+    `company_identification` VARCHAR(2000) NOT NULL,
+    `company_address_line1` VARCHAR(5000) NOT NULL,
+    `company_address_line2` VARCHAR(5000) NOT NULL,
+    `country` VARCHAR(500) NOT NULL,
+    `states` VARCHAR(500) NOT NULL,
+    `city` VARCHAR(500) NOT NULL,
+    `pincode` INTEGER NOT NULL,
+    `office_number` INTEGER NOT NULL,
+    `is_active` CHAR(1) NOT NULL DEFAULT 'T',
+    `db_entry_time` DATETIME NOT NULL DEFAULT 'CURRENT_TIMESTAMP',
+    `db_update_time` DATETIME,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB CHARACTER SET utf8;
+timestamp: 2018-01-26T21:07:56.925670
+CREATE TABLE `general_company_details`(
+    `id` INT AUTO_INCREMENT NOT NULL,
+    `company_name` VARCHAR(1000) NOT NULL,
+    `company_identification` VARCHAR(2000) NOT NULL,
+    `company_address_line1` VARCHAR(5000) NOT NULL,
+    `company_address_line2` VARCHAR(5000) NOT NULL,
+    `country` VARCHAR(500) NOT NULL,
+    `states` VARCHAR(500) NOT NULL,
+    `city` VARCHAR(500) NOT NULL,
+    `pincode` INTEGER NOT NULL,
+    `office_number` INTEGER NOT NULL,
+    `is_active` CHAR(1) NOT NULL DEFAULT 'T',
+    `db_entry_time` DATETIME NOT NULL,
+    `db_update_time` DATETIME,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2018-01-26T21:07:57.057105
+CREATE TABLE `general_superadmin_details`(
+    `id` INT AUTO_INCREMENT NOT NULL,
+    `company_id` INT  , INDEX `company_id__idx` (`company_id`), FOREIGN KEY (`company_id`) REFERENCES `general_company_details` (`id`) ON DELETE CASCADE,
+    `first_name` VARCHAR(250) NOT NULL,
+    `last_name` VARCHAR(250),
+    `email_id` VARCHAR(500) NOT NULL,
+    `mobile_number` INTEGER NOT NULL,
+    `password` VARCHAR(512) NOT NULL,
+    `temp_password` VARCHAR(512),
+    `verification_code` VARCHAR(5000) NOT NULL,
+    `forgot_password_verification` VARCHAR(2000),
+    `ip_address` VARCHAR(500) NOT NULL,
+    `mac_address` VARCHAR(500) NOT NULL,
+    `locations` VARCHAR(500) NOT NULL,
+    `is_active` CHAR(1) NOT NULL DEFAULT 'T',
+    `db_entry_time` DATETIME NOT NULL,
+    `db_update_time` DATETIME,
+    `no_login_attempts` INTEGER,
+    `last_login_time` DATETIME,
+    `last_logout_time` DATETIME,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB CHARACTER SET utf8;
+timestamp: 2018-01-26T21:10:07.427781
+CREATE TABLE `general_superadmin_details`(
+    `id` INT AUTO_INCREMENT NOT NULL,
+    `company_id` INT  , INDEX `company_id__idx` (`company_id`), FOREIGN KEY (`company_id`) REFERENCES `general_company_details` (`id`) ON DELETE CASCADE,
+    `first_name` VARCHAR(250) NOT NULL,
+    `last_name` VARCHAR(250),
+    `email_id` VARCHAR(500) NOT NULL,
+    `mobile_number` INTEGER NOT NULL,
+    `password` VARCHAR(512) NOT NULL,
+    `temp_password` VARCHAR(512),
+    `verification_code` VARCHAR(5000) NOT NULL,
+    `forgot_password_verification` VARCHAR(2000),
+    `ip_address` VARCHAR(500) NOT NULL,
+    `mac_address` VARCHAR(500) NOT NULL,
+    `locations` VARCHAR(500) NOT NULL,
+    `is_active` CHAR(1) NOT NULL DEFAULT 'T',
+    `db_entry_time` DATETIME NOT NULL,
+    `db_update_time` DATETIME,
+    `no_login_attempts` INTEGER,
+    `last_login_time` DATETIME,
+    `last_logout_time` DATETIME,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB CHARACTER SET utf8;
+timestamp: 2018-01-26T21:12:30.635963
+CREATE TABLE `general_superadmin_details`(
+    `id` INT AUTO_INCREMENT NOT NULL,
+    `company_id` INT  , INDEX `company_id__idx` (`company_id`), FOREIGN KEY (`company_id`) REFERENCES `general_company_details` (`id`) ON DELETE CASCADE,
+    `first_name` VARCHAR(250) NOT NULL,
+    `last_name` VARCHAR(250),
+    `email_id` VARCHAR(500) NOT NULL,
+    `mobile_number` INTEGER NOT NULL,
+    `password` VARCHAR(512) NOT NULL,
+    `temp_password` VARCHAR(512),
+    `verification_code` VARCHAR(5000) NOT NULL,
+    `forgot_password_verification` VARCHAR(2000),
+    `ip_address` VARCHAR(500) NOT NULL,
+    `mac_address` VARCHAR(500) NOT NULL,
+    `locations` VARCHAR(500) NOT NULL,
+    `is_active` CHAR(1) NOT NULL DEFAULT 'T',
+    `db_entry_time` DATETIME NOT NULL,
+    `db_update_time` DATETIME,
+    `no_login_attempts` INTEGER,
+    `last_login_time` DATETIME,
+    `last_logout_time` DATETIME,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB CHARACTER SET utf8;
+timestamp: 2018-01-26T21:12:50.954379
+CREATE TABLE `general_superadmin_details`(
+    `id` INT AUTO_INCREMENT NOT NULL,
+    `company_id` INT  , INDEX `company_id__idx` (`company_id`), FOREIGN KEY (`company_id`) REFERENCES `general_company_details` (`id`) ON DELETE CASCADE,
+    `first_name` VARCHAR(250) NOT NULL,
+    `last_name` VARCHAR(250),
+    `email_id` VARCHAR(500) NOT NULL,
+    `mobile_number` INTEGER NOT NULL,
+    `password` VARCHAR(512) NOT NULL,
+    `temp_password` VARCHAR(512),
+    `verification_code` VARCHAR(5000) NOT NULL,
+    `forgot_password_verification` VARCHAR(2000),
+    `ip_address` VARCHAR(500) NOT NULL,
+    `mac_address` VARCHAR(500) NOT NULL,
+    `locations` VARCHAR(500) NOT NULL,
+    `is_active` CHAR(1) NOT NULL DEFAULT 'T',
+    `db_entry_time` DATETIME NOT NULL,
+    `db_update_time` DATETIME,
+    `no_login_attempts` INTEGER,
+    `last_login_time` DATETIME,
+    `last_logout_time` DATETIME,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB CHARACTER SET utf8;
+faked!
+timestamp: 2018-01-26T21:12:50.972405
+CREATE TABLE `general_session`(
+    `id` INT AUTO_INCREMENT NOT NULL,
+    `user_id` INTEGER NOT NULL,
+    `user_type` VARCHAR(250) NOT NULL,
+    `login_time` DATETIME,
+    `logout_time` DATETIME,
+    `duration` INTEGER,
+    `ip_address` VARCHAR(500) NOT NULL,
+    `mac_address` VARCHAR(500) NOT NULL,
+    `locations` VARCHAR(500) NOT NULL,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB CHARACTER SET utf8;
+faked!
+timestamp: 2018-01-26T21:12:50.988416
+CREATE TABLE `general_user`(
+    `id` INT AUTO_INCREMENT NOT NULL,
+    `company_id` INT  , INDEX `company_id__idx` (`company_id`), FOREIGN KEY (`company_id`) REFERENCES `general_company_details` (`id`) ON DELETE CASCADE,
+    `first_name` VARCHAR(250) NOT NULL,
+    `last_name` VARCHAR(250),
+    `email_id` VARCHAR(500) NOT NULL UNIQUE,
+    `mobile_number` INTEGER NOT NULL,
+    `password` VARCHAR(512) NOT NULL,
+    `temp_password` VARCHAR(512),
+    `forgot_password_verification` VARCHAR(2000),
+    `ip_address` VARCHAR(500) NOT NULL,
+    `mac_address` VARCHAR(500) NOT NULL,
+    `locations` VARCHAR(500) NOT NULL,
+    `is_active` CHAR(1) NOT NULL DEFAULT 'T',
+    `db_entry_time` DATETIME NOT NULL,
+    `db_update_time` DATETIME,
+    `no_login_attempts` INTEGER,
+    `last_login_time` DATETIME,
+    `last_logout_time` DATETIME,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB CHARACTER SET utf8;
+faked!
+timestamp: 2018-01-26T21:12:51.003583
+CREATE TABLE `general_master_features`(
+    `id` INT AUTO_INCREMENT NOT NULL,
+    `company_id` INT  , INDEX `company_id__idx` (`company_id`), FOREIGN KEY (`company_id`) REFERENCES `general_company_details` (`id`) ON DELETE CASCADE,
+    `feature_name` VARCHAR(500) NOT NULL,
+    `category` VARCHAR(500),
+    `sub_category` VARCHAR(500),
+    `is_active` CHAR(1) NOT NULL DEFAULT 'T',
+    `db_entry_time` DATETIME NOT NULL,
+    `db_update_time` DATETIME,
+    `session_id` INT  , INDEX `session_id__idx` (`session_id`), FOREIGN KEY (`session_id`) REFERENCES `general_session` (`id`) ON DELETE CASCADE,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB CHARACTER SET utf8;
+faked!
+timestamp: 2018-01-26T21:12:51.017579
+CREATE TABLE `general_user_features`(
+    `id` INT AUTO_INCREMENT NOT NULL,
+    `user_id` INT  , INDEX `user_id__idx` (`user_id`), FOREIGN KEY (`user_id`) REFERENCES `general_user` (`id`) ON DELETE CASCADE,
+    `feature_id` INT  , INDEX `feature_id__idx` (`feature_id`), FOREIGN KEY (`feature_id`) REFERENCES `general_master_features` (`id`) ON DELETE CASCADE,
+    `is_active` CHAR(1) NOT NULL DEFAULT 'T',
+    `db_entry_time` DATETIME NOT NULL,
+    `db_entered_by` INTEGER,
+    `db_update_time` DATETIME,
+    `db_updated_by` INTEGER,
+    `session_id` INT  , INDEX `session_id__idx` (`session_id`), FOREIGN KEY (`session_id`) REFERENCES `general_session` (`id`) ON DELETE CASCADE,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB CHARACTER SET utf8;
+faked!
+timestamp: 2018-01-26T21:12:51.074730
+CREATE TABLE `general_role`(
+    `id` INT AUTO_INCREMENT NOT NULL,
+    `company_id` INT  , INDEX `company_id__idx` (`company_id`), FOREIGN KEY (`company_id`) REFERENCES `general_company_details` (`id`) ON DELETE CASCADE,
+    `role_name` VARCHAR(250) NOT NULL,
+    `is_active` CHAR(1) NOT NULL DEFAULT 'T',
+    `db_entry_time` DATETIME NOT NULL,
+    `db_entered_by` INTEGER,
+    `db_update_time` DATETIME,
+    `db_updated_by` INTEGER,
+    `session_id` INT  , INDEX `session_id__idx` (`session_id`), FOREIGN KEY (`session_id`) REFERENCES `general_session` (`id`) ON DELETE CASCADE,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB CHARACTER SET utf8;
+faked!
+timestamp: 2018-01-26T21:12:51.090092
+CREATE TABLE `general_user_role`(
+    `id` INT AUTO_INCREMENT NOT NULL,
+    `user_id` INT  , INDEX `user_id__idx` (`user_id`), FOREIGN KEY (`user_id`) REFERENCES `general_user` (`id`) ON DELETE CASCADE,
+    `role_id` INT  , INDEX `role_id__idx` (`role_id`), FOREIGN KEY (`role_id`) REFERENCES `general_role` (`id`) ON DELETE CASCADE,
+    `is_active` CHAR(1) NOT NULL DEFAULT 'T',
+    `db_entry_time` DATETIME NOT NULL,
+    `db_entered_by` INTEGER,
+    `db_update_time` DATETIME,
+    `db_updated_by` INTEGER,
+    `session_id` INT  , INDEX `session_id__idx` (`session_id`), FOREIGN KEY (`session_id`) REFERENCES `general_session` (`id`) ON DELETE CASCADE,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB CHARACTER SET utf8;
+faked!
+timestamp: 2018-01-26T21:12:51.104102
+CREATE TABLE `general_role_features`(
+    `id` INT AUTO_INCREMENT NOT NULL,
+    `role_id` INT  , INDEX `role_id__idx` (`role_id`), FOREIGN KEY (`role_id`) REFERENCES `general_role` (`id`) ON DELETE CASCADE,
+    `feature_id` INT  , INDEX `feature_id__idx` (`feature_id`), FOREIGN KEY (`feature_id`) REFERENCES `general_master_features` (`id`) ON DELETE CASCADE,
+    `is_active` CHAR(1) NOT NULL DEFAULT 'T',
+    `db_entry_time` DATETIME NOT NULL,
+    `db_entered_by` INTEGER,
+    `db_update_time` DATETIME,
+    `db_updated_by` INTEGER,
+    `session_id` INT  , INDEX `session_id__idx` (`session_id`), FOREIGN KEY (`session_id`) REFERENCES `general_session` (`id`) ON DELETE CASCADE,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB CHARACTER SET utf8;
+faked!
+timestamp: 2018-01-26T21:12:51.118714
+CREATE TABLE `general_role_hrchy`(
+    `id` INT AUTO_INCREMENT NOT NULL,
+    `role_id` INT  , INDEX `role_id__idx` (`role_id`), FOREIGN KEY (`role_id`) REFERENCES `general_role` (`id`) ON DELETE CASCADE,
+    `upper_role_id` INT  , INDEX `upper_role_id__idx` (`upper_role_id`), FOREIGN KEY (`upper_role_id`) REFERENCES `general_role` (`id`) ON DELETE CASCADE,
+    `is_active` CHAR(1) NOT NULL DEFAULT 'T',
+    `db_entry_time` DATETIME NOT NULL,
+    `db_entered_by` INTEGER,
+    `db_update_time` DATETIME,
+    `db_updated_by` INTEGER,
+    `session_id` INT  , INDEX `session_id__idx` (`session_id`), FOREIGN KEY (`session_id`) REFERENCES `general_session` (`id`) ON DELETE CASCADE,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB CHARACTER SET utf8;
+faked!
