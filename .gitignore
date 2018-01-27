@@ -23,3 +23,7 @@ databases/storage.sqlite
 databases/sql.log
 progress.log
 *.log
+databases/sql.log
+databases/storage.sqlite
+databases/storage.sqlite
+progress.log
