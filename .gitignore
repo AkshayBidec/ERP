@@ -27,3 +27,9 @@ databases/sql.log
 databases/storage.sqlite
 databases/storage.sqlite
 progress.log
+databases/sql.log
+databases/storage.sqlite
+progress.log
+*.sqlite
+*.log
+sessions/0a6/198/127.0.0.1-e38bd00c-d980-4e1d-8eee-eb8a5931a14e

@@ -8,3 +8,6 @@
 [2018-01-25 18:04:06] CREATE LoginPage.py: 0
 [2018-01-25 18:04:35] CREATE DashBoard.py: 0
 [2018-01-25 18:09:01] EDIT ERP/controllers/RegistrationPage.py: 6
+[2018-01-26 15:37:20] CREATE RegistrationPage/company_reg_page.html: 0
+[2018-01-26 15:46:12] EDIT ERP/views/RegistrationPage/company_reg_page.html: -1
+[2018-01-28 12:43:08] CREATE LoginPage/first_time_login_SA.html: 0

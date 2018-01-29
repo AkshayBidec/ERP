@@ -162,7 +162,7 @@ db.define_table(
     Field('company_name',type='string',length=1000, required=True, notnull=True),
     Field('company_identification',type='string',length=2000, required=True, notnull=True),
     Field('company_address_line1',type='string',length=5000, required=True, notnull=True),
-    Field('company_address_line2',type='string',length=5000, required=True, notnull=True),
+    Field('company_address_line2',type='string',length=5000, required=False, notnull=False),
     Field('country',type='string',length=500, required=True, notnull=True),
     Field('states',type='string',length=500, required=True, notnull=True),
     Field('city',type='string',length=500, required=True, notnull=True),

@@ -17,6 +17,7 @@ src="http://hl360opencodeserver.com/assets/js/city_state.js"></script> <title id
     </head>
 
     <body>
+    <div class="flash">{{=response.flash or ''}}</div>
 
         <header>
             <div>
@@ -57,7 +58,11 @@ src="http://hl360opencodeserver.com/assets/js/city_state.js"></script> <title id
                     <!--  Div to display the error message  -->
                 </div>
                 <div class="main-block width-100 text-center">
-                    <form name="create_corp_menu"  action="{{=URL('company_reg_page_check')}}" enctype="multipart/form-data" onsubmit="" method="post">
+                
+                {{=form.custom.begin}}
+                    
+                    <form name="create_corp_menu"  enctype="multipart/form-data" >
+                        
                         <input type="hidden" name="temp_code" id="temp_code" value="bb59b9eff14c19ee6cd2b2d06e410f2e">
                         <input type="hidden" name="local_timezone" id="local_timezone">
                         <input type="hidden" name="local_entry_time" id="local_entry_time">
@@ -70,7 +75,7 @@ src="http://hl360opencodeserver.com/assets/js/city_state.js"></script> <title id
                                    Institute Name *
                                 </div>
                                 <div class="form-field">
-                                    <input type="text" name="institute_name" id="institute_name" value="" placeholder="Institution Name" required>
+                                    {{=form.custom.widget.company_name}}
                                 </div>
 							</div>
 						</div>
@@ -82,18 +87,7 @@ src="http://hl360opencodeserver.com/assets/js/city_state.js"></script> <title id
                                     Legal Reg No
                                 </div>
                                 <div class="form-field">
-                                    <input type="text" name="legal_reg_no" id="legal_reg_no" placeholder="Legal Registration Number" value="">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="width-50 float-left">
-                            <div class="form-block">
-                                <div class="form-label">
-                                    Verification Code *
-                                </div>
-                                <div class="form-field">
-                                    <input type="text" name="verification_code" id="verification_code" placeholder="Verification Code" value="">
+                                    {{=form.custom.widget.company_identification}}
                                 </div>
                             </div>
                         </div>
@@ -104,7 +98,7 @@ src="http://hl360opencodeserver.com/assets/js/city_state.js"></script> <title id
                                     Address Line 1 *
                                 </div>
                                 <div class="form-field">
-                                   <input type="text" name="address_line1" value="" placeholder="Address Line 1" required>
+                                   {{=form.custom.widget.company_address_line1}}
                                 </div>
                             </div>
                         </div>
@@ -114,7 +108,7 @@ src="http://hl360opencodeserver.com/assets/js/city_state.js"></script> <title id
                                     Address Line 2
                                 </div>
                                 <div class="form-field">
-                                   <input type="text" name="address_line2" placeholder="Address Line 2" value="">
+                                   {{=form.custom.widget.company_address_line2}}
                                 </div>
                             </div>
                         </div>
@@ -122,25 +116,10 @@ src="http://hl360opencodeserver.com/assets/js/city_state.js"></script> <title id
                         <div class="width-50 float-left">
                             <div class="form-block">
                                 <div class="form-label">
-                                    Region *
-                                </div>
-                                <div class="form-field">
-                                   <select onchange="set_country(this,country,city_state)" name="region" id="region" required="">
-                                        <option value="" selected="">Select Region</option>
-                                        <script type="text/javascript">setRegions(this);</script>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="width-50 float-left">
-                            <div class="form-block">
-                                <div class="form-label">
                                     Country *
                                 </div>
                                 <div class="form-field">
-                                   <select name="country" id="country" disabled="disabled" onchange="set_city_state(this,city_state)" required="">
-                                        <option value="" selected="" disabled="">Select Country</option>
-                                    </select>
+                                   {{=form.custom.widget.country}}
                                 </div>
                             </div>
                         </div>
@@ -150,9 +129,7 @@ src="http://hl360opencodeserver.com/assets/js/city_state.js"></script> <title id
                                     State *
                                 </div>
                                 <div class="form-field">
-                                   <select name="city_state" id="city_state" disabled="disabled" required="">
-                                        <option value="" disabled="" selected="">Select State/Province</option>
-                                    </select>
+                                   {{=form.custom.widget.states}}
                                 </div>
                             </div>
                         </div>
@@ -162,7 +139,7 @@ src="http://hl360opencodeserver.com/assets/js/city_state.js"></script> <title id
                                     City *
                                 </div>
                                 <div class="form-field">
-                                   <input type="text" name="city" value="" placeholder="City" required>
+                                   {{=form.custom.widget.city}}
                                 </div>
                             </div>
                         </div>
@@ -172,11 +149,20 @@ src="http://hl360opencodeserver.com/assets/js/city_state.js"></script> <title id
                                     Postal Code *
                                 </div>
                                 <div class="form-field">
-                                   <input type="number" placeholder="Pincode" name="pincode" id="pincode" min=1 step="any" required="">
+                                   {{=form.custom.widget.pincode}}
                                 </div>
                             </div>
                         </div>
-
+						<div class="width-50 float-left">
+                            <div class="form-block">
+                                <div class="form-label">
+                                    Office Number *
+                                </div>
+                                <div class="form-field">
+                                   {{=form.custom.widget.office_number}}
+                                </div>
+                            </div>
+                        </div>
                         <div class="width-100 border-bottom-light float-left padding-10"></div>
 
                         <div class="width-100 float-left">
@@ -193,7 +179,7 @@ src="http://hl360opencodeserver.com/assets/js/city_state.js"></script> <title id
                                     First Name
                                 </div>
                                 <div class="form-field">
-                                   <input type="text" placeholder="First Name" name="first_name" id="first_name">
+                                   {{=form.custom.widget.first_name}}
                                 </div>
                             </div>
                         </div>
@@ -203,28 +189,18 @@ src="http://hl360opencodeserver.com/assets/js/city_state.js"></script> <title id
                                     Last Name
                                 </div>
                                 <div class="form-field">
-                                   <input type="text" placeholder="Last Name" name="last_name" id="last_name">
+                                   {{=form.custom.widget.last_name}}
                                 </div>
                             </div>
                         </div>
-                        <div class="width-100 float-left">
-                            <div class="form-block">
-                                <div class="form-label">
-                                    Designation
-                                </div>
-                                <div class="form-field">
-                                   <input type="text" placeholder="Designation" name="designation" id="designation">
-                                </div>
-                            </div>
-                        </div>
-
+                        
                         <div class="width-50 float-left">
                             <div class="form-block">
                                 <div class="form-label">
                                     Email-ID
                                 </div>
                                 <div class="form-field">
-                                   <input type="text" placeholder="Email ID" name="email_id" id="email_id">
+                                   {{=form.custom.widget.email_id}}
                                 </div>
                             </div>
                         </div>
@@ -235,7 +211,7 @@ src="http://hl360opencodeserver.com/assets/js/city_state.js"></script> <title id
                                     Mobile Number
                                 </div>
                                 <div class="form-field">
-                                   <input type="number" placeholder="Mobile Number" name="mob_no" id="mob_no" min="1">
+                                   {{=form.custom.widget.mobile_number}}
                                 </div>
                             </div>
                         </div>
@@ -243,10 +219,31 @@ src="http://hl360opencodeserver.com/assets/js/city_state.js"></script> <title id
                         <div class="width-50 float-left">
                             <div class="form-block">
                                 <div class="form-label">
-                                    Work Phone Number
+                                    Password
                                 </div>
                                 <div class="form-field">
-                                   <input type="number" placeholder="Work Phone Number" name="work_no" id="work_no" min="1">
+                                   {{=form.custom.widget.password}}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="width-50 float-left">
+                            <div class="form-block">
+                                <div class="form-label">
+                                    Verify Password
+                                </div>
+                                <div class="form-field">
+                                   {{=form.custom.widget.verify_password}}
+                                </div>
+                            </div>
+                        </div>
+                         <div class="width-50 float-left">
+                            <div class="form-block">
+                                <div class="form-label">
+                                    Verification Code *
+                                </div>
+                                <div class="form-field">
+                                    {{=form.custom.widget.verification_code}}
                                 </div>
                             </div>
                         </div>
@@ -254,8 +251,9 @@ src="http://hl360opencodeserver.com/assets/js/city_state.js"></script> <title id
 					<!-- form ends here -->
                         <div class="clearfix"></div>
 					</div>
-                        <input type="submit" id="add_food_item_submit" name="add_food_item_submit" value="Submit">
+						{{=form.custom.submit}}
                     </form>
+                    {{=form.custom.end}}
                 </div>
             <div class="clearfix"></div>
 				</div>

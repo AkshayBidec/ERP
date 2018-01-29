@@ -5,7 +5,11 @@
 #dis: for the first time login of the super admin, should run only once 
 #	  and contain basic tutorial for the app setup
 # will be sent to the dashboard from this
+# this page will only be redirected from the registration page
 def first_time_login_SA():
+
+	
+
 	return locals()
 
 #==============================================================================
@@ -14,6 +18,15 @@ def first_time_login_SA():
 # will be sent to the dashboard from this
 def login_SA():
 	return locals()
+
+#==============================================================================
+# function: sa_authentication
+def sa_authentication():
+	# take the data from the request form and check it in data base
+	redirect(URL('DashBoard/sa', vars={'message':" login succesfull"}))
+
+
+	return
 
 #==============================================================================
 #function: first_time_login
