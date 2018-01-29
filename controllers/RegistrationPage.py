@@ -2,27 +2,13 @@
 # this also include the custon registration page of normal user
 from datetime import datetime
 
-# this represents the s=succes or the e=error in the registration form
-# lMessageFlag ='s'
-# lErrorMessage=''
+
 #=============================================================================
-#this function should include a mothord to check that it runs only for 1 time
+#this function should include a methord to check that it runs only for 1 time
 #it can contain multiple view pages according to the need
 def company_reg_page():
-	
-	#======================================================
-	# # show the error Messages of the registration form
-	# if request.vars.lMessageFlag == 'e':
-	# 	# give out the error Message
-	# 	response.flash= request.vars.lErrorMessage
-	# 	# reset the error Message
-	# 	request.vars.lErrorMessage=''
-	# 	# reset the error flag
-	# 	request.vars.lMessageFlag='s'
-
-	#======================================================
-	# way 2nd using SQLFORM
-	form = SQLFORM.factory(
+	# main registration form for the company and the super admin
+	lForm = SQLFORM.factory(
 					        Field('company_name', requires=[IS_NOT_EMPTY('**This field is mandatory'),
 					        								IS_LENGTH(990,error_message='exeeds the length')]),
 					        Field('company_identification', requires=IS_NOT_EMPTY('**This field is mandatory')),
@@ -59,31 +45,79 @@ def company_reg_page():
 					        									 IS_IN_DB(db,db.general_master_verification_details.verification_code,error_message='enter a valid code')]),
 					        )
 
-	if form.process().accepted:
-		# flash the massage of succes registration
-		session.flash='registration succesfull'
+	if lForm.process().accepted:
+		
+		# try to feed into the db
+		try:
+			lCompanyId = db.general_company_details.insert( 
+				company_name=lForm.company_name,
+				company_identification=lForm.company_identification,
+				company_address_line1=lForm.company_address_line1,
+				company_address_line2=lForm.company_address_line2,
+				country=lForm.country,
+				states=lForm.states,
+				city=lForm.city,
+				pincode=lForm.pincode,
+				office_number=lForm.office_number,
+				is_active=True,
+				db_entry_time=lambda:datetime.now()
+				)
+	
+		# if fails to feed the db give out the error massage
+		except Exception as e:
+			lErrorMessage="Errors while inserting company details (%s)" % e.message
+			lMessageFlag = "e"
+			redirect(URL('company_reg_page',vars={'lErrorMessage':lErrorMessage,'lMessageFlag':lMessageFlag}))
+		else:
+			try:
+				#insert the details for superadmin
+				db.general_superadmin_details.insert(
+				company_id=lCompanyId,
+				first_name=lForm.first_name,
+				last_name=lForm.last_name,
+				email_id=lForm.email_id,
+				mobile_number=lForm.mobile_number,
+				password=lForm.password,
+				verification_code=lForm.verification_code,
+				ip_address=current.request.client,
+				# locations=
+				is_active=True,
+				db_entry_time=lambda:datetime.now()
+				)
+				pass
+			except Exception as e:
+				lErrorMessage="Errors while inserting superadmin details (%s)" % e.message
+				lMessageFlag = "e"
+				#delete the record inserted in company table as well
+				redirect(URL('company_reg_page',vars={'lErrorMessage':lErrorMessage,'lMessageFlag':lMessageFlag}))
+			else:
+				# flash the massage of succes registration
+				session.flash='registration successful'
+
+				pass
 
 
-	return locals()
+
+	return dict(form=lForm)
 
 
 #==============================================================================
 # for the form input check
 def company_reg_page_check():
-	
+
 	if lMessageFlag == 's':
 		# send the data to the model
 		try:
 			db.general_company_details.insert(
-				company_name=lFormData.institute_name,
-				company_identification=lFormData.legal_reg_no,
-				company_address_line1=lFormData.address_line1,
-				company_address_line2=lFormData.address_line2,
-				country=lFormData.country,
-				states=lFormData.city_state,
-				city=lFormData.city,
-				pincode=lFormData.pincode,
-				office_number=lFormData.work_no,
+				company_name=lForm.institute_name,
+				company_identification=lForm.legal_reg_no,
+				company_address_line1=lForm.address_line1,
+				company_address_line2=lForm.address_line2,
+				country=lForm.country,
+				states=lForm.city_state,
+				city=lForm.city,
+				pincode=lForm.pincode,
+				office_number=lForm.work_no,
 				is_active=True,
 				db_entry_time=lambda:datetime.now()
 			)

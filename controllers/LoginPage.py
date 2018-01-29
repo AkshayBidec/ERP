@@ -7,10 +7,16 @@
 # will be sent to the dashboard from this
 # this page will only be redirected from the registration page
 def first_time_login_SA():
-
-	
-
-	return locals()
+	# a form to get the user login data, this does not contain a inbuid validation
+	lRegEmail= db.general_superadmin_details.email_id
+	lForm= SQLFORM.factory(
+							Field('email_id', requires=[IS_NOT_EMPTY('**Enter a email id')]),
+							Field('password', requires=[IS_NOT_EMPTY('** Enter password')],type='password')
+							)
+	if lForm.process().accepted:
+		# have filed the login form now have to authenticate it with the db
+		session.flash='succesfull data feed'
+	return dict(form=lForm)
 
 #==============================================================================
 #function: login_SA
