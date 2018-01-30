@@ -18,3 +18,9 @@
 .sub:hover,.sub:active,.sub:focus {
   background: #43A047;
 }
+
+.error{
+  font-size:14px;
+  text-align:center;
+  color: #ff471a;
+}

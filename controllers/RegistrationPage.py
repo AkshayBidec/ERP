@@ -23,7 +23,7 @@ def company_reg_page():
 					        Field('pincode', requires=[IS_NOT_EMPTY('**This field is mandatory'),
 					        						   IS_MATCH('^\d{6}$',error_message='not a valid zip code')]),
 					        Field('office_number', requires=[IS_NOT_EMPTY('**This field is mandatory'),
-					        						   		 IS_DECIMAL_IN_RANGE(10,12,error_message='enter valid phone number')]),
+					        						   		 IS_DECIMAL_IN_RANGE(12,error_message='enter valid phone number')]),
 					        #..............superadmin...........................
 					        Field('first_name', requires=[IS_NOT_EMPTY('**This field is mandatory'),
 					        							  IS_LENGTH(240,error_message='exeeds the length')]),
@@ -46,39 +46,37 @@ def company_reg_page():
 					        )
 
 	if lForm.process().accepted:
-		
 		# try to feed into the db
 		try:
 			lCompanyId = db.general_company_details.insert( 
-				company_name=lForm.company_name,
-				company_identification=lForm.company_identification,
-				company_address_line1=lForm.company_address_line1,
-				company_address_line2=lForm.company_address_line2,
-				country=lForm.country,
-				states=lForm.states,
-				city=lForm.city,
-				pincode=lForm.pincode,
-				office_number=lForm.office_number,
+				company_name=lForm.vars.company_name,
+				company_identification=lForm.vars.company_identification,
+				company_address_line1=lForm.vars.company_address_line1,
+				company_address_line2=lForm.vars.company_address_line2,
+				country=lForm.vars.country,
+				states=lForm.vars.states,
+				city=lForm.vars.city,
+				pincode=lForm.vars.pincode,
+				office_number=lForm.vars.office_number,
 				is_active=True,
 				db_entry_time=lambda:datetime.now()
 				)
-	
+			
 		# if fails to feed the db give out the error massage
 		except Exception as e:
-			lErrorMessage="Errors while inserting company details (%s)" % e.message
-			lMessageFlag = "e"
-			redirect(URL('company_reg_page',vars={'lErrorMessage':lErrorMessage,'lMessageFlag':lMessageFlag}))
+			session.flash="Errors while inserting company details (%s)" % e.message
+			redirect(URL('company_reg_page'))
 		else:
 			try:
 				#insert the details for superadmin
 				db.general_superadmin_details.insert(
 				company_id=lCompanyId,
-				first_name=lForm.first_name,
-				last_name=lForm.last_name,
-				email_id=lForm.email_id,
-				mobile_number=lForm.mobile_number,
-				password=lForm.password,
-				verification_code=lForm.verification_code,
+				first_name=lForm.vars.first_name,
+				last_name=lForm.vars.last_name,
+				email_id=lForm.vars.email_id,
+				mobile_number=lForm.vars.mobile_number,
+				password=lForm.vars.password,
+				verification_code=lForm.vars.verification_code,
 				ip_address=current.request.client,
 				# locations=
 				is_active=True,
@@ -86,14 +84,11 @@ def company_reg_page():
 				)
 				pass
 			except Exception as e:
-				lErrorMessage="Errors while inserting superadmin details (%s)" % e.message
-				lMessageFlag = "e"
-				#delete the record inserted in company table as well
-				redirect(URL('company_reg_page',vars={'lErrorMessage':lErrorMessage,'lMessageFlag':lMessageFlag}))
+				session.flash="Errors while inserting company details (%s)" % e.message
+				redirect(URL('company_reg_page'))
 			else:
 				# flash the massage of succes registration
 				session.flash='registration successful'
-
 				pass
 
 
