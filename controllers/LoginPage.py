@@ -21,11 +21,11 @@ def first_time_login_SA():
 	if lForm.process().accepted:
 		# have filed the login form now have to authenticate it with the db
 		try:
-			if db((db.general_superadmin_details.email_id == lForm.email_id) & (db.general_superadmin_details.password == lForm.password)).isempty():
+			if db((db.general_superadmin_details.email_id == lForm.vars.email_id) & (db.general_superadmin_details.password == lForm.vars.password)).isempty():
 				session.flash='Please enter valid Email ID or Password'
 				pass
 			else
-				rows = db((db.general_superadmin_details.email_id == lForm.email_id) & (db.general_superadmin_details.password == lForm.password)).select()
+				rows = db((db.general_superadmin_details.email_id == lForm.vars.email_id) & (db.general_superadmin_details.password == lForm.vars.password)).select()
 				for row in rows:
 					#set the user session here
 					pass
