@@ -10,12 +10,18 @@ def first_time_login_SA():
 	# a form to get the user login data, this does not contain a inbuid validation
 	lRegEmail= db.general_superadmin_details.email_id
 	lForm= SQLFORM.factory(
-							Field('email_id', requires=[IS_NOT_EMPTY('**Enter a email id')]),
-							Field('password', requires=[IS_NOT_EMPTY('** Enter password')],type='password')
+							Field('email_id', requires=[IS_NOT_EMPTY('Enter email id'),
+														IS_EMAIL(error_message="Invalid Email ID !"),
+														IS_IN_DB(db,lRegEmail,error_message='Invalid Email ID !')]),
+							Field('password', requires=[IS_NOT_EMPTY('Enter password')],type='password')
 							)
+	lForm.custom.widget.email_id.update(_placeholder='Email ID')
+	lForm.custom.widget.password.update(_placeholder='Password')
+
 	if lForm.process().accepted:
 		# have filed the login form now have to authenticate it with the db
 		session.flash='succesfull data feed'
+
 	return dict(form=lForm)
 
 #==============================================================================

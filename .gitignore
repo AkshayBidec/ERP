@@ -33,3 +33,7 @@ progress.log
 *.sqlite
 *.log
 sessions/0a6/198/127.0.0.1-e38bd00c-d980-4e1d-8eee-eb8a5931a14e
+sessions/1f9/093/127.0.0.1-d77e5a03-ba67-4c21-8d41-969deb64ec85
+databases/sql.log
+databases/sql.log
+databases/storage.sqlite

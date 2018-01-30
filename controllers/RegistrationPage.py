@@ -31,7 +31,7 @@ def company_reg_page():
 					        							 IS_LENGTH(240,error_message='exeeds the length')]),
 					        Field('email_id', requires=[IS_NOT_EMPTY('**This field is mandatory'),
 					        							IS_NOT_IN_DB(db,db.general_superadmin_details.email_id,error_message='email id already registered'),
-					        							IS_EMAIL("invalid email ID"),
+					        							IS_EMAIL(error_message="invalid email ID"),
 					        							IS_LENGTH(490,error_message='exeeds the length')]),
 					        Field('mobile_number', requires=[IS_NOT_EMPTY('**This field is mandatory'),
 					        						   		 IS_MATCH('^[789]\d{9}$',error_message='enter a valid phone number')]),
