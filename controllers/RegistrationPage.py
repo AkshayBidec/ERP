@@ -9,7 +9,7 @@ from datetime import datetime
 def company_reg_page():
 	# main registration form for the company and the super admin
 	lForm = SQLFORM.factory(
-					        Field('company_name', requires=[IS_NOT_EMPTY('**This field is mandatory'),
+					        Field('company_name', requires=[IS_NOT_EMPTY(error_message='**This field is mandatory'),
 					        								IS_LENGTH(990,error_message='exeeds the length')]),
 					        Field('company_identification', requires=IS_NOT_EMPTY('**This field is mandatory')),
 					        Field('company_address_line1', requires=IS_NOT_EMPTY('**This field is mandatory')),
@@ -42,7 +42,7 @@ def company_reg_page():
 					        								   IS_EQUAL_TO(request.vars.password,error_message='passwords do not match')]
 					        								   ,type='password'),
 					        Field('verification_code', requires=[IS_NOT_EMPTY('**This field is mandatory'),
-					        									 IS_IN_DB(db,db.general_master_verification_details.verification_code,error_message='enter a valid code')]),
+					        									 IS_IN_DB(db,db.general_master_verification_details.verification_code,error_message='enter a valid code')])
 					        )
 
 	if lForm.process().accepted:

@@ -11,12 +11,7 @@
 
 {{=form.custom.begin}}
 <!-- following is code for the error printing in the form, and canot be removed by the html tags -->
-{{if form.errors:
-	for email_id in form.errors:
-		pass
-	for password in form.errors:
-		pass
-	pass }}
+
 <!-- this is div which contains the form -->
 <div class="inner-container">
     <div class="box">
@@ -27,8 +22,7 @@
 
     </div>
   </div>
-{{form.errors.clear()}}  <!-- this is to clear the error variable -->
-{{=form.custom.end}}.  <!-- end of the login form -->
+  {{=form.custom.end}}.  <!-- end of the login form -->
 
 
 </body>

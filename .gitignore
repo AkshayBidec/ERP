@@ -37,3 +37,6 @@ sessions/1f9/093/127.0.0.1-d77e5a03-ba67-4c21-8d41-969deb64ec85
 databases/sql.log
 databases/sql.log
 databases/storage.sqlite
+databases/sql.log
+*.log
+databases/sql.log
