@@ -6,7 +6,7 @@
 # -------------------------------------------------------------------------
 from gluon.contrib.appconfig import AppConfig
 from gluon.tools import Auth
-
+from utils import crypt as CRYPT
 # -------------------------------------------------------------------------
 # This scaffolding model makes your app work on Google App Engine too
 # File is released under public domain and you can use without limitations
@@ -194,6 +194,9 @@ db.define_table(
     Field('last_login_time', type='datetime', notnull=False),
     Field('last_logout_time', type='datetime', notnull=False)
 )
+
+db.general_superadmin_details.password.filter_in = lambda data: CRYPT('encrypt', data, iv_random=False)
+db.general_superadmin_details.password.filter_out = lambda data: CRYPT('decrypt', data, iv_random=False)
 
 db.define_table(
     'general_session',
