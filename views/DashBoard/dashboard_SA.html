@@ -1,10 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-
-    <link rel="stylesheet" href="{{=URL('static','css/login.css')}}"/> <!--  a custom css file -->
-    
-    <link rel="stylesheet" href="{{=URL('static','css/flash.css')}}"/> <!--  a custom css file for flash massage -->
+	<link rel="stylesheet" href="{{=URL('static','css/flash.css')}}"/> <!--  a custom css file for flash massage -->
     <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
     <script src="{{=URL('static','js/flash.js')}}"></script>  <!-- js file dedicated to the flash messages -->
 
@@ -20,17 +17,7 @@
 </div>
 {{pass}}
 
-{{=form.custom.begin}}
-  <div class="inner-container"> <!-- this is div which contains the form -->
-    <div class="box">
-      <h1>Super Admin</h1>
-        {{=form.custom.widget.email_id}}
-  	    {{=form.custom.widget.password}}   
-	   <button>Login</button>
-    </div>
-  </div>
-  {{=form.custom.end}}.  <!-- end of the login form -->
 
-
+<h1>Welcome to the Dash Board</h1>
 </body>
 </html>

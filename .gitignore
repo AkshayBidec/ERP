@@ -40,3 +40,9 @@ databases/storage.sqlite
 databases/sql.log
 *.log
 databases/sql.log
+databases/storage.sqlite
+modules/__init__.pyc
+progress.log
+progress.log
+databases/storage.sqlite
+progress.log

@@ -42,102 +42,76 @@ def company_reg_page():
 					        								   IS_EQUAL_TO(request.vars.password,error_message='passwords do not match')]
 					        								   ,type='password'),
 					        Field('verification_code', requires=[IS_NOT_EMPTY('**This field is mandatory'),
-					        									 IS_IN_DB(db,db.general_master_verification_details.verification_code,error_message='enter a valid code')])
+					        									 IS_IN_DB(db,db.general_master_verification_details.verification_code,error_message='enter a valid code'),
+					        									 IS_NOT_IN_DB(db,db.general_superadmin_details.verification_code,error_message='code is alredy been used')])
 					        )
 
 	if lForm.process().accepted:
-		# try to feed into the db
-		try:
-			lCompanyId = db.general_company_details.insert( 
-				company_name=lForm.vars.company_name,
-				company_identification=lForm.vars.company_identification,
-				company_address_line1=lForm.vars.company_address_line1,
-				company_address_line2=lForm.vars.company_address_line2,
-				country=lForm.vars.country,
-				states=lForm.vars.states,
-				city=lForm.vars.city,
-				pincode=lForm.vars.pincode,
-				office_number=lForm.vars.office_number,
-				is_active=True,
-				db_entry_time=lambda:datetime.now()
-				)
-			
-		# if fails to feed the db give out the error massage
-		except Exception as e:
-			session.flash="Errors while inserting company details (%s)" % e.message
-			redirect(URL('company_reg_page'))
-		else:
-			try:
-				#insert the details for superadmin
-				db.general_superadmin_details.insert(
-				company_id=lCompanyId,
-				first_name=lForm.vars.first_name,
-				last_name=lForm.vars.last_name,
-				email_id=lForm.vars.email_id,
-				mobile_number=lForm.vars.mobile_number,
-				password=lForm.vars.password,
-				verification_code=lForm.vars.verification_code,
-				ip_address=current.request.client,
-				# locations=
-				is_active=True,
-				db_entry_time=lambda:datetime.now()
-				)
+		rows = db(db.general_master_verification_details.verification_code == lForm.vars.verification_code).select()
+		for row in rows:
+			if row.is_active:
+				# try to feed into the db
+				try:
+					lCompanyId = db.general_company_details.insert( 
+						company_name=lForm.vars.company_name,
+						company_identification=lForm.vars.company_identification,
+						company_address_line1=lForm.vars.company_address_line1,
+						company_address_line2=lForm.vars.company_address_line2,
+						country=lForm.vars.country,
+						states=lForm.vars.states,
+						city=lForm.vars.city,
+						pincode=lForm.vars.pincode,
+						office_number=lForm.vars.office_number,
+						is_active=True,
+						db_entry_time=lambda:datetime.now()
+						)
+					
+				except Exception as e:
+					session.flash="Errors while inserting company details (%s)" % e.message
+					redirect(URL('company_reg_page'))
+				else:
+					try:
+						#insert the details for superadmin
+						db.general_superadmin_details.insert(
+						company_id=lCompanyId,
+						first_name=lForm.vars.first_name,
+						last_name=lForm.vars.last_name,
+						email_id=lForm.vars.email_id,
+						mobile_number=lForm.vars.mobile_number,
+						password=lForm.vars.password,
+						verification_code=lForm.vars.verification_code,
+						ip_address=request.env.remote_addr,
+						is_active=True,
+						db_entry_time=lambda:datetime.now()
+						)
+						pass
+					except Exception as e:
+						session.flash="Errors while inserting sa details (%s)" % e.message
+						redirect(URL('company_reg_page'))
+					else:
+						try:
+							#insert the details for superadmin
+							db(db.general_master_verification_details.verification_code == lForm.vars.verification_code).update(
+							is_active=False
+							)
+							pass
+						except Exception as e:
+							session.flash="Errors while inserting vc details (%s)" % e.message
+							redirect(URL('company_reg_page'))
+						else:
+							# flash the massage of succes registration
+							session.flash='registration successful'
+							redirect(URL('../../../ERP/LoginPage/first_time_login_SA'))
+
+							pass
 				pass
-			except Exception as e:
-				session.flash="Errors while inserting company details (%s)" % e.message
+
+			else:
+				session.flash='verification code alredy used'
 				redirect(URL('company_reg_page'))
-			else:
-				# flash the massage of succes registration
-				session.flash='registration successful'
 				pass
-
-
-
+			pass
 	return dict(form=lForm)
-
-
-#==============================================================================
-# for the form input check
-def company_reg_page_check():
-
-	if lMessageFlag == 's':
-		# send the data to the model
-		try:
-			db.general_company_details.insert(
-				company_name=lForm.institute_name,
-				company_identification=lForm.legal_reg_no,
-				company_address_line1=lForm.address_line1,
-				company_address_line2=lForm.address_line2,
-				country=lForm.country,
-				states=lForm.city_state,
-				city=lForm.city,
-				pincode=lForm.pincode,
-				office_number=lForm.work_no,
-				is_active=True,
-				db_entry_time=lambda:datetime.now()
-			)
-		except Exception as e:
-			lErrorMessage="Errors while inserting company details (%s)" % e.message
-			lMessageFlag = "e"
-			redirect(URL('company_reg_page',vars={'lErrorMessage':lErrorMessage,'lMessageFlag':lMessageFlag}))
-		else:
-			try:
-				#insert the details for superadmin
-				pass
-			except Exception as e:
-				lErrorMessage="Errors while inserting superadmin details (%s)" % e.message
-				lMessageFlag = "e"
-				#delete the record inserted in company table as well
-				redirect(URL('company_reg_page',vars={'lErrorMessage':lErrorMessage,'lMessageFlag':lMessageFlag}))
-			else:
-				pass
-		
-		# redirect to the 1st time login page of the super admin
-		redirect(URL('LoginPage/first_time_login_SA',vars={'message':'registration succesfull'}))
-
-
-	return 
-
 
 #==============================================================================
 # this function is only for the superuser registration 
