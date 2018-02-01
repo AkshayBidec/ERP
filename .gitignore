@@ -7,3 +7,4 @@
 sessions/*
 databases/*
 progress.log
+*.log

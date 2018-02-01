@@ -30,7 +30,7 @@ def company_reg_page():
 					        Field('last_name', requires=[IS_NOT_EMPTY('**This field is mandatory'),
 					        							 IS_LENGTH(240,error_message='exeeds the length')]),
 					        Field('email_id', requires=[IS_NOT_EMPTY('**This field is mandatory'),
-					        							IS_NOT_IN_DB(db,db.general_superadmin_details.email_id,error_message='email id already registered'),
+					        							IS_NOT_IN_DB(db,db.general_user.email_id,error_message='email id already registered'),
 					        							IS_EMAIL(error_message="invalid email ID"),
 					        							IS_LENGTH(490,error_message='exeeds the length')]),
 					        Field('mobile_number', requires=[IS_NOT_EMPTY('**This field is mandatory'),
@@ -43,18 +43,20 @@ def company_reg_page():
 					        								   ,type='password'),
 					        Field('verification_code', requires=[IS_NOT_EMPTY('**This field is mandatory'),
 					        									 IS_IN_DB(db,db.general_master_verification_details.verification_code,error_message='enter a valid code'),
-					        									 IS_NOT_IN_DB(db,db.general_superadmin_details.verification_code,error_message='code is alredy been used')])
+					        									 IS_NOT_IN_DB(db,db.general_company_details.verification_code,error_message='code is alredy been used')])
 					        )
 
 	if lForm.process().accepted:
 		rows = db(db.general_master_verification_details.verification_code == lForm.vars.verification_code).select()
 		for row in rows:
+			# check the status of the verification code
 			if row.is_active:
 				# try to feed into the db
 				try:
 					lCompanyId = db.general_company_details.insert( 
 						company_name=lForm.vars.company_name,
 						company_identification=lForm.vars.company_identification,
+						verification_code= lForm.vars.verification_code,
 						company_address_line1=lForm.vars.company_address_line1,
 						company_address_line2=lForm.vars.company_address_line2,
 						country=lForm.vars.country,
@@ -72,14 +74,13 @@ def company_reg_page():
 				else:
 					try:
 						#insert the details for superadmin
-						db.general_superadmin_details.insert(
+						db.general_user.insert(
 						company_id=lCompanyId,
 						first_name=lForm.vars.first_name,
 						last_name=lForm.vars.last_name,
 						email_id=lForm.vars.email_id,
 						mobile_number=lForm.vars.mobile_number,
 						password=lForm.vars.password,
-						verification_code=lForm.vars.verification_code,
 						ip_address=request.env.remote_addr,
 						is_active=True,
 						db_entry_time=lambda:datetime.now()
