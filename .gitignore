@@ -8,3 +8,4 @@ sessions/*
 databases/*
 progress.log
 *.log
+databases/sql.log

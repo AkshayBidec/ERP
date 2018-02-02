@@ -1,0 +1,169 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <link rel="stylesheet" href="{{=URL('static','css/flash.css')}}"/> <!--  a custom css file for flash massage -->
+        <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+        <script src="{{=URL('static','js/flash.js')}}"></script>  <!-- js file dedicated to the flash messages -->
+        
+    	<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+		<!-- jQuery library -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+		<!-- Latest compiled JavaScript -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+        <link href="css/style.css" rel="stylesheet" type="text/css" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="http://hl360opencodeserver.com/assets/js/city_state.js"></script>
+        <title id="page-title">Project_MNGF</title>
+
+
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    </head>
+
+    <body>
+
+
+{{ if session.flash:}}
+<div class="popup"> <a href="#" class="close">
+  <svg id="Layer_1" x="0px" y="0px" width="10px" height="10px" viewBox="215.186 215.671 80.802 80.8" enable-background="new 215.186 215.671 80.802 80.8" xml:space="preserve">
+        <polygon fill="#FFFFFF" points="280.486,296.466 255.586,271.566 230.686,296.471 215.19,280.964 240.086,256.066 215.186,231.17 230.69,215.674 255.586,240.566 280.475,215.671 295.985,231.169 271.089,256.064 295.987,280.96 "/>
+       </svg></a>
+      <div class="flash"><h1 >{{=session.flash or ''}}</h1></div>
+</div>
+{{pass}}
+
+
+        <div class="container">
+            <div class="form">
+                <div class="page_menu">
+                    <div class="row">
+                        <div class="col-md-6 col-lg-6 col-xs-12 col-sm-8">
+                            <h1>Create Leads</h1>
+                        </div>
+                        <!-- div class="col-md-offset-3 col-lg-offset-3 col-md-3 col-lg-3 col-xs-12 col-sm-4">
+                            <p class="margin_t_20">
+                                <input type="submit" class="btn btn-primary btn-lg" value="Save">
+                                <button type="button" class="btn btn-default btn-lg">Cancel</button>
+                            </p>
+                        </div> -->
+                    </div>
+                </div>
+                <div class="well">
+                    {{=form.custom.begin}}
+                        <div class="row">
+                            <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
+                                <h3>Lead Information</h3>
+                            </div>
+                            <div class="form-group col-md-6 col-lg-6 col-xs-6 col-sm-6">
+                                <label for="exampleInputEmail1">Company</label>
+                                {{=form.custom.widget.company}}
+                            </div>
+                            <div class="form-group col-md-6 col-lg-6 col-xs-6 col-sm-6">
+                                <label for="exampleInputEmail1">Lead Owner</label>
+                                {{=form.custom.widget.lead_owner}}    
+                            </div>
+                            <div class="form-group col-md-6 col-lg-6 col-xs-6 col-sm-6">
+                                <label for="exampleInputEmail1">First Name</label>
+                                {{=form.custom.widget.first_name}}
+                            </div>
+                            <div class="form-group col-md-6 col-lg-6 col-xs-6 col-sm-6">
+                                <label for="exampleInputEmail1">Last Name</label>
+                                {{=form.custom.widget.last_name}}  
+                            </div>
+                            <div class="form-group col-md-6 col-lg-6 col-xs-6 col-sm-6">
+                                <label for="exampleInputEmail1">Title</label>
+                                {{=form.custom.widget.title}}      
+                            </div>
+                            <div class="form-group col-md-6 col-lg-6 col-xs-6 col-sm-6">
+                                <label for="exampleInputEmail1">E-mail</label>
+                                {{=form.custom.widget.email_id}}
+                            </div>
+                            <div class="form-group col-md-6 col-lg-6 col-xs-6 col-sm-6">
+                                <label for="exampleInputEmail1">Phone</label>
+                                {{=form.custom.widget.phone}}
+                            </div>
+                            <div class="form-group col-md-6 col-lg-6 col-xs-6 col-sm-6">
+                                <label for="exampleInputEmail1">Fax</label>
+                                {{=form.custom.widget.fax}}
+                            </div>
+                            <div class="form-group col-md-6 col-lg-6 col-xs-6 col-sm-6">
+                                <label for="exampleInputEmail1">Mobile</label>
+                                {{=form.custom.widget.mobile}}  
+                            </div>
+                            <div class="form-group col-md-6 col-lg-6 col-xs-6 col-sm-6">
+                                <label for="exampleInputEmail1">Website</label>
+                                {{=form.custom.widget.website}}  
+                            </div>
+                            <div class="form-group col-md-6 col-lg-6 col-xs-6 col-sm-6">
+                                <label for="exampleInputEmail1">Lead Source</label>
+                                {{=form.custom.widget.lead_source}}
+                            </div>
+                            <div class="form-group col-md-6 col-lg-6 col-xs-6 col-sm-6">
+                                <label for="exampleInputEmail1">Lead Status</label>
+                                {{=form.custom.widget.lead_status}} 
+                            </div>
+
+                            <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
+                                <h3>Address Information</h3>
+                            </div>
+                            <div class="form-group col-md-6 col-lg-6 col-xs-6 col-sm-6">
+                                <label for="exampleInputEmail1">Street</label>
+                                {{=form.custom.widget.street}}
+                            </div>
+                            <div class="form-group col-md-6 col-lg-6 col-xs-6 col-sm-6">
+                                <label for="exampleInputEmail1">City</label>
+                                {{=form.custom.widget.city}}  
+                            </div>
+                            <div class="form-group col-md-6 col-lg-6 col-xs-6 col-sm-6">
+                                <label for="exampleInputEmail1">State</label>
+                                {{=form.custom.widget.state}} 
+                            </div>
+                            <div class="form-group col-md-6 col-lg-6 col-xs-6 col-sm-6">
+                                <label for="exampleInputEmail1">Pincode</label>
+                                {{=form.custom.widget.pincode}}  
+                            </div>
+                            <div class="form-group col-md-6 col-lg-6 col-xs-6 col-sm-6">
+                                <label for="exampleInputEmail1">Country</label>
+                                {{=form.custom.widget.country}}
+                            </div>
+                             <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
+                                <h3>Description</h3>
+                            </div>
+                            <div class="form-group col-md-12 col-lg-12 col-xs-12 col-sm-12">
+                                 {{=form.custom.widget.description}}
+                            </div>
+                        </div>
+                   
+                    </div>
+                <div class="row">
+                        <div class="col-md-6 col-lg-6 col-xs-12 col-sm-8">
+                            
+                        </div>
+                        <div class="col-md-offset-3 col-lg-offset-3 col-md-3 col-lg-3 col-xs-12 col-sm-4">
+                            <p class="margin_t_20">
+                                <input type="submit" class="btn btn-primary btn-lg" value="Save">
+                                <a href="{{=URL('../../../ERP/CRM/contacts')}}"><button type="button" class="btn btn-default btn-lg">Cancel</button></a>
+                            </p>
+                        </div>
+                    </div>
+                     {{=form.custom.end}}
+            </div>
+        </div>
+<script type="text/javascript">
+    function setUserTimeZone() {
+        $('#local_timezone').val(Intl.DateTimeFormat().resolvedOptions().timeZone);
+        //debugger;
+        var now = new Date();
+        var month = parseInt(now.getMonth()) + 1;
+        $('#local_entry_time').val(now.getFullYear()+'-'+month+'-'+now.getDate()+' '+now.toLocaleTimeString());
+    }
+    setUserTimeZone();
+</script>
+    </body>
+</html>

@@ -3,11 +3,17 @@
 #==============================================================================
 #function: dashboard_SA
 #dis: it is the special dashboard for the SA and will include the special setting 
-def dashboard_SA():
-	return locals()
-
-#==============================================================================
-#function: dashboard
-#dis: this is the general dashboard and will have the limited functionalities
 def dashboard():
+	
+	# if session is not active
+	if session.is_active ==0:
+		redirect(URL('../../LoginPage/login')) 
+
+	# if session is active
+	else:
+		# taek the reqired data from the session
+		# take the required data from the db
+
+
+		pass
 	return locals()

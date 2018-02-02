@@ -202,6 +202,7 @@ db.define_table(
 db.define_table(
     'general_session',
     Field('user_id',type='integer',required=True,notnull=True),
+    Field('is_active',type='integer',default=0,required=True,notnull=True),
     Field('user_type',type='string',length=250,required=True,notnull=True),
     Field('login_time',type='datetime',required=False,notnull=False),
     Field('logout_time',type='datetime',required=False,notnull=False),
@@ -222,8 +223,8 @@ db.define_table(
     Field('temp_password',type='password', required=False, notnull=False),
     Field('forgot_password_verification',type='string',length=2000,required=False,notnull=False),
     Field('ip_address',type='string',length=500, required=True, notnull=True),
-    Field('mac_address',type='string',length=500, required=True, notnull=True),
-    Field('locations',type='string',length=500, required=True, notnull=True),
+    Field('mac_address',type='string',length=500, required=False, notnull=False),
+    Field('locations',type='string',length=500, required=False, notnull=False),
     Field('is_active',type='boolean',default=True, required=True, notnull=True),
     Field('db_entry_time', type='datetime',  required=True, notnull=True),
     Field('db_update_time', type='datetime', notnull=False),

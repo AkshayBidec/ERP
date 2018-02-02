@@ -11,3 +11,8 @@
 [2018-01-26 15:37:20] CREATE RegistrationPage/company_reg_page.html: 0
 [2018-01-26 15:46:12] EDIT ERP/views/RegistrationPage/company_reg_page.html: -1
 [2018-01-28 12:43:08] CREATE LoginPage/first_time_login_SA.html: 0
+[2018-01-30 11:10:59] CREATE Leads.py: 0
+[2018-01-30 11:13:28] CREATE Contacts.py: 0
+[2018-01-30 11:33:47] CREATE Leads/leads_add.html: 0
+[2018-01-31 15:03:40] CREATE DashBoard/dashboard_SA.html: 0
+[2018-02-02 15:50:21] CREATE CRM.py: 0

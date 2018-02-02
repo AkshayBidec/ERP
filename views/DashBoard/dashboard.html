@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="{{=URL('static','css/flash.css')}}"/> <!--  a custom css file for flash massage -->
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="{{=URL('static','js/flash.js')}}"></script>  <!-- js file dedicated to the flash messages -->
+    <meta charset="utf-8">
+ 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://use.fontawesome.com/6353c44d0f.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+	<style>
+      .dd-menu{
+          width: 22.5em;
+      }
+      .dd-menu ul{
+          list-style: none;
+          margin: 0;
+          padding: 0;
+      }
+      .dd-menu li{
+          padding: 5px 10px;
+          margin: 5px 0;
+      }
+      .border{
+          border: 1px solid black;
+          width: 95%;
+          margin: 0 auto;
+      }
+    </style>
+
+</head>
+
+<body>
+{{ if session.flash:}} <!-- for the session message -->
+<div class="popup"> <a href="#" class="close">
+  <svg id="Layer_1" x="0px" y="0px" width="10px" height="10px" viewBox="215.186 215.671 80.802 80.8" enable-background="new 215.186 215.671 80.802 80.8" xml:space="preserve">
+        <polygon fill="red" points="280.486,296.466 255.586,271.566 230.686,296.471 215.19,280.964 240.086,256.066 215.186,231.17 230.69,215.674 255.586,240.566 280.475,215.671 295.985,231.169 271.089,256.064 295.987,280.96 "/>
+       </svg></a>
+      <div class="flash"><h1 >{{=session.flash }}</h1></div>
+</div>
+{{pass}}
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#"><i class="fa fa-bars"></i></a>
+    </div>
+    <ul class="nav navbar-nav" style="margin-left: 2%;">
+      <li class=""><a href="#">Home</a></li>
+      <li><a href="{{=URL('../../../ERP/CRM/crm')}}">CRM</a></li>
+      <li><a href="{{=URL('../../../ERP/CRM/leads')}}">Leads</a></li>
+      <li><a href="{{=URL('../../../ERP/CRM/contacts')}}">Contacts</a></li>
+    </ul>
+    
+    <ul class="nav navbar-nav pull-right" style="width: 35%;">
+      
+      <li class="progress-bar" role="progressbar"
+       aria-valuemax="100" style="width:30%;margin-top: 4%;">
+        70%
+      </li>
+      
+      <li><a href="#"><i class="fa fa-bell"></i></a></li>
+      <li><a href="#"><i class="fa fa-cogs"></i></a></li>
+      
+      <li class="dropdown">
+         
+          <a href="#" class="dropdown-toggle" type="button" data-toggle="dropdown"><i class="fa fa-user"></i><span> Anonymous</span>
+          <span class="caret"></span></a>
+          <div class="dropdown-menu pull-right dd-menu">
+              <ul>
+                <li><strong>{{=session.name or 'Name'}}</strong></li>
+                <li><strong>User Id :{{=session.username or 'email id'}}</strong></li>
+                <li><a href="{{=URL('../../../ERP/DashBoard/dashboard')}}">My Account</a></li>
+                <div class="border"></div>
+                <li><a href="#">another option</a></li>
+                <li><a href="#">another option</a></li>
+                <li><a href="#">another option</a></li>
+                <div class="border"></div>
+                <li><a href="#">another option</a></li>
+                <li><a href="#">another option</a></li>
+                <li><a href="#">another option</a></li>
+              </ul>
+          </div>
+      </li>
+      
+    </ul>
+    
+  </div>
+</nav>
+  
+<div class="container">
+  <h3>Welcome</h3>
+  <p>this is your main dashboard.</p>
+</div>
+</body>
+</html>

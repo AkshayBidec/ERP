@@ -20,17 +20,15 @@
 </div>
 {{pass}}
 
-{{=form.custom.begin}}
-  <div class="inner-container"> <!-- this is div which contains the form -->
-    <div class="box">
-      <h1>Super Admin</h1>
+  <div class="login-page"> <!-- this is div which contains the form -->
+    <div class="form">
+      {{=form.custom.begin}}
+        <h1>Super Admin</h1>
         {{=form.custom.widget.email_id}}
   	    {{=form.custom.widget.password}}   
-	   <button>Login</button>
+  	    <button>Login</button>
+      {{=form.custom.end}}.  <!-- end of the login form -->
     </div>
   </div>
-  {{=form.custom.end}}.  <!-- end of the login form -->
-
-
 </body>
 </html>
