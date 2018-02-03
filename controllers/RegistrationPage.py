@@ -14,7 +14,7 @@ def company_reg_page():
 	lForm = SQLFORM.factory(
 					        Field('company_name', requires=[IS_NOT_EMPTY(error_message='**This field is mandatory'),
 					        								IS_LENGTH(990,error_message='exeeds the length')]),
-					        Field('company_identification', requires=IS_NOT_EMPTY('**This field is mandatory')),
+					        Field('company_identification'),
 					        Field('company_address_line1', requires=IS_NOT_EMPTY('**This field is mandatory')),
 					        Field('company_address_line2',),
 					        Field('country', requires=[IS_NOT_EMPTY('**This field is mandatory'),
@@ -123,7 +123,7 @@ def company_reg_page():
 				pass # try-else 1
 
 		if lSFlag== 1: # registered
-			redirect(URL('../../../ERP/LoginPage/first_time_login_SA'))
+			redirect(URL('../../../ERP/LoginPage/login'))
 			pass
 		# else:
 		# 	session.flash+='not reg'

@@ -52,67 +52,18 @@ def login():
 					# password is correct, fetch the user detail row
 					rows = db((db.general_user.email_id == lForm.vars.email_id) & (db.general_user.password == lForm.vars.password)).select()
 					for row in rows:
-							# fetch all the related data from session
-							session_flag=db(db.general_session.user_id == row.id).select() 
-							if len(session_flag)>0:
-								# not a 1st time user
-								if session_flag[-1].is_active ==1:
-									# session is active at other place
-									session.message=session.flash='already logedin in other machine, logout to continue'
-									# redirect('logout')
-									lSFlag=0
-
-								else:
-							 		# no active session
-									try:
-										#set the user session 
-										# also take the session id while entering the data
-										session.session_id=db.general_session.insert( 
-											user_id=row.id,
-											user_type="super_admin",
-											login_time=lambda:datetime.now(),
-											ip_address=request.env.remote_addr,  # to get the ip address of the user
-											is_active=1 # .i.e the session is started for userid
-											)
-										session.company_id=row.company_id
-										session.username=row.email_id
-										session.name= row.first_name +" "+ row.last_name
-										session.user_id=row.id
-										session.login_time= row.last_login_time
-										session.user_type='superadmin'
-										session.flash='*succesful insert in session db'
-										pass 
-
-									except Exception as e:
-										session.flash="*Errors while inserting session details (%s)" % e.message
-										lSFlag=0
-										pass
-
-									else:
-										try:
-											row.update(
-													last_login_time=lambda:datetime.now(),
-													no_login_attempts= session.no_loging_attempts
-													)
-											# reset the no of attempts
-											session.flash='* succesfull general_user'
-											pass 
-
-										except Exception as e:
-											session.flash="*Errors while inserting session details (%s)" % e.message
-											lSFlag=0
-											pass
-
-										else:
-											lSFlag=1
-											pass
-
-						
-					 		else:
-					 			# a first time user
-								session.first_time_login=1
-								# the user is logging in for the 1st time
-
+						# fetch all the related data from session
+						session_flag=db(db.general_session.user_id == row.id).select() 
+						if len(session_flag)>0:
+							# not a 1st time user
+							if session_flag[-1].is_active ==1:
+								# session is active at other place
+								session.message=session.flash='already Logged in to other machine, Logout to continue'
+								# redirect('logout')
+								lSFlag=0
+								pass
+							else:
+						 		# no active session
 								try:
 									#set the user session 
 									# also take the session id while entering the data
@@ -155,9 +106,61 @@ def login():
 									else:
 										lSFlag=1
 										pass
+									pass
+								pass
+							pass
+						else:
+				 			# a first time user
+							session.first_time_login=1
+							# the user is logging in for the 1st time
 
+							try:
+								#set the user session 
+								# also take the session id while entering the data
+								session.session_id=db.general_session.insert( 
+									user_id=row.id,
+									user_type="super_admin",
+									login_time=lambda:datetime.now(),
+									ip_address=request.env.remote_addr,  # to get the ip address of the user
+									is_active=1 # .i.e the session is started for userid
+									)
+								session.company_id=row.company_id
+								session.username=row.email_id
+								session.name= row.first_name +" "+ row.last_name
+								session.user_id=row.id
+								session.login_time= row.last_login_time
+								session.user_type='superadmin'
+								session.flash='*succesful insert in session db'
+								pass 
 
+							except Exception as e:
+								session.flash="*Errors while inserting session details (%s)" % e.message
+								lSFlag=0
+								pass
 
+							else:
+								try:
+									row.update(
+											last_login_time=lambda:datetime.now(),
+											no_login_attempts= session.no_loging_attempts
+											)
+									# reset the no of attempts
+									session.flash='* succesfull general_user'
+									pass 
+
+								except Exception as e:
+									session.flash="*Errors while inserting session details (%s)" % e.message
+									lSFlag=0
+									pass
+
+								else:
+									lSFlag=1
+									pass
+								pass
+							pass
+						pass
+					pass
+				pass
 			except Exception as e:
 				session.flash='* error while checking the data %s' % e
 
@@ -176,7 +179,7 @@ def login():
 			else:
 				session.flash+=' *error in login '
 				# redirect('first_time_login_SA')
-			pass
+				pass
 	
 
 	return dict(form=lForm)
