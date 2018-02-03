@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://use.fontawesome.com/6353c44d0f.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <style>
+      .dd-menu{
+          width: 22.5em;
+      }
+      .dd-menu ul{
+          list-style: none;
+          margin: 0;
+          padding: 0;
+      }
+      .dd-menu li{
+          padding: 5px 10px;
+          margin: 5px 0;
+      }
+      .border{
+          border: 1px solid black;
+          width: 95%;
+          margin: 0 auto;
+      }
+      .mainContainer{
+          margin-top: -1.5%;
+      }
+      .sidenav{
+          background: #e3dfdf;
+          width: 20%;
+          float: left;
+          position: fixed;
+      }
+      .sidenav ul{
+          margin-top: 10%;
+      }
+      .sidenav ul li{
+          list-style: none;
+          padding: 10px 10px 10% 0px; 
+      }
+      .sidenav a{
+          color: black;
+      }
+      
+      .infoNavbar{
+          border-bottom: 1px solid #d6d4d4;
+          width: 80%;
+          float: right;
+          margin-top: 5%;
+      }
+      .infoContent{
+          width: 80%;
+          float: right;
+      }
+      .infoNavbar button{
+          margin: 2%;
+      }
+      .navButtons{
+          margin-left: 70%;
+      }
+      .no-border{
+          border: none;
+      }
+      .top-info-row{
+          margin: 1%;
+      }
+      .top-info-row span,button{
+          margin-right: 1%;
+          font-size: 1.5em;
+          font-weight: 100;
+          color: #000000;
+      }
+      .table-style{
+          margin-top: 6%;
+      }
+      .infoTable td{
+          padding:5px 10px;
+          
+      }
+      .dealTable td{
+          padding: 5px 50px; 
+      }
+      .leftMargin9per{
+          margin-left: 9%;
+      }
+      
+      
+      
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top" style="z-index: 100">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#"><i class="fa fa-bars"></i></a>
+    </div>
+    <ul class="nav navbar-nav" style="margin-left: 2%;">
+      <li class=""><a href="{{=URL('../../../ERP/DashBoard/dashboard')}}">Home</a></li>
+      <li><a href="{{=URL('../../../ERP/CRM/crm')}}">CRM</a></li>
+      <li><a href="{{=URL('../../../ERP/CRM/contacts')}}">Contacts</a></li>
+      <li><a href="{{=URL('../../../ERP/CRM/leads_add')}}">Add Leads</a></li>
+    </ul>
+    
+    <ul class="nav navbar-nav pull-right" style="width: 35%;">
+      
+      <li class="progress-bar" role="progressbar"
+       aria-valuemax="100" style="width:30%;margin-top: 4%;">
+        70%
+      </li>
+      
+      <li><a href="#"><i class="fa fa-bell"></i></a></li>
+      <li><a href="#"><i class="fa fa-cogs"></i></a></li>
+      
+      <li class="dropdown">
+         
+          <a href="#" class="dropdown-toggle" type="button" data-toggle="dropdown"><i class="fa fa-user"></i><span> Anonymous</span>
+          <span class="caret"></span></a>
+          <div class="dropdown-menu pull-right dd-menu">
+              <ul>
+                <li><strong>{{=session.name or 'Name'}}</strong></li>
+                <li><strong>User Id :{{=session.username or 'email id'}}</strong></li>
+                <li><a href="{{=URL('../../../ERP/DashBoard/dashboard')}}">My Account</a></li>
+                <div class="border"></div>
+                <li><a href="#">another option</a></li>
+                <li><a href="#">another option</a></li>
+                <li><a href="#">another option</a></li>
+                <div class="border"></div>
+                <li><a href="#">another option</a></li>
+                <li><a href="#">another option</a></li>
+                <li><a href="#">another option</a></li>
+              </ul>
+          </div>
+      </li>
+      
+    </ul>
+    
+  </div>
+</nav>
+ <div class="mainContainer">
+ 
+ <div class="sidenav" style="margin-top: 5%;">
+     <ul>
+        <li><a href="#info" style="color: blue !important;">Info</a></li>
+         <li><a href="#">TimeLine</a></li>
+         
+         <li style="color: #b9b5b5;">RELATED LIST<span style="float: right">+</span></li>
+         
+         <li><a href="#notes">Notes</a></li>
+         <li><a href="#stageHistory">Stage History</a></li>
+         <li><a href="#attachments">Attachments</a></li>
+         <li><a href="#designAttachments">Design Attachments</a></li>
+         <li><a href="#competitors">Competitors</a></li>
+         <li><a href="#products">Products</a></li>
+         <li><a href="#quotes">Quotes</a></li>
+         <li><a href="#emails">E-mails</a></li>
+     </ul>
+ </div>
+  
+ <div class="infoPage">
+   
+ <div class="infoNavbar">
+       <div class="navButtons">
+            <button class="btn btn-default">Edit</button>
+            <button class="btn btn-default">Create Button</button>
+            <button class="btn btn-default">...</button>
+            <button class="btn btn-default">></button>
+       </div>
+        
+    </div>
+    
+ <div class="infoContent">
+    
+     <div class="row" id="info">
+        <div class="col-sm-1 col-md-1 col-lg-1">
+            <button class="btn btn-default no-border"><i class="fa fa-arrow-left fa-2x"></i></button>
+        </div>
+         <div class="col-sm-9 col-md-9 col-lg-9 top-info-row">
+             <span><i class="fa fa-folder fa-2x"></i></span>
+             <span>Deal Name -</span>
+             <span>Rs. 0.00</span>
+         </div>
+     </div>
+     
+     <div class="row">
+         <div class="col-sm-12 col-md-12 col-lg-12">
+             <span class="leftMargin9per"><i class="fa fa-tag"></i><small><a href="#" class="addTag">Add Tags</a>
+             </small>
+             <div class="saveTag" style="display: none;width: 90%;float: right;">
+                 <input type="text">
+                 <a href="#" class="cancelTag">Save</a>
+                 <a href="#" class="cancelTag">Cancel</a>
+             </div>
+             </span>
+             
+         </div>
+     </div>
+     
+     
+     <div class="row" style="margin-top: 10px;">
+         <div class="col-sm-12 col-md-12 col-lg-12">
+             <table class="infoTable leftMargin9per">
+                 <tr>
+                     <td>Deal Owner</td>
+                     <td>Priyesh Sharma <i class="fa fa-male"></i></td>
+                 </tr>
+                 
+                 <tr>
+                     <td>Stage</td>
+                     <td>Value Proposition</td>
+                 </tr>
+                 
+                 <tr>
+                     <td>Probability(%)</td>
+                     <td>40</td>
+                 </tr>
+                 
+                 <tr>
+                     <td>Expected Revenue</td>
+                     <td>Rs. 0.00</td>
+                 </tr>
+                 
+                 <tr>
+                     <td>Closing Date</td>
+                     <td>Jan 31, 2018</td>
+                 </tr>
+             </table>
+         </div>
+         
+     </div>
+     
+     <div class="row" style="margin-top: 5%;">
+        <div class="col-sm-2 col-md-2 col-lg-2">
+            <span class="pull-right">Stage</span>
+        </div>
+         <div class="progress col-sm-7 col-md-7 col-lg-7">
+              <div class="progress-bar" role="progressbar" aria-valuenow="70"
+              aria-valuemin="0" aria-valuemax="100" style="width:70%">
+                70%
+              </div>
+        </div>
+        
+        <div class="col-sm-2 col-md-2 col-lg-2">
+            <span>Jan 31st, 2018 <i class="fa fa-caret-down"></i></span>
+        </div>
+     </div>
+     
+     <div class="row" style="margin-top: 5%;">
+        <div class="col-sm-12 col-md-12 col-lg-12">
+            <span style="margin-left: 10%;"><a type='button' class="hideDetails">Hide Details <i class="fa fa-caret-down"></i></a></span>
+        </div>
+         
+     </div>
+     
+     <div class="row dealInfo" style="margin-top: 2%;">
+        <div class="col-sm-12 col-md-12 col-lg-12">
+            <span style="margin-left: 10%;"><strong><big>Deal Information</big></strong></span>
+        </div>
+         
+     </div>
+     
+     <div class="row dealInfo">
+         <div class="col-sm-6 col-md-6 col-lg-6">
+             <table class="table dealTable" style="margin-left: 11%;">
+                 <tr>
+                     <td>Deal Owner</td>
+                     <td>Priyesh Sharma <i class="fa fa-male"></i></td>
+                 </tr>
+                 
+                 <tr>
+                     <td>Deal Name</td>
+                     <td>Deal</td>
+                 </tr>
+                 <tr>
+                     <td>Account Name</td>
+                     <td><a href="#">Account</a></td>
+                 </tr>
+                 <tr>
+                     <td>Type</td>
+                     <td>New Business</td>
+                 </tr>
+                 <tr>
+                     <td>Next Step</td>
+                     <td>Step</td>
+                 </tr>
+                 
+                 <tr>
+                     <td>Lead Source</td>
+                     <td>Internal Seminar</td>
+                 </tr>
+                 <tr>
+                     <td>Contact Name</td>
+                     <td>-</td>
+                 </tr>
+                 <tr>
+                     <td>Modified By</td>
+                     <td>Priyesh Sharma</td>
+                 </tr>
+             </table>
+         </div>
+         
+         <div class="col-sm-6 col-md-6 col-lg-6">
+             <table class="table dealTable" style="margin-left: 10%;">
+                 <tr>
+                     <td>Amount</td>
+                     <td>Rs. 0.00</td>
+                 </tr>
+                 <tr>
+                     <td>Closing Date</td>
+                     <td>Jan 31, 2018</td>
+                 </tr>
+                 <tr>
+                     <td>Stage</td>
+                     <td>Value Proposition</td>
+                 </tr>
+                 <tr>
+                     <td>Probability(%)</td>
+                     <td>40</td>
+                 </tr>
+                 <tr>
+                     <td>Expected Revenue</td>
+                     <td>Rs.0.00</td>
+                 </tr>
+                 <tr>
+                     <td>Campaign Source</td>
+                     <td><a href="#">Source</a></td>
+                 </tr>
+                 <tr>
+                     <td>Created By</td>
+                     <td>Priyesh Sharma</td>
+                 </tr>
+             </table>
+         </div>
+         
+     </div>
+     
+     <div class="row leftMargin9per" id="notes" style="margin-top: 5%;">
+         <div class="col-sm-12 col-md-12 col-lg-12">
+             <h4>Notes</h4>
+         </div>
+     </div>
+     
+     <div class="row">
+         <div class="col-sm-8 col-md-8 col-lg-8">
+             <input type="text" placeholder="Add a note..." class="form-control" style="margin-left: 15%;">
+         </div>
+         <div class="col-sm-4">
+           
+          <i class="fa fa-caret-down dropdown-toggle" data-toggle="dropdown" style="margin-left: 25%;"></i>
+          <div class="dropdown-menu">
+              <ul style="list-style: none;">
+                <li><strong>Recent First</strong></li>
+                <li><strong><i class="fa fa-check"></i>Recent Last</strong></li>
+              </ul>
+          </div>
+             
+         </div>
+     </div>
+     
+     <div class="row" id="stageHistory" style="margin-top: 5%">
+         <div class="col-sm-12 col-md-12 col-lg-12">
+             <h4 class="leftMargin9per">Stage History</h4>
+         </div>
+     </div>
+     
+     <div class="row" style="margin-top: 2%">
+         <div class="col-sm-12 col-md-12 col-lg-12">
+             <table class="table leftMargin9per" style="width: 85%">
+                <tr>
+                 <th>Stage</th>
+                 <th>Amount</th>
+                 <th>Probability</th>
+                 <th>Expected Revenue</th>
+                 <th>Closing Date</th>
+                 <th>Stage Duration</th>
+                 <th>Modified Time</th>
+                 <th>Modified By</th>
+                 </tr>
+                 
+                 <tr>
+                     <td>Value Proposition</td>
+                     <td>Rs. 0.00</td>
+                     <td>40</td>
+                     <td>Rs. 0.00</td>
+                     <td>Jan 31, 2018</td>
+                     <td>5</td>
+                     <td>Feb 3, 2018 02:18 PM</td>
+                     <td>Priyesh Sharma</td>
+                     
+                 </tr>
+                 <tr>
+                     <td>Need Analysis</td>
+                     <td>Rs. 0.00</td>
+                     <td>40</td>
+                     <td>Rs. 0.00</td>
+                     <td>Jan 31, 2018</td>
+                     <td>5</td>
+                     <td>Feb 3, 2018 02:18 PM</td>
+                     <td>Priyesh Sharma</td>
+                     
+                 </tr>
+                 <tr>
+                     <td>Closed Won</td>
+                     <td>Rs. 0.00</td>
+                     <td>40</td>
+                     <td>Rs. 0.00</td>
+                     <td>Jan 31, 2018</td>
+                     <td>5</td>
+                     <td>Feb 3, 2018 02:18 PM</td>
+                     <td>Priyesh Sharma</td>
+                     
+                 </tr>
+                 <tr>
+                     <td>Negotiation/Review</td>
+                     <td>Rs. 0.00</td>
+                     <td>40</td>
+                     <td>Rs. 0.00</td>
+                     <td>Jan 31, 2018</td>
+                     <td>5</td>
+                     <td>Feb 3, 2018 02:18 PM</td>
+                     <td>Priyesh Sharma</td>
+                     
+                 </tr>
+             </table>
+         </div>
+     </div>
+     
+     <div class="row" id="attachments" style="margin-top: 5%">
+         <div class="col-sm-12 col-md-12 col-lg-12">
+             <h4 class="leftMargin9per">Attachments</h4>
+         </div>
+     </div>
+     <div class="row">
+         <div class="col-sm-8 col-md-8 col-lg-8">
+             <input type="text" placeholder="No Attachments" class="form-control" style="margin-left: 12%;">
+         </div>
+         
+         <div class="col-sm-4 dd-menu">
+          <a class="fa fa-caret-down dropdown-toggle" data-toggle="dropdown" style="margin-left: 20%;"> Attach</a>
+          <div class="dropdown-menu">
+              <ul style="list-style: none;">
+                <li><i class="fa fa-file"></i> Upload File</li>
+                <li><i class="fa fa-address-card"></i>Documents</li>
+                <li><i class="fa fa-address-book"></i>Zoho Docs</li>
+                <li><i class="fa fa-google"></i> Google Drive</li>
+                <li><i class="fa fa-link"></i> Link(URL)</li>
+              </ul>
+          </div>
+             
+         </div>
+         
+     </div>
+     
+     <div class="row" id="competitors" style="margin-top: 5%">
+         <div class="col-sm-12 col-md-12 col-lg-12">
+             <h4 class="leftMargin9per">Competitors</h4>
+             
+         </div>
+     </div>
+     <div class="row">
+         <div class="col-sm-8 col-md-8 col-lg-8">
+             <input type="text" placeholder="No records found" class="form-control" style="margin-left: 12%;">
+         </div>
+         <div class="col-sm-4">
+            <a href="#competitors-modal" data-toggle="modal" style="margin-left: 18%;"><i class="fa fa-plus"></i> New</a>
+        </div>
+     </div>
+     
+     <div class="row" id="products" style="margin-top: 5%">
+         <div class="col-sm-12 col-md-12 col-lg-12">
+             <h4 class="leftMargin9per">Products</h4>
+         </div>
+         
+     </div>
+     <div class="row">
+         <div class="col-sm-8 col-md-8 col-lg-8">
+             <input type="text" placeholder="No records found" class="form-control" style="margin-left: 12%;">
+         </div>
+         
+         <div class="col-sm-4">
+            <a href="#product-modal" data-toggle="modal" style="margin-left: 18%;"><i class="fa fa-plus"></i> Add Products</a>
+        </div>
+     </div>
+     
+     <div class="row" quotes style="margin-top: 5%">
+         <div class="col-sm-12 col-md-12 col-lg-12">
+             <h4 class="leftMargin9per">Quotes</h4>
+         </div>
+     </div>
+     <div class="row">
+         <div class="col-sm-8 col-md-8 col-lg-8">
+             <input type="text" placeholder="No records found" class="form-control" style="margin-left: 12%;">
+         </div>
+         <div class="col-sm-4">
+            <a href="#" style="margin-left: 18%;"><i class="fa fa-plus"></i> New</a>
+        </div>
+     </div>
+     
+     <div class="row" id="emails" style="margin-top: 5%">
+         <div class="col-sm-12 col-md-12 col-lg-12">
+             <h4 class="leftMargin9per">E-mails</h4>
+         </div>
+     </div>
+     <div class="row">
+         <div class="col-sm-8 col-md-8 col-lg-8">
+             <input type="text" placeholder="No records found" class="form-control" style="margin-left: 12%;">
+         </div>
+         <div class="col-sm-4">
+            <a href="#" style="margin-left: 18%;"><i class="fa fa-plus"></i> Send Email</a>
+        </div>
+     </div>
+     
+ </div> 
+    
+ </div>
+  
+</div>
+
+<!-- Modal -->
+  <div class="modal fade" id="competitors-modal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Create Competitor</h4>
+        </div>
+        <div class="modal-body">
+         <div class="row">
+           <div class="col-sm-6">
+               <label for="name" style="float: left;margin-right: 20px;">Competitor Name: </label>
+           </div>
+           <div class="col-sm-6">
+               <input type="text" class="form-control" name="name" id="name" style="margin-bottom: 10px;">
+           </div>  
+         </div>
+          
+          <div class="row">
+              <div class="col-sm-6">
+                  <label for="website" style="float: left;margin-right: 20px;">Website</label>
+              </div>
+              <div class="col-sm-6">
+                  <input type="text" class="form-control" name="website" style="margin-bottom: 10px;">
+              </div>
+          </div>
+          <div class="row">
+              <div class="col-sm-6">
+                  <label for="strength" style="float: left;margin-right: 20px;">Strength</label>
+              </div>
+              <div class="col-sm-6">
+                  <input type="text" class="form-control" name="strength" style="margin-bottom: 10px;">
+              </div>
+          </div>
+          <div class="row">
+              <div class="col-sm-6">
+                  <label for="weakness" style="float: left;margin-right: 20px;">Weakness</label>
+              </div>
+              <div class="col-sm-6">
+                  <input type="text" class="form-control" name="weakness" style="margin-bottom: 10px;">
+              </div>
+          </div>
+          
+        </div>
+        <div class="modal-footer">
+         <input type="submit" class="btn btn-primary">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  <!--competitors modal-->
+  
+  <!-- Modal -->
+  <div class="modal fade" id="product-modal" role="dialog">
+    <div class="modal-dialog" style="width: 75%;">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Add Products to Deal: Deal#</h4>
+        </div>
+        <div class="modal-body">
+         <div class="row">
+           <div class="col-sm-6" style="margin-bottom: 10px;">
+               <input type="text" class="form-control" placeholder="Search">
+           </div>  
+         </div>
+          
+          <div class="row">
+              <div class="col-sm-12">
+                  <table class="table">
+                      <tr>
+                          <th><input type="checkbox"></th>
+                          <th>PRODUCT NAME</th>
+                          <th>PRODUCT CODE</th>
+                          <th>VENDOR NAME</th>
+                          <th>UNIT PRICE</th>
+                          <th>TAX</th>
+                          <th>TAXABLE</th>
+                      </tr>
+                      <tr>
+                          <td><input type="checkbox"></td>
+                          <td>User</td>
+                          <td>User code</td>
+                          <td>-</td>
+                          <td>212.0</td>
+                          <td>Sakes Tax; Vat</td>
+                          <td>True</td>
+                      </tr>
+                  </table>
+              </div>
+          </div>
+          
+          
+        </div>
+        <div class="modal-footer">
+         <input type="submit" class="btn btn-primary" value="Add to Deal">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  <!--product modal-->
+  
+
+<script>
+    $(document).ready(function(){
+        $(".addTag").click(function(){
+            $(".addTag").toggle();
+            $(".saveTag").toggle();
+        });
+        
+        $(".cancelTag").click(function(){
+            $(".saveTag").hide();
+            $(".addTag").show();
+        });
+        
+        $(".hideDetails").click(function(){
+            $(".dealInfo").toggle(500);
+        })
+        
+    });
+    
+    </script>
+</body>
+</html>
