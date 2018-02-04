@@ -37,6 +37,53 @@
       <div class="flash"><h1 >{{=session.flash or ''}}</h1></div>
 </div>
 {{pass}}
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#"><i class="fa fa-bars"></i></a>
+    </div>
+    <ul class="nav navbar-nav" style="margin-left: 2%;">
+      <li class=""><a href="{{=URL('../../../ERP/DashBoard/dashboard')}}">Home</a></li>
+      <li><a href="{{=URL('../../../ERP/CRM/crm')}}">CRM</a></li>
+      <li><a href="{{=URL('../../../ERP/CRM/contacts')}}">Contacts</a></li>
+      <li><a href="{{=URL('../../../ERP/CRM/leads_add')}}">Add Leads</a></li>
+    </ul>
+    
+    <ul class="nav navbar-nav pull-right" style="width: 35%;">
+      
+      <li class="progress-bar" role="progressbar"
+       aria-valuemax="100" style="width:30%;margin-top: 4%;">
+        70%
+      </li>
+      
+      <li><a href="#"><i class="fa fa-bell"></i></a></li>
+      <li><a href="#"><i class="fa fa-cogs"></i></a></li>
+      
+      <li class="dropdown">
+         
+          <a href="#" class="dropdown-toggle" type="button" data-toggle="dropdown"><i class="fa fa-user"></i><span> Anonymous</span>
+          <span class="caret"></span></a>
+          <div class="dropdown-menu pull-right dd-menu">
+              <ul>
+                <li><strong>{{=session.name or 'Name'}}</strong></li>
+                <li><strong>User Id :{{=session.username or 'email id'}}</strong></li>
+                <li><a href="{{=URL('../../../ERP/DashBoard/dashboard')}}">My Account</a></li>
+                <div class="border"></div>
+                <li><a href="#">another option</a></li>
+                <li><a href="#">another option</a></li>
+                <li><a href="#">another option</a></li>
+                <div class="border"></div>
+                <li><a href="#">another option</a></li>
+                <li><a href="#">another option</a></li>
+                <li><a href="#">another option</a></li>
+              </ul>
+          </div>
+      </li>
+      
+    </ul>
+    
+  </div>
+</nav>
 
 
         <div class="container">

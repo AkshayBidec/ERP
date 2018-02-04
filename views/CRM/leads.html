@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<link rel="stylesheet" href="{{=URL('static','css/flash.css')}}"/> <!--  a custom css file for flash massage -->
+  <link rel="stylesheet" href="{{=URL('static','css/flash.css')}}"/> <!--  a custom css file for flash massage -->
+	<link rel="stylesheet" href="{{=URL('static','css/style.css')}}"/> <!--  a custom css file for general usage -->
     <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
     <script src="{{=URL('static','js/flash.js')}}"></script>  <!-- js file dedicated to the flash messages -->
     <meta charset="utf-8">
@@ -93,8 +94,50 @@
 </nav>
   
 <div class="container">
-  <h3>Leads</h3>
-  <p>your all leads will be available here, soon!.</p>
+  <div class="row">
+    <div class="col-md-3">
+      <a href="#" class="dropdown-toggle" type="button" data-toggle="dropdown"><i class="fa fa-user"></i><span> Anonymous</span>
+          <span class="caret"></span></a>
+          <div class="dropdown-menu pull-right dd-menu">
+              <ul>
+                <li><strong>{{=session.name or 'Name'}}</strong></li>
+                <li><strong>User Id :{{=session.username or 'email id'}}</strong></li>
+                <li><a href="{{=URL('../../../ERP/DashBoard/dashboard')}}">My Account</a></li>
+                <div class="border"></div>
+                <li><a href="#">another option</a></li>
+                <li><a href="#">another option</a></li>
+                <li><a href="#">another option</a></li>
+                <div class="border"></div>
+                <li><a href="#">another option</a></li>
+                <li><a href="#">another option</a></li>
+                <li><a href="#">another option</a></li>
+              </ul>
+          </div>
+    </div>
+    <div class="col-md-9"></div>
+  </div>
+  <div class="sidenav" style="margin-top: 5%;">
+    <h4 class="text-center">Filters</h4>
+     <ul>
+        <li><a href="#info" style="color: blue !important;">Info</a></li>
+         <li><a href="#">TimeLine</a></li>
+         
+         <li style="color: #b9b5b5;">RELATED LIST<span style="float: right">+</span></li>
+         
+         <li><a href="#notes">Notes</a></li>
+         <li><a href="#stageHistory">Stage History</a></li>
+         <li><a href="#attachments">Attachments</a></li>
+         <li><a href="#designAttachments">Design Attachments</a></li>
+         <li><a href="#competitors">Competitors</a></li>
+         <li><a href="#products">Products</a></li>
+         <li><a href="#quotes">Quotes</a></li>
+         <li><a href="#emails">E-mails</a></li>
+     </ul>
+ </div>
+ <div class="displayPage">
+   
+ </div>
+ <div class="clearfix"></div>
   <h3><a href="{{=URL('../../../ERP/CRM/leads_update')}}">Update Leads(BETA)</a></h3>
 </div>
 

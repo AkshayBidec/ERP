@@ -1,0 +1,86 @@
+
+@import url(https://fonts.googleapis.com/css?family=Roboto:300);
+
+.dd-menu{
+    width: 22.5em;
+}
+.dd-menu ul{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.dd-menu li{
+    padding: 5px 10px;
+    margin: 5px 0;
+}
+.border{
+    border: 1px solid black;
+    width: 95%;
+    margin: 0 auto;
+}
+.mainContainer{
+    margin-top: -1.5%;
+}
+.sidenav{
+    background: #e3dfdf;
+    width: 20%;
+    float: left;
+    position: fixed;
+}
+.sidenav ul{
+    margin-top: 10%;
+}
+.sidenav ul li{
+    list-style: none;
+    padding: 10px 10px 10% 0px; 
+}
+.sidenav a{
+    color: black;
+}
+
+.infoNavbar{
+    border-bottom: 1px solid #d6d4d4;
+    width: 80%;
+    float: right;
+    margin-top: 5%;
+}
+.infoContent{
+    width: 80%;
+    float: right;
+}
+.infoNavbar button{
+    margin: 2%;
+}
+.navButtons{
+    margin-left: 70%;
+}
+.no-border{
+    border: none;
+}
+.top-info-row{
+    margin: 1%;
+}
+.top-info-row span,button{
+    margin-right: 1%;
+    font-size: 1.5em;
+    font-weight: 100;
+    color: #000000;
+}
+.table-style{
+    margin-top: 6%;
+}
+.infoTable td{
+    padding:5px 10px;
+    
+}
+.dealTable td{
+    padding: 5px 50px; 
+}
+.leftMargin9per{
+    margin-left: 9%;
+}
+
+.displayPage {
+    width: 80%;
+    float: left;
+}
