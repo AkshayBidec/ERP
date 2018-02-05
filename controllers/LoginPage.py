@@ -75,6 +75,7 @@ def login():
 										is_active=1 # .i.e the session is started for userid
 										)
 									session.company_id=row.company_id
+									session.active=1
 									session.username=row.email_id
 									session.name= row.first_name +" "+ row.last_name
 									session.user_id=row.id
@@ -125,10 +126,10 @@ def login():
 									is_active=1 # .i.e the session is started for userid
 									)
 								session.company_id=row.company_id
+								session.active=1
 								session.username=row.email_id
 								session.name= row.first_name +" "+ row.last_name
 								session.user_id=row.id
-								session.login_time= row.last_login_time
 								session.user_type='superadmin'
 								session.flash='*succesful insert in session db'
 								pass 
@@ -144,7 +145,7 @@ def login():
 											last_login_time=lambda:datetime.now(),
 											no_login_attempts= session.no_loging_attempts
 											)
-									# reset the no of attempts
+									session.login_time= row.last_login_time
 									session.flash='* succesfull general_user'
 									pass 
 
@@ -191,8 +192,41 @@ def login():
 # end the session and update the db
 
 def logout():
-	#clear all the session data
-	redirect(URL('login'))
+	# clear the session data from the server
+	time=datetime.now()
+	try:
+		db(db.general_session.id == session.session_id).update(
+			is_active=0,
+			logout_time=time,
+			duration=str(session.login_time - time)
+			)
+		pass
+	except Exception as e:
+		session.message=session.flash= " error in reseting the session (%s)" %e.message
+		redirect("../../../ERP/DashBoard/dashboard")
+		pass
+	else:
+		try:
+			db(db.general_user.id == session.user_id).update(
+				last_logout_time=lambda:datetime.now()
+				)
+			pass
+		except Exception as e:
+			session.message=session.flash= " error in reseting the session (%s)" %e.message
+			redirect("../../../ERP/DashBoard/dashboard")
+			pass
+		else:
+			#clear all the locals session data
+			session.session_id=0
+			session.company_id=''
+			session.username=''
+			session.name=''
+			session.user_id=''
+			session.login_time= ''
+			session.user_type=''
+			session.active=0
+			redirect(URL('login'))
+
 	return dict()
 
 #==============================================================================

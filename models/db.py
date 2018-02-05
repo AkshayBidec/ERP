@@ -33,7 +33,7 @@ if not request.env.web2py_runtime_gae:
              # pool_size=configuration.get('db.pool_size'),
              # migrate_enabled=configuration.get('db.migrate'),
              # check_reserved=['all'])
-    db = DAL('mysql://root:@localhost/erp_general_db',migrate=True,migrate_enabled=configuration.get('db.migrate'),check_reserved=['all'])
+    db = DAL('mysql://root:@localhost/erp_general_db',migrate=True,migrate_enabled=configuration.get('db.migrate'),check_reserved=['all'],fake_migrate_all=True)
 
 else:
     # ---------------------------------------------------------------------
@@ -205,7 +205,7 @@ db.define_table(
     Field('user_type',type='string',length=250,required=True,notnull=True),
     Field('login_time',type='datetime',required=False,notnull=False),
     Field('logout_time',type='datetime',required=False,notnull=False),
-    Field('duration',type='integer', required=False, notnull=False),
+    Field('duration',type='string', required=False, notnull=False),
     Field('ip_address',type='string',length=500, required=True, notnull=True),
     Field('mac_address',type='string',length=500, required=False, notnull=False),
     Field('locations',type='string',length=500, required=False, notnull=False)

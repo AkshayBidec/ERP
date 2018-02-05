@@ -82,7 +82,7 @@
                 <div class="border"></div>
                 <li><a href="#">another option</a></li>
                 <li><a href="#">another option</a></li>
-                <li><a href="#">another option</a></li>
+                <li><a href="{{=URL('../../../ERP/LoginPage/logout')}}">Logout</a></li>
               </ul>
           </div>
       </li>
@@ -95,6 +95,8 @@
 <div class="container">
   <h3>Welcome</h3>
   <p>this is your main dashboard.</p>
+  {{=session.message}}
+  {{=session.login_time}}
 </div>
 </body>
 </html>

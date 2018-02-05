@@ -9,3 +9,7 @@ databases/*
 progress.log
 *.log
 databases/sql.log
+databases/c8b669d15150d7109e5f7ab36744a5b7_auth_cas.table
+databases/c8b669d15150d7109e5f7ab36744a5b7_auth_cas.table
+*.table
+*.table

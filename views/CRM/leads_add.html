@@ -19,7 +19,7 @@
         <link href="css/style.css" rel="stylesheet" type="text/css" />
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script src="http://hl360opencodeserver.com/assets/js/city_state.js"></script>
-        <title id="page-title">Project_MNGF</title>
+        <title id="page-title">Leads Add</title>
 
 
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -109,51 +109,51 @@
                             </div>
                             <div class="form-group col-md-6 col-lg-6 col-xs-6 col-sm-6">
                                 <label for="exampleInputEmail1">Company</label>
-                                {{=form.custom.widget.company}}
+                                {{=form.custom.widget.Company}}
                             </div>
                             <div class="form-group col-md-6 col-lg-6 col-xs-6 col-sm-6">
                                 <label for="exampleInputEmail1">Lead Owner</label>
-                                {{=form.custom.widget.lead_owner}}    
+                                {{=form.custom.widget.Lead_Owner}}    
                             </div>
                             <div class="form-group col-md-6 col-lg-6 col-xs-6 col-sm-6">
                                 <label for="exampleInputEmail1">First Name</label>
-                                {{=form.custom.widget.first_name}}
+                                {{=form.custom.widget.First_Name}}
                             </div>
                             <div class="form-group col-md-6 col-lg-6 col-xs-6 col-sm-6">
                                 <label for="exampleInputEmail1">Last Name</label>
-                                {{=form.custom.widget.last_name}}  
+                                {{=form.custom.widget.Last_Name}}  
                             </div>
                             <div class="form-group col-md-6 col-lg-6 col-xs-6 col-sm-6">
                                 <label for="exampleInputEmail1">Title</label>
-                                {{=form.custom.widget.title}}      
+                                {{=form.custom.widget.Title}}      
                             </div>
                             <div class="form-group col-md-6 col-lg-6 col-xs-6 col-sm-6">
                                 <label for="exampleInputEmail1">E-mail</label>
-                                {{=form.custom.widget.email_id}}
+                                {{=form.custom.widget.Email_ID}}
                             </div>
                             <div class="form-group col-md-6 col-lg-6 col-xs-6 col-sm-6">
                                 <label for="exampleInputEmail1">Phone</label>
-                                {{=form.custom.widget.phone}}
+                                {{=form.custom.widget.Phone}}
                             </div>
                             <div class="form-group col-md-6 col-lg-6 col-xs-6 col-sm-6">
                                 <label for="exampleInputEmail1">Fax</label>
-                                {{=form.custom.widget.fax}}
+                                {{=form.custom.widget.Fax}}
                             </div>
                             <div class="form-group col-md-6 col-lg-6 col-xs-6 col-sm-6">
                                 <label for="exampleInputEmail1">Mobile</label>
-                                {{=form.custom.widget.mobile}}  
+                                {{=form.custom.widget.Mobile}}  
                             </div>
                             <div class="form-group col-md-6 col-lg-6 col-xs-6 col-sm-6">
                                 <label for="exampleInputEmail1">Website</label>
-                                {{=form.custom.widget.website}}  
+                                {{=form.custom.widget.Website}}  
                             </div>
                             <div class="form-group col-md-6 col-lg-6 col-xs-6 col-sm-6">
                                 <label for="exampleInputEmail1">Lead Source</label>
-                                {{=form.custom.widget.lead_source}}
+                                {{=form.custom.widget.Lead_Source}}
                             </div>
                             <div class="form-group col-md-6 col-lg-6 col-xs-6 col-sm-6">
                                 <label for="exampleInputEmail1">Lead Status</label>
-                                {{=form.custom.widget.lead_status}} 
+                                {{=form.custom.widget.Lead_Status}} 
                             </div>
 
                             <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
@@ -161,29 +161,29 @@
                             </div>
                             <div class="form-group col-md-6 col-lg-6 col-xs-6 col-sm-6">
                                 <label for="exampleInputEmail1">Street</label>
-                                {{=form.custom.widget.street}}
+                                {{=form.custom.widget.Street}}
                             </div>
                             <div class="form-group col-md-6 col-lg-6 col-xs-6 col-sm-6">
                                 <label for="exampleInputEmail1">City</label>
-                                {{=form.custom.widget.city}}  
+                                {{=form.custom.widget.City}}  
                             </div>
                             <div class="form-group col-md-6 col-lg-6 col-xs-6 col-sm-6">
                                 <label for="exampleInputEmail1">State</label>
-                                {{=form.custom.widget.state}} 
+                                {{=form.custom.widget.State}} 
                             </div>
                             <div class="form-group col-md-6 col-lg-6 col-xs-6 col-sm-6">
                                 <label for="exampleInputEmail1">Pincode</label>
-                                {{=form.custom.widget.pincode}}  
+                                {{=form.custom.widget.Pincode}}  
                             </div>
                             <div class="form-group col-md-6 col-lg-6 col-xs-6 col-sm-6">
                                 <label for="exampleInputEmail1">Country</label>
-                                {{=form.custom.widget.country}}
+                                {{=form.custom.widget.Country}}
                             </div>
                              <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
                                 <h3>Description</h3>
                             </div>
                             <div class="form-group col-md-12 col-lg-12 col-xs-12 col-sm-12">
-                                 {{=form.custom.widget.description}}
+                                 {{=form.custom.widget.Description}}
                             </div>
                         </div>
                    
@@ -212,5 +212,8 @@
     }
     setUserTimeZone();
 </script>
+{{=session.message}}
     </body>
+}
+}
 </html>
