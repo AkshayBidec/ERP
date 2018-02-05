@@ -6,7 +6,7 @@
 def dashboard():
 	
 	# if session is not active
-	if session.is_active ==0:
+	if session.active ==0:
 		redirect(URL('../../LoginPage/login')) 
 
 	# if session is active

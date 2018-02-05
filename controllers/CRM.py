@@ -12,7 +12,7 @@ def leads():
 
 #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 def leads_add():
-	if session.is_active==0:
+	if session.active==0:
 		redirect(URL('../../../ERP/LoginPage/login'))
 		session.flash="login to continue"
 	else:
@@ -71,7 +71,7 @@ def contacts():
 	return locals()
 
 def contacts_add():
-	if session.is_active==0:
+	if session.active==0:
 		redirect(URL('../../../ERP/LoginPage/login'))
 		session.flash="login to continue"
 	else:
