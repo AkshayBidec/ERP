@@ -1,5 +1,6 @@
 # this page include all the login pages 
 from datetime import datetime
+from dateutil import relativedelta
 
 #==============================================================================
 #function: first_time_login_SA
@@ -21,6 +22,7 @@ def login():
 		lSFlag=0
 		# a flag to tell the dashboard that it is first time login or not
 		session.first_time_login=0
+		lRedirect=0
 		# take the list of available email_ids for the login check. @@@@
 		lRegEmail= db.general_user.email_id
 		# a form to get the user login data, this does not contain a inbuid validation
@@ -44,7 +46,7 @@ def login():
 					# if they donot match, it will exhicute
 					# increase the no of attempts 
 					session.no_loging_attempts=+1
-					session.flash='*Invalid username or password.*'
+					session.flash+='*Invalid username or password.*'
 					lSFlag=0
 					pass
 
@@ -55,12 +57,17 @@ def login():
 						# fetch all the related data from session
 						session_flag=db(db.general_session.user_id == row.id).select() 
 						if len(session_flag)>0:
+							session.flash+=' * '+ str(len(session_flag))+" *"
 							# not a 1st time user
 							if session_flag[-1].is_active ==1:
 								# session is active at other place
-								session.message=session.flash='already Logged in to other machine, Logout to continue'
+								session.flash+='already Logged in to other machine, Logout to continue'
 								# redirect('logout')
 								lSFlag=0
+								lRedirect=1
+								session.user_id=row.id
+								session.login_time=row.last_login_time
+								session.session_id= session_flag[-1].id
 								pass
 							else:
 						 		# no active session
@@ -79,13 +86,12 @@ def login():
 									session.username=row.email_id
 									session.name= row.first_name +" "+ row.last_name
 									session.user_id=row.id
-									session.login_time= row.last_login_time
 									session.user_type='superadmin'
-									session.flash='*succesful insert in session db'
+									session.flash+='*succesful insert in session db'
 									pass 
 
 								except Exception as e:
-									session.flash="*Errors while inserting session details (%s)" % e.message
+									session.flash+="*Errors while inserting session details (%s)" % e.message
 									lSFlag=0
 									pass
 
@@ -96,11 +102,12 @@ def login():
 												no_login_attempts= session.no_loging_attempts
 												)
 										# reset the no of attempts
-										session.flash='* succesfull general_user'
+										session.login_time= datetime.now()
+										session.flash+='* succesfull general_user'
 										pass 
 
 									except Exception as e:
-										session.flash="*Errors while inserting session details (%s)" % e.message
+										session.flash+="*Errors while inserting session details (%s)" % e.message
 										lSFlag=0
 										pass
 
@@ -110,6 +117,9 @@ def login():
 									pass
 								pass
 							pass
+
+
+
 						else:
 				 			# a first time user
 							session.first_time_login=1
@@ -131,11 +141,11 @@ def login():
 								session.name= row.first_name +" "+ row.last_name
 								session.user_id=row.id
 								session.user_type='superadmin'
-								session.flash='*succesful insert in session db'
+								session.flash+='*succesful insert in session db'
 								pass 
 
 							except Exception as e:
-								session.flash="*Errors while inserting session details (%s)" % e.message
+								session.flash+="*Errors while inserting session details (%s)" % e.message
 								lSFlag=0
 								pass
 
@@ -145,12 +155,12 @@ def login():
 											last_login_time=lambda:datetime.now(),
 											no_login_attempts= session.no_loging_attempts
 											)
-									session.login_time= row.last_login_time
+									session.login_time= datetime.now()
 									session.flash='* succesfull general_user'
 									pass 
 
 								except Exception as e:
-									session.flash="*Errors while inserting session details (%s)" % e.message
+									session.flash+="*Errors while inserting session details (%s)" % e.message
 									lSFlag=0
 									pass
 
@@ -159,11 +169,12 @@ def login():
 									pass
 								pass
 							pass
+						
 						pass
 					pass
 				pass
 			except Exception as e:
-				session.flash='* error while checking the data %s' % e
+				session.flash+='* error while checking the data %s' % e
 
 				pass
 
@@ -183,7 +194,7 @@ def login():
 				pass
 	
 
-	return dict(form=lForm)
+	return dict(form=lForm, lRedirect=lRedirect)
 
 #==============================================================================
 # fucntion: logout
@@ -194,11 +205,12 @@ def login():
 def logout():
 	# clear the session data from the server
 	time=datetime.now()
+	lDuration=relativedelta.relativedelta(time, session.login_time)
 	try:
 		db(db.general_session.id == session.session_id).update(
 			is_active=0,
 			logout_time=time,
-			duration=str(session.login_time - time)
+			duration=str(lDuration.months)+"M "+str(lDuration.days)+"D "+str(lDuration.hours)+"h "+str(lDuration.minutes)+"m "+str(lDuration.seconds)+"s "
 			)
 		pass
 	except Exception as e:
@@ -234,8 +246,45 @@ def logout():
 # the user have its session active on other machines
 # so to login properly it have to close all the other sessions of the user 
 
-def login_with_active_session():
-	# show a link to end all the sessions for the current user
+def logout_from_all():
+	# this function is to logout from the all devices of the given user
+	# clear the session data from the server
+	time=datetime.now()
+	lDuration=relativedelta.relativedelta(time, session.login_time)
+	try:
+		db(db.general_session.id == request.vars.session_id).update(
+			is_active=0,
+			logout_time=time,
+			duration=str(lDuration.months)+"M "+str(lDuration.days)+"D "+str(lDuration.hours)+"h "+str(lDuration.minutes)+"m "+str(lDuration.seconds)+"s **"
+			)
+		pass
+	except Exception as e:
+		session.message=session.flash= " error in reseting the session (%s)" %e.message
+		redirect("../../../ERP/LoginPage/login")
+		pass
+	else:
+		try:
+			db(db.general_user.id == request.vars.user_id).update(
+				last_logout_time=lambda:datetime.now()
+				)
+			pass
+		except Exception as e:
+			session.message=session.flash= " error in reseting the session (%s)" %e.message
+			redirect("../../../ERP/DashBoard/dashboard")
+			pass
+		else:
+			#clear all the locals session data
+			session.session_id=0
+			session.company_id=''
+			session.username=''
+			session.name=''
+			session.user_id=''
+			session.login_time= ''
+			session.user_type=''
+			session.active=0
+			redirect(URL('login'))
+
+	
 	return locals()
 
 # def test():

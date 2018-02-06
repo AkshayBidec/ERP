@@ -27,7 +27,10 @@
         {{=form.custom.widget.email_id}}
   	    {{=form.custom.widget.password}}   
   	    <button>Login</button>
-      {{=form.custom.end}}.  <!-- end of the login form -->
+      {{=form.custom.end}} <!-- end of the login form -->
+      {{if lRedirect == 1:}}
+      <h4><a href="{{=URL('../../../ERP/LoginPage/logout_from_all',vars={'user_id':session.user_id,'login_time': session.login_time,'session_id': session.session_id})}}">Logout from other devices!</a></h4>
+      {{pass}}
     </div>
   </div>
 </body>
