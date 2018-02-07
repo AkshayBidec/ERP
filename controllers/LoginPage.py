@@ -12,7 +12,7 @@ def login():
 	# check for the any active sessions on the machine
 	if session.active==1:
 		# redirect it to the current session dashboard
-		redirect(URL('../../ERP/DashBoard/'))
+		redirect(URL('../../../ERP/DashBoard/dashboard'))
 	else:
 		# a variable for the no of attempts
 		if session.no_loging_attempts== None:
