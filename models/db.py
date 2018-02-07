@@ -33,7 +33,7 @@ if not request.env.web2py_runtime_gae:
              # pool_size=configuration.get('db.pool_size'),
              # migrate_enabled=configuration.get('db.migrate'),
              # check_reserved=['all'])
-    db = DAL('mysql://root:@localhost/erp_general_db',migrate=True,migrate_enabled=configuration.get('db.migrate'),check_reserved=['all'],fake_migrate_all=True)
+    db = DAL('mysql://root:@localhost/erp_general_db',migrate=True,migrate_enabled=configuration.get('db.migrate'),check_reserved=['all'])
 
 else:
     # ---------------------------------------------------------------------
@@ -233,6 +233,17 @@ db.define_table(
     Field('is_superadmin', type= 'integer',notnull=True)
 )
 
+db.define_table(
+    'general_master_features_category',
+    Field('category_code',type='string',length=250,required=True,notnull=True),
+    Field('category_name',type='string',length=250,required=True,notnull=True),
+    Field('company_id',db.general_company_details),
+    Field('is_active',type='boolean',default=True, required=True, notnull=True),
+    Field('db_entry_time', type='datetime', default=request.now, required=True, notnull=True),
+    Field('db_update_time', type='datetime', notnull=False)
+)
+
+
 
 db.define_table(
     'general_master_features',
@@ -241,10 +252,10 @@ db.define_table(
     Field('category',type='string',length=500,required=False,notnull=False),
     Field('sub_category',type='string',length=500,required=False,notnull=False),
     Field('is_active',type='boolean',default=True, required=True, notnull=True),
-    Field('db_entry_time', type='datetime',  required=True, notnull=True),
-    Field('db_update_time', type='datetime', notnull=False),
-    Field('session_id',db.general_session)
+    Field('db_entry_time', type='datetime',default=request.now, required=True, notnull=True),
+    Field('db_update_time', type='datetime', notnull=False)
 )
+
 
 db.define_table(
     'general_user_features',
@@ -309,3 +320,4 @@ db.define_table(
 # after defining tables, uncomment below to enable auditing
 # -------------------------------------------------------------------------
 auth.enable_record_versioning(db)
+
