@@ -1,0 +1,17 @@
+.dd-menu{
+          width: 22.5em;
+}
+.dd-menu ul{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.dd-menu li{
+    padding: 5px 10px;
+    margin: 5px 0;
+}
+.border{
+    border: 1px solid black;
+    width: 95%;
+    margin: 0 auto;
+}

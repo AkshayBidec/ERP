@@ -1,3 +1,5 @@
+import cPickle
+
 # it will contain all the views and the api call related to the crm app
 #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$--CRM--$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
@@ -8,25 +10,39 @@ def crm():
 
 
 def leads():
-	return locals()
-
-#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-def leads_add():
+	# this function is responcible for the main leads dahboard
+	# by default it will contain 10 leads per page
 	if session.active==0:
 		redirect(URL('../../../ERP/LoginPage/login'))
 		session.flash="login to continue"
 	else:
-		# import the rpc file
-		import xmlrpclib
-		# make the connection to the api server
-		server=xmlrpclib.ServerProxy('http://127.0.0.1:8000/CRM/Leads/call/xmlrpc',allow_none=True)
 
-		# ask for the list of the field to make the form and store it into a dict
-		form_fields=server.leads_add_ff()
-		# make a sqlform using the dict
-		lForm=SQLFORM.dictform(form_fields)
-		# add the placeholders in the from fields
-		for i in range (0,len(form_fields)):
+		import xmlrpclib		# import the rpc file
+
+		server=xmlrpclib.ServerProxy('http://127.0.0.1:8000/CRM/Leads/call/xmlrpc',allow_none=True)		# make the connection to the api server
+
+		lLimit={}		# this dic is to get a single data or a range of data from the api
+
+		lLimit['countTo']=10		# total number of fieds required, replace it with request.vars.* to make it dynamin
+		lLimit['countFrom']=0		# no of the row to start from 
+		lLimit['order']='~db.crm_lead_field_key.id' 	# the name of field to order on, string will be evaluated in the api
+		
+		lLeadsList= server.get_leads(lLimit)		# get the data from the api
+		# data= cPickle.loads(lLeadsList)
+
+	return dict(data= cPickle.loads(lLeadsList))
+#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+def leads_add():
+	if session.active==1:
+		
+		import xmlrpclib	# import the rpc file
+		server=xmlrpclib.ServerProxy('http://127.0.0.1:8000/CRM/Leads/call/xmlrpc',allow_none=True)	# make the connection to the api server
+
+		form_fields=server.leads_add_ff()		# ask for the list of the field to make the form and store it into a dict
+
+		lForm=SQLFORM.dictform(form_fields)		# make a sqlform using the dict
+
+		for i in range (0,len(form_fields)):		# add the placeholders in the from fields
 			placeholder=str(form_fields.keys()[i])
 			if " " in placeholder:
 				placeholder.replace("_"," ")
@@ -34,11 +50,14 @@ def leads_add():
 			exec(place)
 		
 
-		if lForm.process().accepted:
-			# store the data into the dict
-			form_fields.update(lForm.vars)
+		if lForm.process().accepted:		
+			form_fields.update(lForm.vars)			# store the data into the dict
+
 			# add other required data
 			form_fields['user_id']=session.user_id
+			form_fields['company_id']=session.company_id
+			form_fields['session_id']=session.session_id
+
 			# send the data back to the api app
 			try:    
 				responce= server.add_leads(form_fields)
@@ -53,9 +72,13 @@ def leads_add():
 				pass
 			pass
 
+	else:
+		redirect(URL('../../../ERP/LoginPage/login'))
+		session.flash="login to continue"
+
 	return dict(form=lForm)
 
-#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 def leads_update():
 	return locals()
