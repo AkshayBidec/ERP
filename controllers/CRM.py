@@ -1,5 +1,5 @@
-import cPickle
-
+import _pickle as cPickle
+import xmlrpc.client as xmlrpclib # import the rpc file
 # it will contain all the views and the api call related to the crm app
 #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$--CRM--$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
@@ -13,7 +13,7 @@ def leads():
 	
 	if session.active==1:
 
-		import xmlrpclib		# import the rpc file
+				# import the rpc file
 
 		server=xmlrpclib.ServerProxy('http://127.0.0.1:8000/CRM/Leads/call/xmlrpc',allow_none=True)		# make the connection to the api server
 
@@ -34,7 +34,7 @@ def leads():
 def leads_add():
 	if session.active==1:
 		
-		import xmlrpclib	# import the rpc file
+		
 		server=xmlrpclib.ServerProxy('http://127.0.0.1:8000/CRM/Leads/call/xmlrpc',allow_none=True)	# make the connection to the api server
 
 		form_fields=server.leads_add_ff()		# ask for the list of the field to make the form and store it into a dict
@@ -51,13 +51,16 @@ def leads_add():
 
 		lForm= SQLFORM.factory(*fields)			# make the sql form using the form factory
 
-		for i in range (0,len(form_fields)):		# add the placeholders in the from fields
-			placeholder=str(form_fields.keys()[i])
-			if "_" in placeholder:
-				placeholder.replace("_"," ")
-			place='lForm.custom.widget.'+str(form_fields.keys()[i])+'.update(_placeholder=\''+str(placeholder)+'\')'+"\n"
+		for key in form_fields.keys():
+			if '_' in key:
+				s= key.replace('_',' ')
+				s=s.title()
+			else:
+				s= key
+				s=s.title()
+			place='lForm.custom.widget.'+str(key)+'.update(_placeholder=\''+s+'\')'+"\n"
 			exec(place)
-		
+
 
 		if lForm.process().accepted:		
 			form_fields.update(lForm.vars)			# store the data into the dict
@@ -103,7 +106,6 @@ def contacts():
 	
 	if session.active==1:
 
-		import xmlrpclib		# import the rpc file
 
 		server=xmlrpclib.ServerProxy('http://127.0.0.1:8000/CRM/Contact/call/xmlrpc',allow_none=True)		# make the connection to the api server
 
@@ -125,7 +127,6 @@ def contacts():
 def contacts_add():
 	if session.active==1:
 		
-		import xmlrpclib	# import the rpc file
 		server=xmlrpclib.ServerProxy('http://127.0.0.1:8000/CRM/Contact/call/xmlrpc',allow_none=True)	# make the connection to the api server
 
 		form_fields=server.contact_add_ff()		# ask for the list of the field to make the form and store it into a dict
@@ -192,3 +193,46 @@ def contacts_edit():
 
 
 #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$-- AJAX request --#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+def contact_selector():
+	if not request.vars.company: return ''
+	try:
+		server=xmlrpclib.ServerProxy('http://127.0.0.1:8000/CRM/Contact/call/xmlrpc',allow_none=True)
+		pass
+	except Exception as e:
+		return DIV('Either you have lost connectivity with CRM application or it is not yet installed')
+	else:
+		try:
+			lCompanyList = server.ajax_contact_list(request.vars.company)
+			pass
+		except Exception as e:
+			return 'Error %s' %e
+		else:
+			return DIV(*[DIV (k[1],
+					 data={'id': "%s" % k[0]},
+                     _onclick="set_company_value(this)",
+                     _onmouseover="this.style.backgroundColor='yellow'",
+                     _onmouseout="this.style.backgroundColor='white'"
+                     ) for k in lCompanyList.items() ] )
+			pass
+		pass
+
+#Function to get the details of particular contact id
+def contact_details():
+	if not request.vars.contactId: return ''
+	try:
+		server=xmlrpclib.ServerProxy('http://127.0.0.1:8000/CRM/Contact/call/xmlrpc',allow_none=True)
+		pass
+	except Exception as e:
+		return DIV('Either you have lost connectivity with CRM application or it is not yet installed')
+	else:
+		try:
+			lCompantDetails = server.ajax_company_details(request.vars.contactId)
+			pass
+		except Exception as e:
+			return 'Error %s' %e
+		else:
+			return 
+			pass
+		pass
+	pass
