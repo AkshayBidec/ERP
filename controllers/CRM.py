@@ -105,7 +105,7 @@ def contacts():
 
 		import xmlrpclib		# import the rpc file
 
-		server=xmlrpclib.ServerProxy('http://127.0.0.1:8000/CRM/Leads/call/xmlrpc',allow_none=True)		# make the connection to the api server
+		server=xmlrpclib.ServerProxy('http://127.0.0.1:8000/CRM/Contact/call/xmlrpc',allow_none=True)		# make the connection to the api server
 
 		lLimit={}		# this dic is to get a single data or a range of data from the api
 
@@ -126,7 +126,7 @@ def contacts_add():
 	if session.active==1:
 		
 		import xmlrpclib	# import the rpc file
-		server=xmlrpclib.ServerProxy('http://127.0.0.1:8000/CRM/Leads/call/xmlrpc',allow_none=True)	# make the connection to the api server
+		server=xmlrpclib.ServerProxy('http://127.0.0.1:8000/CRM/Contact/call/xmlrpc',allow_none=True)	# make the connection to the api server
 
 		form_fields=server.contact_add_ff()		# ask for the list of the field to make the form and store it into a dict
 
