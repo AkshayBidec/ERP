@@ -51,11 +51,14 @@ def leads_add():
 
 		lForm= SQLFORM.factory(*fields)			# make the sql form using the form factory
 
-		for i in range (0,len(form_fields)):		# add the placeholders in the from fields
-			placeholder=str(form_fields.keys()[i])
-			if "_" in placeholder:
-				placeholder.replace("_"," ")
-			place='lForm.custom.widget.'+str(form_fields.keys()[i])+'.update(_placeholder=\''+str(placeholder)+'\')'+"\n"
+		for key in form_fields.keys():
+			if '_' in key:
+				s= key.replace('_',' ')
+				s=s.title()
+			else:
+				s= key
+				s=s.title()
+			place='lForm.custom.widget.'+str(key)+'.update(_placeholder=\''+s+'\')'+"\n"
 			exec(place)
 		
 
@@ -142,13 +145,6 @@ def contacts_add():
 
 		lForm= SQLFORM.factory(*fields)			# make the sql form using the form factory
 
-		# for i in range (0,len(form_fields)):		# add the placeholders in the from fields
-		# 	placeholder=str(form_fields.keys()[i])
-		# 	if "_" in placeholder:
-		# 		placeholder.replace("_"," ")
-		# 	place='lForm.custom.widget.'+str(form_fields.keys()[i])+'.update(_placeholder=\''+str(placeholder)+'\')'+"\n"
-		# 	exec(place)
-		
 		for key in form_fields.keys():
 			if '_' in key:
 				s= key.replace('_',' ')
