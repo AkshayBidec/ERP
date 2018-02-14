@@ -5,15 +5,12 @@
 #dis: it is the special dashboard for the SA and will include the special setting 
 def dashboard():
 	
-	# if session is not active
-	if session.active ==0:
-		redirect(URL('../../LoginPage/login')) 
-
 	# if session is active
+	if session.active ==1:
+		pass
 	else:
-		# taek the reqired data from the session
-		# take the required data from the db
-
+		redirect(URL('../../../ERP/LoginPage/login'))
+		session.flash="login to continue"
 
 		pass
 	return locals()

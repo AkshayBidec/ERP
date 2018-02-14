@@ -1,37 +1,12 @@
-<!DOCTYPE html>
-<html>
+{{extend 'navbar.html'}}
+
+
 <head>
-	<link rel="stylesheet" href="{{=URL('static','css/flash.css')}}"/> <!--  a custom css file for flash massage -->
+  <link rel="stylesheet" href="{{=URL('static','css/flash.css')}}"/> <!--  a custom css file for flash massage -->
+  <link rel="stylesheet" href="{{=URL('static','css/style.css')}}"/> <!--  a custom css file for general usage -->
     <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
     <script src="{{=URL('static','js/flash.js')}}"></script>  <!-- js file dedicated to the flash messages -->
-    <meta charset="utf-8">
- 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-	<script src="https://use.fontawesome.com/6353c44d0f.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
-
-	<style>
-      .dd-menu{
-          width: 22.5em;
-      }
-      .dd-menu ul{
-          list-style: none;
-          margin: 0;
-          padding: 0;
-      }
-      .dd-menu li{
-          padding: 5px 10px;
-          margin: 5px 0;
-      }
-      .border{
-          border: 1px solid black;
-          width: 95%;
-          margin: 0 auto;
-      }
-    </style>
-
+    
 </head>
 
 <body>
@@ -44,58 +19,27 @@
 </div>
 {{pass}}
 
-<nav class="navbar navbar-inverse">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="#"><i class="fa fa-bars"></i></a>
-    </div>
-    <ul class="nav navbar-nav" style="margin-left: 2%;">
-      <li class=""><a href="{{=URL('../../../ERP/DashBoard/dashboard')}}">Home</a></li>
-      <li><a href="{{=URL('../../../ERP/CRM/leads')}}">Leads</a></li>
-      <li><a href="{{=URL('../../../ERP/CRM/crm')}}">CRM</a></li>
-      <li><a href="{{=URL('../../../ERP/CRM/contacts_add')}}">Add Contacts</a></li>
+<h3>Taza mal</h3>
 
-    </ul>
-    
-    <ul class="nav navbar-nav pull-right" style="width: 35%;">
-      
-      <li class="progress-bar" role="progressbar"
-       aria-valuemax="100" style="width:30%;margin-top: 4%;">
-        70%
-      </li>
-      
-      <li><a href="#"><i class="fa fa-bell"></i></a></li>
-      <li><a href="#"><i class="fa fa-cogs"></i></a></li>
-      
-      <li class="dropdown">
-         
-          <a href="#" class="dropdown-toggle" type="button" data-toggle="dropdown"><i class="fa fa-user"></i><span> Anonymous</span>
-          <span class="caret"></span></a>
-          <div class="dropdown-menu pull-right dd-menu">
-              <ul>
-                <li><strong>{{=session.name or 'Name'}}</strong></li>
-                <li><strong>User Id :{{=session.username or 'email id'}}</strong></li>
-                <li><a href="{{=URL('../../../ERP/DashBoard/dashboard')}}">My Account</a></li>
-                <div class="border"></div>
-                <li><a href="#">another option</a></li>
-                <li><a href="#">another option</a></li>
-                <li><a href="#">another option</a></li>
-                <div class="border"></div>
-                <li><a href="#">another option</a></li>
-                <li><a href="#">another option</a></li>
-                <li><a href="#">another option</a></li>
-              </ul>
-          </div>
-      </li>
-      
-    </ul>
-    
-  </div>
-</nav>
+{{  if len(data)>0:
+        last_id=data[0]['crm_contact_field_value']['contact_id']
+        response.write("""<div>div start""",escape=False)
+        for key in data.keys():
+          if last_id == data[key]['crm_contact_field_value']['contact_id']:
+            response.write("""<h4>%s : %s </h4>""" %(data[key]['crm_contact_field']['field_name'],data[key]['crm_contact_field_value']['field_value']),escape=False)
+            
+          else:
+            response.write("""<li>div end</li><br> </div> """,escape=False)
+            response.write("""<div>div start""",escape=False)
+            response.write("""<h4>%s : %s </h4>""" %(data[key]['crm_contact_field']['field_name'],data[key]['crm_contact_field_value']['field_value']),escape=False)
+            pass
+          last_id=data[key]['crm_contact_field_value']['contact_id']
+          pass
+        response.write("""<li>div end</li><br> </div> """,escape=False)
+}}
+ {{ else:}}
+  <h4>Add <a href="{{=URL('contacts_add')}}">new contact!</a></h4>
+
   
-<div class="container">
- <h3>Contacts</h3>
-  <p>your all contacts will be available here, soon!.</p>
-</div>
+  {{pass}}
 </body>
-</html>
