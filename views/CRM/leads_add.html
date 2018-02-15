@@ -228,6 +228,22 @@
         $('#local_entry_time').val(now.getFullYear()+'-'+month+'-'+now.getDate()+' '+now.toLocaleTimeString());
     }
     setUserTimeZone();
+
+    function setValue(jsonData) {
+        $.each(jsonData, function(k,v){
+            debugger;
+            var element = $('#no_table_'+k).prop('tagName');
+            switch(element) {
+                case '':
+                    break;
+                default:
+                    $('#no_table_'+k).val(v);
+                    $('#no_table_'+k).prop('readonly',true);
+                    break;
+            } 
+        });
+        $('#suggestions').hide();
+    }
 </script>
 {{=session.message}}
     </body>

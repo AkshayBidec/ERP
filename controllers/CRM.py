@@ -1,5 +1,6 @@
 import _pickle as cPickle
 import xmlrpc.client as xmlrpclib # import the rpc file
+import json as json # JSON library
 # it will contain all the views and the api call related to the crm app
 #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$--CRM--$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
@@ -29,7 +30,7 @@ def leads():
 	else:
 		redirect(URL('../../../ERP/LoginPage/login'))
 		session.flash="login to continue"
-	return dict(data= cPickle.loads(lLeadsList))
+	return dict(data= lLeadsList)
 #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 def leads_add():
 	if session.active==1:
@@ -232,7 +233,7 @@ def contact_details():
 		except Exception as e:
 			return 'Error %s' %e
 		else:
-			return 
+			return "setValue(%s);" % json.dumps(lCompantDetails) 
 			pass
 		pass
 	pass
