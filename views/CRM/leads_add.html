@@ -1,26 +1,9 @@
-
-<!DOCTYPE html>
-<html lang="en">
+{{extend 'navbar.html'}}
 {{ include 'web2py_ajax.html'}}
     <head>
         <link rel="stylesheet" href="{{=URL('static','css/flash.css')}}"/> <!--  a custom css file for flash massage -->
         <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
         <script src="{{=URL('static','js/flash.js')}}"></script>  <!-- js file dedicated to the flash messages -->
-        
-    	<!-- Latest compiled and minified CSS -->
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-
-		<!-- jQuery library -->
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
-		<!-- Latest compiled JavaScript -->
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
-        <link href="css/style.css" rel="stylesheet" type="text/css" />
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-        <script src="http://hl360opencodeserver.com/assets/js/city_state.js"></script>
-        <title id="page-title">Leads Add</title>
-
 
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
@@ -37,54 +20,6 @@
       <div class="flash"><h1 >{{=session.flash or ''}}</h1></div>
 </div>
 {{pass}}
-<nav class="navbar navbar-inverse">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="#"><i class="fa fa-bars"></i></a>
-    </div>
-    <ul class="nav navbar-nav" style="margin-left: 2%;">
-      <li class=""><a href="{{=URL('../../../ERP/DashBoard/dashboard')}}">Home</a></li>
-      <li><a href="{{=URL('../../../ERP/CRM/crm')}}">CRM</a></li>
-      <li><a href="{{=URL('../../../ERP/CRM/contacts')}}">Contacts</a></li>
-      <li><a href="{{=URL('../../../ERP/CRM/leads_add')}}">Add Leads</a></li>
-    </ul>
-    
-    <ul class="nav navbar-nav pull-right" style="width: 35%;">
-      
-      <li class="progress-bar" role="progressbar"
-       aria-valuemax="100" style="width:30%;margin-top: 4%;">
-        70%
-      </li>
-      
-      <li><a href="#"><i class="fa fa-bell"></i></a></li>
-      <li><a href="#"><i class="fa fa-cogs"></i></a></li>
-      
-      <li class="dropdown">
-         
-          <a href="#" class="dropdown-toggle" type="button" data-toggle="dropdown"><i class="fa fa-user"></i><span> Anonymous</span>
-          <span class="caret"></span></a>
-          <div class="dropdown-menu pull-right dd-menu">
-              <ul>
-                <li><strong>{{=session.name or 'Name'}}</strong></li>
-                <li><strong>User Id :{{=session.username or 'email id'}}</strong></li>
-                <li><a href="{{=URL('../../../ERP/DashBoard/dashboard')}}">My Account</a></li>
-                <div class="border"></div>
-                <li><a href="#">another option</a></li>
-                <li><a href="#">another option</a></li>
-                <li><a href="#">another option</a></li>
-                <div class="border"></div>
-                <li><a href="#">another option</a></li>
-                <li><a href="#">another option</a></li>
-                <li><a href="#">another option</a></li>
-              </ul>
-          </div>
-      </li>
-      
-    </ul>
-    
-  </div>
-</nav>
-
 
         <div class="container">
             <div class="form">
@@ -93,20 +28,49 @@
                         <div class="col-md-6 col-lg-6 col-xs-12 col-sm-8">
                             <h1>Create Leads</h1>
                         </div>
-                        <!-- div class="col-md-offset-3 col-lg-offset-3 col-md-3 col-lg-3 col-xs-12 col-sm-4">
-                            <p class="margin_t_20">
-                                <input type="submit" class="btn btn-primary btn-lg" value="Save">
-                                <button type="button" class="btn btn-default btn-lg">Cancel</button>
-                            </p>
-                        </div> -->
-                    </div>
+                                       </div>
                 </div>
                 <div class="well">
                     {{=form.custom.begin}}
                         <div class="row">
+                            
+                            <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
+                                <h3>Company Information</h3>
+                            </div>
+
+                            {{for key in company_form_fields.keys():}}
+                            <div class="form-group col-md-6 col-lg-6 col-xs-6 col-sm-6">
+                                <label for="exampleInputEmail1">{{=company_form_fields[key]}}</label>
+                                {{=eval('form.custom.widget.'+key)}}
+                            </div>
+                            {{pass}}
+
+                            <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
+                                <h3>Contact Information</h3>
+                                <input type="hidden" name="company_key_id" id="company_key_id" value="0">
+                                <input type="hidden" name="contact_key_id" id="contact_key_id" value="0">
+                            </div>
+
+
+                            {{for key in contact_form_fields.keys():}}
+                            <div class="form-group col-md-6 col-lg-6 col-xs-6 col-sm-6">
+                                <label for="exampleInputEmail1">{{=contact_form_fields[key]}}</label>
+                                {{=eval('form.custom.widget.'+key)}}
+                            </div>
+                            {{pass}}
+
                             <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
                                 <h3>Lead Information</h3>
                             </div>
+
+
+                            {{for key in leads_form_fields.keys():}}
+                            <div class="form-group col-md-6 col-lg-6 col-xs-6 col-sm-6">
+                                <label for="exampleInputEmail1">{{=leads_form_fields[key]}}</label>
+                                {{=eval('form.custom.widget.'+key)}}
+                            </div>
+                            {{pass}}
+
                             <style>
                                 #suggestions { position: relative; }
                                 .suggestions { background: white; border: solid 1px #55A6C8; }
@@ -128,80 +92,10 @@
                                     ajax('{{=URL('CRM', 'contact_details')}}?contactId='+lContactID, [], ':eval')
                                 }
                             </script>
-                            <div class="form-group col-md-6 col-lg-6 col-xs-6 col-sm-6">
-                                <label for="exampleInputEmail1">Lead Owner</label>
-                                {{=form.custom.widget.lead_owner}}    
-                            </div>
-                            <div class="form-group col-md-6 col-lg-6 col-xs-6 col-sm-6">
-                                <label for="exampleInputEmail1">First Name</label>
-                                {{=form.custom.widget.first_name}}
-                            </div>
-                            <div class="form-group col-md-6 col-lg-6 col-xs-6 col-sm-6">
-                                <label for="exampleInputEmail1">Last Name</label>
-                                {{=form.custom.widget.last_name}}  
-                            </div>
-                            <div class="form-group col-md-6 col-lg-6 col-xs-6 col-sm-6">
-                                <label for="exampleInputEmail1">Title</label>
-                                {{=form.custom.widget.title}}      
-                            </div>
-                            <div class="form-group col-md-6 col-lg-6 col-xs-6 col-sm-6">
-                                <label for="exampleInputEmail1">E-mail</label>
-                                {{=form.custom.widget.email_id}}
-                            </div>
-                            <div class="form-group col-md-6 col-lg-6 col-xs-6 col-sm-6">
-                                <label for="exampleInputEmail1">Phone</label>
-                                {{=form.custom.widget.phone}}
-                            </div>
-                            <div class="form-group col-md-6 col-lg-6 col-xs-6 col-sm-6">
-                                <label for="exampleInputEmail1">Fax</label>
-                                {{=form.custom.widget.fax}}
-                            </div>
-                            <div class="form-group col-md-6 col-lg-6 col-xs-6 col-sm-6">
-                                <label for="exampleInputEmail1">Mobile</label>
-                                {{=form.custom.widget.mobile}}  
-                            </div>
-                            <div class="form-group col-md-6 col-lg-6 col-xs-6 col-sm-6">
-                                <label for="exampleInputEmail1">Website</label>
-                                {{=form.custom.widget.website}}  
-                            </div>
-                            <div class="form-group col-md-6 col-lg-6 col-xs-6 col-sm-6">
-                                <label for="exampleInputEmail1">Lead Source</label>
-                                {{=form.custom.widget.lead_source}}
-                            </div>
-                            <div class="form-group col-md-6 col-lg-6 col-xs-6 col-sm-6">
-                                <label for="exampleInputEmail1">Lead Status</label>
-                                {{=form.custom.widget.lead_status}} 
-                            </div>
+                            
 
-                            <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
-                                <h3>Address Information</h3>
-                            </div>
-                            <div class="form-group col-md-6 col-lg-6 col-xs-6 col-sm-6">
-                                <label for="exampleInputEmail1">Street</label>
-                                {{=form.custom.widget.street}}
-                            </div>
-                            <div class="form-group col-md-6 col-lg-6 col-xs-6 col-sm-6">
-                                <label for="exampleInputEmail1">City</label>
-                                {{=form.custom.widget.city}}  
-                            </div>
-                            <div class="form-group col-md-6 col-lg-6 col-xs-6 col-sm-6">
-                                <label for="exampleInputEmail1">State</label>
-                                {{=form.custom.widget.state}} 
-                            </div>
-                            <div class="form-group col-md-6 col-lg-6 col-xs-6 col-sm-6">
-                                <label for="exampleInputEmail1">Pincode</label>
-                                {{=form.custom.widget.pincode}}  
-                            </div>
-                            <div class="form-group col-md-6 col-lg-6 col-xs-6 col-sm-6">
-                                <label for="exampleInputEmail1">Country</label>
-                                {{=form.custom.widget.country}}
-                            </div>
-                             <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
-                                <h3>Description</h3>
-                            </div>
-                            <div class="form-group col-md-12 col-lg-12 col-xs-12 col-sm-12">
-                                 {{=form.custom.widget.description}}
-                            </div>
+
+
                         </div>
                    
                     </div>
@@ -247,6 +141,3 @@
 </script>
 {{=session.message}}
     </body>
-}
-}
-</html>
