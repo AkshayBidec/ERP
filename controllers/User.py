@@ -1,4 +1,5 @@
-# this page include all the login pages 
+# this page include all the pages associated to User 
+from datetime import datetime # library to use datetime functions
 
 #==============================================================================
 #function: add_user
@@ -24,40 +25,52 @@ def add_user():
 	        Field('password', requires=[IS_NOT_EMPTY('**This field is mandatory'), IS_ALPHANUMERIC(error_message='must be alphanumeric!'), IS_LENGTH(minsize=8)], type='password'),
 	        Field('verify_password', requires=[IS_NOT_EMPTY('**This field is mandatory'), IS_EQUAL_TO(request.vars.password,error_message='passwords do not match')] ,type='password')
 		)
-
+		session.flash=''
 		if lForm.process().accepted:
 			#****************Code to submit the details in DB***********************
+
+			try:
+				#insert user details in user table
+				db.general_user.insert(
+					company_id=session.company_id,
+					first_name=lForm.vars.first_name,
+					last_name=lForm.vars.last_name,
+					email_id=lForm.vars.email_id,
+					mobile_number=lForm.vars.mobile_number,
+					password=lForm.vars.password,
+					temp_password=lForm.vars.password,
+					ip_address=request.env.remote_addr,
+					is_active=True,
+					db_entry_time=lambda:datetime.now(),
+					is_superadmin=0
+				)
+				pass
+			except Exception as e:
+				session.flash+="* Errors while registering user (%s) *" % e.message
+				lSFlag=0
+				raise e
+			else:
+				# flash the massage of succes registration
+				session.flash+='* registration successful *'
+				lSFlag=1 # successful reg
+				pass
+
 			if lSFlag == 1:
-				redirect(URL('../../UserRoleMgmnt/add_user'))
+				redirect(URL('../../User/add_user'))
 				pass
 			pass
 		pass
 	return dict(form=lForm)
 
-def add_role():
+
+def add_user_feature():
+
 	# if session is not active
-	if session.active == 0:
-		# redirect to login page
+	if session.active ==0:
 		redirect(URL('../../LoginPage/login')) 
 		pass
 	# if session is active
 	else:
-		#Take the required data from session and load the form
-		#lSFlag is the local success flag to detect the correct redirection of page Value = 0 then success and value = 1 then failure
-		lSFlag = 0
-		lForm = SQLFORM.factory(
-			Field('role_name', requires=[IS_NOT_EMPTY('**This field is mandatory'),IS_LENGTH(240,error_message='exeeds the length'), IS_NOT_IN_DB(db,db.general_role.role_name,error_message='Role Name already present')])
-		)
-
-		# This part of code will run when form is submitted
-		if lForm.process().accepted:
-			#****************Code to submit the details in DB***********************
-			
-			# if failure in submitting the form then redirect to same page
-			if lSFlag == 1:
-				# redirect to same page as some error occured due to the db failure
-				pass
-			pass
+		return dict(form='a')
 		pass
-	return dict(form=lForm)
 	pass

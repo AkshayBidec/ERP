@@ -28,7 +28,7 @@
                         <div class="col-md-6 col-lg-6 col-xs-12 col-sm-8">
                             <h1>Create Leads</h1>
                         </div>
-                                       </div>
+                    </div>
                 </div>
                 <div class="well">
                     {{=form.custom.begin}}
@@ -63,7 +63,6 @@
                                 <h3>Lead Information</h3>
                             </div>
 
-
                             {{for key in leads_form_fields.keys():}}
                             <div class="form-group col-md-6 col-lg-6 col-xs-6 col-sm-6">
                                 <label for="exampleInputEmail1">{{=leads_form_fields[key]}}</label>
@@ -76,26 +75,7 @@
                                 .suggestions { background: white; border: solid 1px #55A6C8; }
                                 .suggestions DIV { padding: 2px 4px 2px 4px; }
                             </style>
-                            <div class="form-group col-md-6 col-lg-6 col-xs-6 col-sm-6">
-                                <label for="exampleInputEmail1">Company</label>
-                                {{=form.custom.widget.company}}
-                                <div style="position: absolute;" id="suggestions" class="suggestions"></div>
-                            </div>
-                            <script type="text/javascript">
-                                jQuery("#no_table_company").keyup(function(){
-                                    ajax('{{=URL('CRM', 'contact_selector')}}', ['company'], 'suggestions')
-                                });
-
-                                function set_company_value(obj) {
-                                    debugger;
-                                    var lContactID = $(obj).data('id');
-                                    ajax('{{=URL('CRM', 'contact_details')}}?contactId='+lContactID, [], ':eval')
-                                }
-                            </script>
-                            
-
-
-
+        
                         </div>
                    
                     </div>
@@ -123,12 +103,61 @@
     }
     setUserTimeZone();
 
-    function setValue(jsonData) {
-        $.each(jsonData, function(k,v){
-            debugger;
+    
+</script>
+<script type="text/javascript">
+    // Global variable
+    var companyJsonFields = {};
+    var contactJsonFields = {};
+    // Javascript functions for search the company name and contact name
+    $('[name="company_name"]').after('<div style="position: absolute;" id="company_suggestions" class="suggestions"></div>');
+    jQuery("#no_table_company_name").keyup(function(){
+        reset_company_field_value();
+        ajax('{{=URL('CRM', 'company_selector')}}', ['company_name'], 'company_suggestions');
+        $('#company_suggestions').show();
+    });
+
+
+    // Function to reset the values in the input types and remove the values already set
+    function reset_company_field_value() {
+        $.each(companyJsonFields, function(k,v){
             var element = $('#no_table_'+k).prop('tagName');
             switch(element) {
                 case '':
+                    break;
+                default:
+                    $('#no_table_'+k).val();
+                    $('#no_table_'+k).prop('readonly',false);
+                    break;
+            }
+        });
+        $('#company_key_id').val('0');
+        /*var allInput = $(':input[type=text]');
+        $("form").each(function(){
+            $(this).find(':input').val(); //<-- Should return all input elements in that specific form.
+            $(this).find(':input').prop('readonly',false);
+            $(this).find('textarea').val(); //<-- Should return all input elements in that specific form.
+            $(this).find('textarea').prop('readonly',false);
+            $('#company_key_id').val('0');
+        });*/
+    }
+
+
+    function set_company_value(obj) {
+        var lCompanyID = $(obj).data('id');
+        ajax('{{=URL('CRM', 'company_details')}}?contactId='+lCompanyID, [], ':eval');
+        $('#company_key_id').val(lCompanyID);
+    }
+
+    function setCompanyValue(jsonData) {
+        companyJsonFields = jsonData;
+        $.each(jsonData, function(k,v){
+            //debugger;
+            var element = $('#no_table_'+k).prop('tagName');
+            switch(element) {
+                case 'SELECT':
+                    $('option:selected', 'select[name="'+k+'"]').removeAttr('selected');
+                    $('#no_table_'+k).prop('disabled',false);
                     break;
                 default:
                     $('#no_table_'+k).val(v);
@@ -136,7 +165,74 @@
                     break;
             } 
         });
-        $('#suggestions').hide();
+        $("#no_table_company_name").prop('readonly',false);
+        $('#company_suggestions').hide();
+    }
+
+    function set_contact_company_value(lCompanyID) {
+        ajax('{{=URL('CRM', 'company_details')}}?contactId='+lCompanyID, [], ':eval');
+        $('#company_key_id').val(lCompanyID);
+    }
+
+    // Functions to set the value contact value
+    $('[name="first_name"]').after('<div style="position: absolute;" id="contact_suggestions" class="suggestions"></div>');
+
+    jQuery("#no_table_first_name").keyup(function(){
+        reset_contact_field_value();
+        lCompanyID = $('#company_key_id').val();
+        ajax('{{=URL('CRM', 'contact_selector')}}', ['first_name','company_key_id'], 'contact_suggestions');
+        $('#contact_suggestions').show();
+    });
+
+
+    function reset_contact_field_value() {
+        $.each(contactJsonFields, function(k,v){
+            var element = $('#no_table_'+k).prop('tagName');
+            switch(element) {
+                case 'SELECT':
+                    $('option:selected', 'select[name="'+k+'"]').removeAttr('selected');
+                    $('#no_table_'+k).prop('disabled',false);
+                    break;
+                default:
+                    $('#no_table_'+k).val();
+                    $('#no_table_'+k).prop('readonly',false);
+                    break;
+            }
+        });
+        $('#contact_key_id').val('0');
+    }
+
+    function set_contact_value(obj) {
+        debugger;
+        var lCompanyCheck = $('#company_key_id').val();
+        var lContactId = $(obj).data('contact_id');
+        var lCompanyId = $(obj).data('company_id');
+        if (lCompanyCheck == 0) {
+            set_contact_company_value(lCompanyId);
+        }
+        $('#contact_key_id').val(lContactId);
+        ajax('{{=URL('CRM', 'contact_details')}}', ['contact_key_id'], ':eval');
+    }
+
+    function setContactValue(jsonData) {
+        //debugger;
+        contactJsonFields = jsonData;
+        $.each(jsonData, function(k,v){
+            debugger;
+            var element = $('#no_table_'+k).prop('tagName');
+            switch(element) {
+                case 'SELECT':
+                    $('select[name="'+k+'"]').find('option[value="'+v+'"]').attr("selected",true);
+                    $('#no_table_'+k).prop('disabled',true);
+                    break;
+                default:
+                    $('#no_table_'+k).val(v);
+                    $('#no_table_'+k).prop('readonly',true);
+                    break;
+            } 
+        });
+        $("#no_table_first_name").prop('readonly',false);
+        $('#contact_suggestions').hide();
     }
 </script>
 message:--

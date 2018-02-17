@@ -1,5 +1,6 @@
 import _pickle as cPickle
 import xmlrpc.client as xmlrpclib # import the rpc file
+import json as json # JSON library
 # it will contain all the views and the api call related to the crm app
 #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$--CRM--$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
@@ -24,7 +25,7 @@ def leads():
 		lLimit['order']='~db.crm_lead_field_key.id' 	# the name of field to order on, string will be evaluated in the api
 		
 		data={}
-
+		lLeadsList = []
 		try:
 			lLeadsList= server.get_leads()		# get the data from the api
 			data= lLeadsList
@@ -482,8 +483,9 @@ def contacts_edit():
 
 #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$-- AJAX request --#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-def contact_selector():
-	if not request.vars.company: return ''
+#AJAX request to get the company details on page "leads_add.html"
+def company_selector():
+	if not request.vars.company_name: return ''
 	try:
 		server=xmlrpclib.ServerProxy('http://127.0.0.1:8000/CRM/Contact/call/xmlrpc',allow_none=True)
 		pass
@@ -491,7 +493,8 @@ def contact_selector():
 		return DIV('Either you have lost connectivity with CRM application or it is not yet installed')
 	else:
 		try:
-			lCompanyList = server.ajax_contact_list(request.vars.company)
+			lCompanyList = server.ajax_company_list(request.vars.company_name,session.company_id)
+
 			pass
 		except Exception as e:
 			return 'Error %s' %e
@@ -506,7 +509,7 @@ def contact_selector():
 		pass
 
 #Function to get the details of particular contact id
-def contact_details():
+def company_details():
 	if not request.vars.contactId: return ''
 	try:
 		server=xmlrpclib.ServerProxy('http://127.0.0.1:8000/CRM/Contact/call/xmlrpc',allow_none=True)
@@ -515,12 +518,77 @@ def contact_details():
 		return DIV('Either you have lost connectivity with CRM application or it is not yet installed')
 	else:
 		try:
-			lCompantDetails = server.ajax_company_details(request.vars.contactId)
+			lCompanyDetails = server.ajax_company_details(request.vars.contactId)
 			pass
 		except Exception as e:
 			return 'Error %s' %e
 		else:
-			return 
+			return "setCompanyValue(%s);" % json.dumps(lCompanyDetails) 
+			pass
+		pass
+	pass
+
+#AJAX request to get the contact details on page "leads_add.html"
+def contact_selector():
+	if not request.vars.first_name: return ''
+	try:
+		server=xmlrpclib.ServerProxy('http://127.0.0.1:8000/CRM/Contact/call/xmlrpc',allow_none=True)
+		pass
+	except Exception as e:
+		return DIV('Either you have lost connectivity with CRM application or it is not yet installed')
+	else:
+		if request.vars.company_key_id == '0':
+			# Company value is not entered
+			try:
+				lContactDetail = server.ajax_contact_list(request.vars.first_name,session.company_id)
+				pass
+			except Exception as e:
+				return 'Error %s' %e
+			else:
+				return DIV(*[DIV(k['crm_contact_field_value']['field_value']+'-'+k['crm_company_field_value']['field_value'],
+							data={'contact_id': "%s" % k['crm_contact_field_value']['contact_key_id'], 'company_id': "%s" % k['crm_contact_field_key']['company_key_id']},
+							_onclick="set_contact_value(this)",
+							_onmouseover="this.style.backgroundColor='yellow'",
+                     		_onmouseout="this.style.backgroundColor='white'"
+                     	) for k in lContactDetail])
+				pass
+			pass
+		else:
+			# Company value is entered
+			try:
+				lCompanyContactDetail = server.ajax_company_contact_list(request.vars.first_name,request.vars.company_key_id,session.company_id)
+				pass
+			except Exception as e:
+				return 'Error %s' %e
+			else:
+				return DIV(*[DIV(
+							k['crm_contact_field_value']['field_value']+'-'+k['crm_company_field_value']['field_value'],
+							data={'contact_id': "%s" % k['crm_contact_field_value']['contact_key_id'], 'company_id': "%s" % k['crm_contact_field_key']['company_key_id']},
+							_onclick="set_contact_value(this)",
+							_onmouseover="this.style.backgroundColor='yellow'",
+                     		_onmouseout="this.style.backgroundColor='white'"
+						) for k in lCompanyContactDetail])
+				pass
+			pass
+		pass
+	pass
+
+# Function to get the contact details on page "leads-add.html"
+def contact_details():
+	if not request.vars.contact_key_id: return ''
+	try:
+		server=xmlrpclib.ServerProxy('http://127.0.0.1:8000/CRM/Contact/call/xmlrpc',allow_none=True)
+		pass
+	except Exception as e:
+		return DIV('Either you have lost connectivity with CRM application or it is not yet installed')
+	else:
+		try:
+			lContactDetails = server.ajax_contact_details(request.vars.contact_key_id)
+			pass
+		except Exception as e:
+			return 'Error %s' %e
+		else:
+			return "setContactValue(%s);" % json.dumps(lContactDetails) 
 			pass
 		pass
 	pass
