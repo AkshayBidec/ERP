@@ -1,45 +1,121 @@
 {{extend 'navbar.html'}}
-
-
 <head>
-  <link rel="stylesheet" href="{{=URL('static','css/flash.css')}}"/> <!--  a custom css file for flash massage -->
-	<link rel="stylesheet" href="{{=URL('static','css/style.css')}}"/> <!--  a custom css file for general usage -->
-    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
-    <script src="{{=URL('static','js/flash.js')}}"></script>  <!-- js file dedicated to the flash messages -->
-    
+  
+  <link rel="stylesheet" href="/ERP/static/css/navbar.css"/> <!--  a custom css file for flash massage -->
+  <link rel="stylesheet" href="/ERP/static/css/custom_styles.css"/> <!--  a custom css file for flash massage -->
+
+
 </head>
-
 <body>
-{{ if session.flash:}} <!-- for the session message -->
-<div class="popup"> <a href="#" class="close">
-  <svg id="Layer_1" x="0px" y="0px" width="10px" height="10px" viewBox="215.186 215.671 80.802 80.8" enable-background="new 215.186 215.671 80.802 80.8" xml:space="preserve">
-        <polygon fill="red" points="280.486,296.466 255.586,271.566 230.686,296.471 215.19,280.964 240.086,256.066 215.186,231.17 230.69,215.674 255.586,240.566 280.475,215.671 295.985,231.169 271.089,256.064 295.987,280.96 "/>
-       </svg></a>
-      <div class="flash"><h1 >{{=session.flash }}</h1></div>
-</div>
-{{pass}}
 
-<h3>Taza mal</h3>
-
-{{  if len(data)>0:
-        last_id=data[0]['crm_lead_field_value']['lead_id']
-        response.write("""<div>div start""",escape=False)
-        for key in data.keys():
-          if last_id == data[key]['crm_lead_field_value']['lead_id']:
-            response.write("""<h4>%s : %s </h4>""" %(data[key]['crm_lead_field']['field_name'],data[key]['crm_lead_field_value']['field_value']),escape=False)
-            
-          else:
-            response.write("""<li>div end</li><br> </div> """,escape=False)
-            response.write("""<div>div start""",escape=False)
-            response.write("""<h4>%s : %s </h4>""" %(data[key]['crm_lead_field']['field_name'],data[key]['crm_lead_field_value']['field_value']),escape=False)
-            pass
-          last_id=data[key]['crm_lead_field_value']['lead_id']
-          pass
-        response.write("""<li>div end</li><br> </div> """,escape=False)
-}}
- {{ else:}}
-  <h4>Add <a href="{{=URL('leads_add')}}">new lead!</a></h4>
 
   
-  {{pass}}
+<div class="container-fluid">
+  <div class="row bg-gray padding-10">
+    <div class="col-md-3 col-lg-3 col-xs-3 col-sm-3 text-center">
+      <div class="btn-group">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Action <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+          <li><a href="#">Action</a></li>
+          <li><a href="#">Another action</a></li>
+          <li><a href="#">Something else here</a></li>
+          <li role="separator" class="divider"></li>
+          <li><a href="#">Separated link</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+    </div>
+   <div class="col-md-3 col-lg-3 col-xs-3 col-sm-3 text-center">
+    <div class="btn-group" role="group" aria-label="...">
+      <a href="{{=URL('leads_add')}}"><button type="button" class="btn btn-default"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button></a>
+      <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></button>
+      <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-sort-by-alphabet" aria-hidden="true"></span></button>
+    </div>
+   </div> 
+  </div>
+
+  <div class="row margin-10">
+    <div class="col-md-3 col-lg-3 col-xs-3 col-sm-3 bg-light-gray padding-10 border-right">
+      <div class="section_head padding-10">
+        <h3 class="margin-10">Filter Leads</h3>
+      </div>
+      <div class="filter accordian-container">
+        <div class="custom-checkbox filter-head accordian-head">
+          <input type="checkbox" value="#" name="price" id="check-cat-price-0" class="filter-checkbox">
+          <label for="check-cat-price-0">Koyla kaala hai </label>
+        </div>
+        <div class="filter-body accordian-body">
+          baba ji ki booty
+        </div>
+      </div>
+      <div class="filter accordian-container">
+        <div class="custom-checkbox">
+          <input type="checkbox" value="#" name="price" id="check-cat-price-1" class="filter-checkbox">
+          <label for="check-cat-price-1">Chattano ne paala </label>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-9 col-lg-9 col-xs-9 col-sm-9 ">
+      <table class="table table-bordered">
+        <tr>
+          <th>Company</th>
+          <th>Name</th>
+          <th>E-mail</th>
+          <th>Phone</th>
+          <th>Lead Source</th>
+          <th>Description</th>
+          <th>Status</th>
+        </tr>
+
+        {{  if len(data)>0:
+                
+                for key in data.keys():
+                    response.write("<tr>",escape=False)
+                    response.write("<td>%s</td>"%data[key]['Company'],escape=False)
+                    response.write("<td>%s</td>"%data[key]['Name'],escape=False)
+                    response.write("<td>%s</td>"%data[key]['Email'],escape=False)
+                    response.write("<td>%s</td>"%data[key]['Phone'],escape=False)
+                    response.write("<td>%s</td>"%data[key]['Lead Source'],escape=False)
+                    response.write("<td>%s</td>"%data[key]['Description'],escape=False)
+                    response.write("<td>%s</td>"%data[key]['Status'],escape=False)
+                    response.write("</tr>",escape=False)
+                    pass
+                    
+        }}
+
+        {{ else:}}
+        <tr><td colspan=7 class="text-center">Add <a href="{{=URL('leads_add')}}">new lead!</a></td></tr>
+        {{pass}}
+
+      </table>
+    </div>
+  </div>  
+</div>
+</body>
+<script>
+  setAccordian();
+function setAccordian() {
+
+    var elems = document.getElementsByClassName('accordian-head'),
+        active_class = 'open';
+
+    for (var i in elems) {
+
+        elems[i].onclick = function () {
+            if (this.classList.contains(active_class)) {
+                this.classList.remove(active_class);
+            } else {
+                this.classList.add(active_class);
+            }
+
+        };
+
+    }
+
+}
+
+</script>
 </body>
