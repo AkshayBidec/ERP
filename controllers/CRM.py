@@ -380,6 +380,29 @@ def leads_add():
 
 #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 def leads_update():
+	# this is the fun to only load the update page for the 1st time remaining will be done by ajax
+	
+	# check the user is loged in or not
+	if session.active==1:
+
+		# take the leads key id from the page we have been redirected to get the data
+		leads_key_id=request.vars.leads_key_id
+
+		leadserver = xmlrpclib.ServerProxy('http://127.0.0.1:8000/CRM/Leads/call/xmlrpc',allow_none=True)	# make the connection to the api server of lead
+
+		# try to fetch the required data from the api
+		try:
+			data = leadserver.update_leads(leads_key_id)
+		except Exception as e:
+			session.message=" error in geting the leads update %s" %e
+		 else:
+		 	pass
+	 	return data
+
+	else:
+		redirect(URL('../../../ERP/LoginPage/login'))
+		session.flash="login to continue"
+
 	return locals()
 
 #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
@@ -892,8 +915,6 @@ def contacts_edit():
 
 	return dict(form=lForm,contact_form_fields=contact_form_fields,company_form_fields=company_form_fields)
 
-
-
 #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$-- AJAX request --$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
@@ -922,6 +943,8 @@ def company_selector():
 			pass
 		pass
 
+
+#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 #Function to get the details of particular contact id
 def company_details():
 	if not request.vars.contactId: return ''
@@ -942,6 +965,8 @@ def company_details():
 		pass
 	pass
 
+
+#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 #AJAX request to get the contact details on page "leads_add.html"
 def contact_selector():
 	if not request.vars.first_name: return ''
@@ -987,6 +1012,8 @@ def contact_selector():
 		pass
 	pass
 
+
+#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 # Function to get the contact details on page "leads-add.html"
 def contact_details():
 	if not request.vars.contact_key_id: return ''
@@ -1006,3 +1033,10 @@ def contact_details():
 			pass
 		pass
 	pass
+
+#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ ajax for lead update $$$$$$$$$$$$$$$$$$$$$$$$$$
+
+
+
+
+
