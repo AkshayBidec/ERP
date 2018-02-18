@@ -62,7 +62,26 @@ def add_user():
 		pass
 	return dict(form=lForm)
 
+#==============================================================================
+#function: user
+#dis: for view the user list and home page of user management
+# will be sent to the view of user list
+# this page will only can be view by directly clicking link of dashboard
+def user():
+	if session.active==1:
+		return dict(data='')
+		pass
+	else:
+		redirect(URL('../../../ERP/LoginPage/login'))
+		session.flash="login to continue"
+		pass
+	pass
 
+#==============================================================================
+#function: add_user
+#dis: for adding or registering new user in the system
+# will be sent to the view of user list
+# this page will only can be view by directly clicking link of dashboard
 def add_user_feature():
 
 	# if session is not active
