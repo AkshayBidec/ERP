@@ -11,250 +11,111 @@
 
   
 <div class="container-fluid">
-  <div class="row padding-10">
-    <div class="col-md-2 col-lg-2 col-xs-2 col-sm-2 bg-gray text-center">
-      Some text here
-    </div>
-    <div class="col-md-10 col-lg-10 col-sm-10 col-xs-10">
-      <div class="row bg-light-gray padding-10">
-        <div class="col-md-8 col-lg-8 col-xs-8 col-sm-8  text-center">
-          
-        </div>
-        <div class="col-md-4 col-lg-4 col-xs-4 col-sm-4">
-          <div class="#">
-            <button type="button" class="btn btn-success">Convert</button>
-            <button type="button" class="btn btn-primary">Send E-mail</button>
-            <button type="button" class="btn btn-default">Edit</button>
-          </div>
-        </div>          
+  <div class="row bg-gray padding-10">
+    <div class="col-md-3 col-lg-3 col-xs-3 col-sm-3 text-center">
+      <div class="btn-group">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Action <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+          <li><a href="#">Action</a></li>
+          <li><a href="#">Another action</a></li>
+          <li><a href="#">Something else here</a></li>
+          <li role="separator" class="divider"></li>
+          <li><a href="#">Separated link</a></li>
+        </ul>
       </div>
-      <div class="container-fluid" id="sec_info">
-        <div class="sec_head">
-          <h2>Lead Company Name</h2>
-          <h6>Lead Contact Name</h6>
+    </div>
+    <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+    </div>
+   <div class="col-md-3 col-lg-3 col-xs-3 col-sm-3 text-center">
+    <div class="btn-group" role="group" aria-label="...">
+      <a href="{{=URL('leads_add')}}"><button type="button" class="btn btn-default"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button></a>
+      <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></button>
+      <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-sort-by-alphabet" aria-hidden="true"></span></button>
+    </div>
+   </div> 
+  </div>
+
+  <div class="row margin-10">
+    <div class="col-md-3 col-lg-3 col-xs-3 col-sm-3 bg-light-gray padding-10 border-right">
+      <div class="section_head padding-10">
+        <h3 class="margin-10">Filter Leads</h3>
+      </div>
+      <div class="filter accordian-container">
+        <div class="custom-checkbox filter-head accordian-head">
+          <input type="checkbox" value="#" name="price" id="check-cat-price-0" class="filter-checkbox">
+          <label for="check-cat-price-0">Koyla kaala hai </label>
         </div>
-        <div class="margin-10">
-          <div class="row">
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-              <div class="field_label">
-                Lead owner
-              </div>
-            </div>
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-              <div class="field_value">
-                Priyesh Sharma
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-              <div class="field_label">
-                E-mail
-              </div>
-            </div>
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-              <div class="field_value">
-                lead mail id
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-              <div class="field_label">
-                Phone
-              </div>
-            </div>
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-              <div class="field_value">
-                1234567890
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-              <div class="field_label">
-                Lead Status
-              </div>
-            </div>
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-              <div class="field_value">
-                Current Status
-              </div>
-            </div>
-          </div>
+        <div class="filter-body accordian-body">
+          baba ji ki booty
         </div>
-        <div class="row margin-tp-20">
-          <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
-            <div class="progress">
-              <div class="progress-bar progress-bar-danger" style="width: 10%">
-                <span class="sr-only">10% Complete (danger)</span>
-              </div>
-              <div class="progress-bar progress-bar-warning" style="width: 20%">
-                <span class="sr-only">20% Complete (warning)</span>
-              </div>
-              <div class="progress-bar progress-bar-success" style="width: 35%">
-                <span class="sr-only">35% Complete (success)</span>
-              </div>
-            </div>
-          </div>
+      </div>
+      <div class="filter accordian-container">
+        <div class="custom-checkbox">
+          <input type="checkbox" value="#" name="price" id="check-cat-price-1" class="filter-checkbox">
+          <label for="check-cat-price-1">Chattano ne paala </label>
         </div>
-      </div><!-- Sec Info Khatam -->
-      <div class="container-fluid" id ="sec_timeline">
-        <div class="margin-tp-20">
-          <div class="sec_head">
-            <h3>Timeline</h3>
-          </div>
-          <table class="table table-striped">
-            <tr>
-              <th>Stage</th>
-              <th>Progress</th>
-              <th>Modified Date</th>
-              <th>Modified Time</th>
-              <th>Modified By</th>
-            </tr>
-            <tr>
-              <td>Design Basis</td>
-              <td>50%</td>
-              <td>Feb 18th, 2018</td>
-              <td>08:24 PM</td>
-              <td>Priyesh</td>
-            </tr>
-            <tr>
-              <td>Water test completed</td>
-              <td>30%</td>
-              <td>Feb 15th, 2018</td>
-              <td>08:24 PM</td>
-              <td>Priyesh</td>
-            </tr>
-          </table>
-        </div>
-      </div><!-- Sec timeline Khatam -->
-      <div class="container-fluid" id="sec_notes">
-        <div class="margin-tp-20">
-          <div class="sec_head">
-            <h3>Notes</h3>
-          </div>
-          <div class="#">
-            <!-- Already added notes -->
-          </div>
-          <div class="form-group col-md-6 col-lg-6 col-xs-6 col-sm-6">
-            <textarea class="form-control" rows="4"></textarea>
-            <div class="margin-10 text-right">
-              <button class="margin-10 text-right btn btn-primary">Save</button>
-            </div>
-          </div>
-        </div>
-      </div><!-- Sec notes khatam -->
-      <div class="container-fluid" id="sec_notes">
-        <div class="margin-tp-20">
-          <div class="sec_head">
-            <h3>Water Analysis Report</h3>
-          </div>
-          <div class="#">
-            <!-- Already added Water test -->
-          </div>
-          <div class="form-group col-md-6 col-lg-6 col-xs-6 col-sm-6">
-            <div class="row">
-              <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                <div class="field_label">
-                  Add water test data
-                </div>
-              </div>
-              <div class="col-lg-2 col-xs-2 col-sm-2 col-md-2">
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#WaterModal">Upload Data</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div><!-- Sec Cost Estimation khatam -->
-      <div class="container-fluid" id="sec_design_basis">
-        <div class="margin-tp-20">
-          <div class="sec_head">
-            <h3>Design Basis</h3>
-          </div>
-          <div class="#">
-            <!-- Already added design basis -->
-          </div>
-          <div class="form-group col-md-6 col-lg-6 col-xs-6 col-sm-6">
-            <div class="margin-10 text-right">
-              <div class="form-group">
-                <div class="input-group input-file" name="Fichier1">
-                  <input type="text" class="form-control" placeholder='Choose a file...' />     
-                  <span class="input-group-btn">
-                    <button class="btn btn-default btn-choose" type="button">Choose</button>
-                  </span>
-                </div>
-                <div class="margin-tp-20 text-right">
-                  <button class="text-right btn btn-primary">Save</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div><!-- sec design basis khatam -->
-      <div class="container-fluid" id="sec_design_basis">
-        <div class="margin-tp-20">
-          <div class="sec_head">
-            <h3>P &amp; I Diagrams Upload</h3>
-          </div>
-          <div class="#">
-            <!-- Already added P & ID -->
-          </div>
-          <div class="form-group col-md-6 col-lg-6 col-xs-6 col-sm-6">
-            <div class="margin-10 text-right">
-              <div class="form-group">
-                <div class="input-group input-file" name="Fichier1">
-                  <input type="text" class="form-control" placeholder='Choose a file...' />     
-                  <span class="input-group-btn">
-                    <button class="btn btn-default btn-choose" type="button">Choose</button>
-                  </span>
-                </div>
-                <div class="margin-tp-20 text-right">
-                  <button class=" text-right btn btn-primary">Save</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div><!-- sec P&I diagram khatam -->
-      <div class="container-fluid" id="sec_notes">
-        <div class="margin-tp-20">
-          <div class="sec_head">
-            <h3>Estimated Cost</h3>
-          </div>
-          <div class="#">
-            <!-- Already added Quotes -->
-          </div>
-          <div class="form-group col-md-6 col-lg-6 col-xs-6 col-sm-6">
-            <div class="row">
-              <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                <div class="field_label">
-                  Total Estimated Cost
-                </div>
-              </div>
-              <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                <div class="field_value">
-                  <div class="input-group">
-                    <span class="input-group-addon">Rs.</span>
-                    <input type="text" class="form-control" aria-label="Amount (to the nearest Rs)">  
-                  </div>
-                </div>
-              </div>
-              <div class="col-lg-2 col-xs-2 col-sm-2 col-md-2">
-                <button type="button" class="btn btn-primary">Save</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div><!-- Sec Cost Estimation khatam -->
-      <div class="container-fluid" id="sec_design_basis">
-        <div class="margin-tp-20">
-          <div class="sec_head">
-            <h3>Proposal</h3>
-          </div>
-          <div class="#">
-            <!-- Already added Propoosals -->
-          </div>
-          <div class="form-group col-md-6 col-lg-6 col-xs-6 col-sm-6">
-            <div class="margin-10 text-right">
-              <div class="form-group"...
+      </div>
+    </div>
+    <div class="col-md-9 col-lg-9 col-xs-9 col-sm-9 ">
+      <table class="table table-bordered">
+        <tr>
+          <th>Company</th>
+          <th>Name</th>
+          <th>E-mail</th>
+          <th>Phone</th>
+          <th>Lead Source</th>
+          <th>Description</th>
+          <th>Status</th>
+        </tr>
+
+        {{  if len(data)>0:
+                
+                for key in data.keys():
+                    response.write("<tr>",escape=False)
+                    response.write("<td>%s</td>"%data[key]['Company'],escape=False)
+                    response.write("<td>%s</td>"%data[key]['Name'],escape=False)
+                    response.write("<td>%s</td>"%data[key]['Email'],escape=False)
+                    response.write("<td>%s</td>"%data[key]['Phone'],escape=False)
+                    response.write("<td>%s</td>"%data[key]['Lead Source'],escape=False)
+                    response.write("<td>%s</td>"%data[key]['Description'],escape=False)
+                    response.write("<td>%s</td>"%data[key]['Status'],escape=False)
+                    response.write("</tr>",escape=False)
+                    pass
+                    
+        }}
+
+        {{ else:}}
+        <tr><td colspan=7 class="text-center">Add <a href="{{=URL('leads_add')}}">new lead!</a></td></tr>
+        {{pass}}
+
+      </table>
+    </div>
+  </div>  
+</div>
+</body>
+<script>
+  setAccordian();
+function setAccordian() {
+
+    var elems = document.getElementsByClassName('accordian-head'),
+        active_class = 'open';
+
+    for (var i in elems) {
+
+        elems[i].onclick = function () {
+            if (this.classList.contains(active_class)) {
+                this.classList.remove(active_class);
+            } else {
+                this.classList.add(active_class);
+            }
+
+        };
+
+    }
+
+}
+
+</script>
+</body>
