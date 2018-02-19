@@ -393,19 +393,19 @@ def leads_update():
 
 		# take the leads key id from the page we have been redirected to get the data
 		lRequestData={
-			'leads_key_id':request.vars.leads_key_id,
+			'lead_key_id':16,			#request.vars.leads_key_id,
 			'user_id': session.user_id,
-			'comapany_id':session.company_id
+			'company_id':session.company_id
 		}
 
 		# try to fetch the required data from the api
 		try:
-			lData = leadserver.update_leads(lRequestData)
+			lData = leadserver.fetch_lead_basic_details(lRequestData)
 		except Exception as e:
 			session.message=" error in geting the leads update %s" %e
 		else:
 			pass
-		return lData
+		return dict(data=lData)
 
 	else:
 		redirect(URL('../../../ERP/LoginPage/login'))
@@ -1053,30 +1053,105 @@ def contact_details():
 #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ ajax for lead update $$$$$$$$$$$$$$$$$$$$$$$$$$
 
 def update_leads_ajax():
+	
+	# store all the required data into a single dict and send it to the api
 
-	# data needed by the api functions
-	# lead key id
-	# user id 
-	# company id
-	# update head
 	lRequestData={
+	'request_type':request.vars.request_type,		# get and add
 	'leads_key_id':request.vars.leads_key_id,
-	'user_id': session.user_id,
-	'comapany_id':session.company_id,
-	'update_head': request.vars.update_head
+	'user_id': session.user_id,				##############
+	'comapany_id':session.company_id,		##############
+	'update_head': request.vars.update_head,
+	'update_data': request.vars.update_data,
+	'lead_status_id':1,					#request.vars.status_id,
+	'session_id':session.session_id,		##############
+	'lead_update_id':request.vars.lead_update_id
 	}
 
-	# make the connection to the desired server
-	leadserver = xmlrpclib.ServerProxy('http://127.0.0.1:8000/CRM/Leads/call/xmlrpc',allow_none=True)	# make the connection to the api server of lead
+	if lRequestData['request_type']=='get': 		# we just have to send the table
+		# make the connection to the desired server
+		leadserver = xmlrpclib.ServerProxy('http://127.0.0.1:8000/CRM/Leads/call/xmlrpc',allow_none=True)	# make the connection to the api server of lead
 
-	lData={}		# a dict to store the respose data
+		lData={}		# a dict to store the respose data
 
-	# try to get the data
-	try:
-		lData = leadserver.update_leads(lRequestData)
-	except Exception as e:
-		session.message=" error in geting the leads update %s" %e
-	else:
-		pass
+		
+		try:		# try to get the data
+			lData = leadserver.fetch_lead_update_details(lRequestData)
+		except Exception as e:
+			session.message=" error in geting the leads update %s" %e
+		else:
+			return lData
+			pass
+
+	elif lRequestData['request_type']=='add': 		# we have to add the data into the db and send the table
+		# make the connection to the desired server
+		leadserver = xmlrpclib.ServerProxy('http://127.0.0.1:8000/CRM/Leads/call/xmlrpc',allow_none=True)	# make the connection to the api server of lead
+
+		lData={}		# a dict to store the respose data
+
+		try:		# try to get the data
+			lData = leadserver.add_lead_update_details(lRequestData)
+		except Exception as e:
+			session.message=" error in geting the leads update %s" %e
+		else:
+			pass
+
+
+	elif lRequestData['request_type']=='edit':		# we have to update the data
+		# make the connection to the desired server
+		leadserver = xmlrpclib.ServerProxy('http://127.0.0.1:8000/CRM/Leads/call/xmlrpc',allow_none=True)	# make the connection to the api server of lead
+
+		lData={}		# a dict to store the respose data
+
+		try:		# try to get the data
+			lData = leadserver.edit_lead_update_details(lRequestData)
+		except Exception as e:
+			session.message=" error in geting the leads update %s" %e
+		else:
+			pass
+
+	return locals()
+
+#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+def lead_status_ajax():
+	
+
+	lRequestData={
+	'request_type':request.vars.request_type,		# get and add
+	'leads_key_id':request.vars.leads_key_id,
+	'user_id': session.user_id,
+	'session_id':session.session_id,
+	'lead_status_master_id':request.vars.lead_status_master_id,
+	'comapany_id':session.company_id,
+	'status_id':request.vars.status_id,
+	'response':1
+	}
+
+	if lRequestData['request_type']=='get': 		# we just have to send the table
+		# make the connection to the desired server
+		leadserver = xmlrpclib.ServerProxy('http://127.0.0.1:8000/CRM/Leads/call/xmlrpc',allow_none=True)	# make the connection to the api server of lead
+
+		lData={}		# a dict to store the respose data
+
+		try:			# try to get the data
+			lData = leadserver.fetch_lead_status_details(lRequestData)
+		except Exception as e:
+			session.message=" error in geting the leads update %s" %e
+		else:
+			pass
+
+	elif lRequestData['request_type']=='add': 		# we have to add the data into the db and send the table
+		# make the connection to the desired server
+		leadserver = xmlrpclib.ServerProxy('http://127.0.0.1:8000/CRM/Leads/call/xmlrpc',allow_none=True)	# make the connection to the api server of lead
+
+		lData={}		# a dict to store the respose data
+
+		try:		# try to get the data
+			lData = leadserver.add_lead_status_details(lRequestData)
+		except Exception as e:
+			session.message=" error in geting the leads update %s" %e
+		else:
+			pass
+
 
 	return locals()
