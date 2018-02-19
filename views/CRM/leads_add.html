@@ -191,7 +191,7 @@
             switch(element) {
                 case 'SELECT':
                     $('option:selected', 'select[name="'+k+'"]').removeAttr('selected');
-                    $('#no_table_'+k).prop('disabled',false);
+                    // $('#no_table_'+k).prop('disabled',false);
                     break;
                 default:
                     $('#no_table_'+k).val();
@@ -223,7 +223,7 @@
             switch(element) {
                 case 'SELECT':
                     $('select[name="'+k+'"]').find('option[value="'+v+'"]').attr("selected",true);
-                    $('#no_table_'+k).prop('disabled',true);
+                    // $('#no_table_'+k).prop('disabled',true);
                     break;
                 default:
                     $('#no_table_'+k).val(v);
