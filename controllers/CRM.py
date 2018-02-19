@@ -380,39 +380,38 @@ def leads_add():
 
 #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 def leads_update():
-	# this is the fun to only load the update page for the 1st time remaining will be done by ajax
-	
-	# check the user is loged in or not
-	if session.active==1:
+    # this is the fun to only load the update page for the 1st time remaining will be done by ajax
+    
+    # check the user is loged in or not
+    if session.active==1:
 
 
-		leadserver = xmlrpclib.ServerProxy('http://127.0.0.1:8000/CRM/Leads/call/xmlrpc',allow_none=True)	# make the connection to the api server of lead
+        leadserver = xmlrpclib.ServerProxy('http://127.0.0.1:8000/CRM/Leads/call/xmlrpc',allow_none=True)    # make the connection to the api server of lead
 
 
-		lData={} # A dict to store the response of the server
+        lData={} # A dict to store the response of the server
 
-		# take the leads key id from the page we have been redirected to get the data
-		lRequestData={
-			'leads_key_id':request.vars.leads_key_id,
-			'user_id': session.user_id,
-			'comapany_id':session.company_id
-		}
+        # take the leads key id from the page we have been redirected to get the data
+        lRequestData={
+            'lead_key_id':request.vars.leads_key_id,
+            'user_id': session.user_id,
+            'company_id':session.company_id
+        }
 
-		# try to fetch the required data from the api
-		try:
-			lData = leadserver.update_leads(lRequestData)
-		except Exception as e:
-			session.message=" error in geting the leads update %s" %e
-		else:
-			pass
-		return lData
+        # try to fetch the required data from the api
+        try:
+            lData = leadserver.fetch_lead_basic_details(lRequestData)
+        except Exception as e:
+            session.message=" error in geting the leads update %s" %e
+        else:
+            pass
+        return lData
 
-	else:
-		redirect(URL('../../../ERP/LoginPage/login'))
-		session.flash="login to continue"
+    else:
+        redirect(URL('../../../ERP/LoginPage/login'))
+        session.flash="login to continue"
 
-	return locals()
-
+    return locals()
 #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 def leads_edit():
 	# this page is only to edit the leads details 
