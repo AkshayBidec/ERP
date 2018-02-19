@@ -467,6 +467,8 @@ def leads_edit():
 			
 			leads_form_fields['lead_key_id']=lead_key_id		# add the extra data, take the lead id to specify the update
 			leads_form_fields['user_id']=session.user_id
+			leads_form_fields['session_id']=session.session_id
+			leads_form_fields['company_id']=session.session_id
 
 			try:    
 				lResponseDict= leadserver.edit_lieds(dict(data=leads_form_fields)) 		# send the dictioinary to the server
@@ -815,7 +817,9 @@ def contacts_edit():
 					contact_form_fields['contact_key_id']=contact_key_id		# add the extra data
 					contact_form_fields['company_key_id']=company_key_id	
 					contact_form_fields['user_id']=session.user_id
-					
+					contact_form_fields['session_id']=session.session_id
+					contact_form_fields['company_id']=session.company_id
+
 					try:    
 						lResponseDict= contactserver.edit_contact(dict(data=contact_form_fields)) 		# send the dictioinary to the server
 						
@@ -868,7 +872,9 @@ def contacts_edit():
 							contact_form_fields['contact_key_id']=contact_key_id		# add the extra data
 							contact_form_fields['company_key_id']=company_key_id		
 							contact_form_fields['user_id']=session.user_id
-							
+							contact_form_fields['session_id']=session.session_id
+							contact_form_fields['company_id']=session.company_id
+
 							try:    
 								lResponseDict= contactserver.edit_contact(dict(data=contact_form_fields)) 		# send the dictioinary to the server
 																
@@ -895,6 +901,8 @@ def contacts_edit():
 						contact_form_fields['contact_key_id']=contact_key_id		# add the extra data
 						contact_form_fields['company_key_id']=0		
 						contact_form_fields['user_id']=session.user_id
+						contact_form_fields['session_id']=session.session_id
+						contact_form_fields['company_id']=session.company_id
 						
 						try:    
 							lResponseDict= contactserver.edit_contact(dict(data=contact_form_fields)) 		# send the dictioinary to the server
