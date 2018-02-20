@@ -68,6 +68,7 @@
           <th>Lead Source</th>
           <th>Description</th>
           <th>Status</th>
+          <th>Action</th>
         </tr>
 
         {{  if len(data)>0:
@@ -81,13 +82,14 @@
                     response.write("<td>%s</td>"%data[key]['Lead Source'],escape=False)
                     response.write("<td>%s</td>"%data[key]['Description'],escape=False)
                     response.write("<td>%s</td>"%data[key]['Status'],escape=False)
+                    response.write("<td><a href= %s >edit</a></td>"%URL('leads_update','',args=[data[key]['lead_key_id']]),escape=False)
                     response.write("</tr>",escape=False)
                     pass
                     
         }}
 
         {{ else:}}
-        <tr><td colspan=7 class="text-center">Add <a href="{{=URL('leads_add')}}">new lead!</a></td></tr>
+        <tr><td colspan=8 class="text-center">Add <a href="{{=URL('leads_add')}}">new lead!</a></td></tr>
         {{pass}}
 
       </table>

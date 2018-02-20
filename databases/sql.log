@@ -50,3 +50,74 @@ CREATE TABLE `general_user`(
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB CHARACTER SET utf8;
 success!
+timestamp: 2018-02-07T13:45:57.511799
+ALTER TABLE `general_session` ADD `duration__tmp` VARCHAR(200);
+faked!
+UPDATE `general_session` SET `duration__tmp`=`duration`;
+faked!
+ALTER TABLE `general_session` DROP COLUMN `duration`;
+faked!
+ALTER TABLE `general_session` ADD `duration` VARCHAR(200);
+faked!
+UPDATE `general_session` SET `duration`=`duration__tmp`;
+faked!
+ALTER TABLE `general_session` DROP COLUMN `duration__tmp`;
+faked!
+success!
+timestamp: 2018-02-07T16:23:48.224897
+CREATE TABLE `general_master_features_category`(
+    `id` INT AUTO_INCREMENT NOT NULL,
+    `category_code` VARCHAR(250) NOT NULL,
+    `category_name` VARCHAR(250) NOT NULL,
+    `company_id` INT  , INDEX `company_id__idx` (`company_id`), FOREIGN KEY (`company_id`) REFERENCES `general_company_details` (`id`) ON DELETE CASCADE,
+    `is_active` CHAR(1) NOT NULL DEFAULT 'T',
+    `db_entry_time` DATETIME NOT NULL,
+    `db_update_time` DATETIME,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB CHARACTER SET utf8;
+faked!
+timestamp: 2018-02-07T16:32:15.251780
+ALTER TABLE `general_master_features_category` ADD `db_entry_time__tmp` DATETIME;
+faked!
+UPDATE `general_master_features_category` SET `db_entry_time__tmp`=`db_entry_time`;
+faked!
+ALTER TABLE `general_master_features_category` DROP COLUMN `db_entry_time`;
+faked!
+ALTER TABLE `general_master_features_category` ADD `db_entry_time` DATETIME;
+faked!
+UPDATE `general_master_features_category` SET `db_entry_time`=`db_entry_time__tmp`;
+faked!
+ALTER TABLE `general_master_features_category` DROP COLUMN `db_entry_time__tmp`;
+faked!
+success!
+timestamp: 2018-02-07T16:47:00.212009
+ALTER TABLE `general_master_features_category` ADD `db_entry_time__tmp` DATETIME NOT NULL DEFAULT '2018-02-07 16:47:00';
+faked!
+UPDATE `general_master_features_category` SET `db_entry_time__tmp`=`db_entry_time`;
+faked!
+ALTER TABLE `general_master_features_category` DROP COLUMN `db_entry_time`;
+faked!
+ALTER TABLE `general_master_features_category` ADD `db_entry_time` DATETIME NOT NULL DEFAULT '2018-02-07 16:47:00';
+faked!
+UPDATE `general_master_features_category` SET `db_entry_time`=`db_entry_time__tmp`;
+faked!
+ALTER TABLE `general_master_features_category` DROP COLUMN `db_entry_time__tmp`;
+faked!
+success!
+timestamp: 2018-02-07T17:08:56.139847
+CREATE TABLE `general_master_features_category`(
+    `id` INT AUTO_INCREMENT NOT NULL,
+    `category_code` VARCHAR(250) NOT NULL,
+    `category_name` VARCHAR(250) NOT NULL,
+    `company_id` INT  , INDEX `company_id__idx` (`company_id`), FOREIGN KEY (`company_id`) REFERENCES `general_company_details` (`id`) ON DELETE CASCADE,
+    `is_active` CHAR(1) NOT NULL DEFAULT 'T',
+    `db_entry_time` DATETIME NOT NULL DEFAULT '2018-02-07 17:08:56',
+    `db_update_time` DATETIME,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB CHARACTER SET utf8;
+success!
+timestamp: 2018-02-07T17:33:46.862651
+ALTER TABLE `general_master_features` DROP COLUMN `session_id`;
+timestamp: 2018-02-07T17:51:43.395099
+ALTER TABLE `general_master_features` DROP COLUMN `session_id`;
+success!

@@ -1,6 +1,10 @@
 import _pickle as cPickle
 import xmlrpc.client as xmlrpclib # import the rpc file
 import json as json # JSON library
+import ssl
+context = ssl.SSLContext()
+link=str(request.env.wsgi_url_scheme)+"://"+str(request.env.http_host)	
+
 # it will contain all the views and the api call related to the crm app
 #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
@@ -15,22 +19,19 @@ def leads():
 	# by default it will contain 10 leads per page
 	
 	if session.active==1:
-
-		server = xmlrpclib.ServerProxy('http://127.0.0.1:8000/CRM/Leads/call/xmlrpc',allow_none=True)	# make the connection to the api server of lead
+		server = xmlrpclib.ServerProxy(link+str(URL('CRM','Leads','call/xmlrpc')),allow_none=True,context=context)	# make the connection to the api server of lead
 		
 		data=[]
-		lLimit={}
-		lLimit['countTo']=10		# total number of fieds required, replace it with request.vars.* to make it dynamin
-		lLimit['countFrom']=0		# no of the row to start from 
-		lLimit['order']='~db.crm_lead_field_key.id' 	# the name of field to order on, string will be evaluated in the api
+		# lLimit={}
+		# lLimit['countTo']=10		# total number of fieds required, replace it with request.vars.* to make it dynamin
+		# lLimit['countFrom']=0		# no of the row to start from 
+		# lLimit['order']='~db.crm_lead_field_key.id' 	# the name of field to order on, string will be evaluated in the api
 		
 		lLeadsList=[]
 		try:
-			lLeadsList= server.get_leads(lLimit)		# get the data from the api
-
+			lLeadsList= server.get_leads(session.company_id)		# get the data from the api
 		except Exception as e:
 			session.message=str(lLeadsList) + str(e)
-		
 
 		return dict(data=lLeadsList)
 	else:
@@ -40,10 +41,10 @@ def leads():
 def leads_add():
 	if session.active==1:
 		done=0
-	#------------------------------------------------- session is active, make the connection to api		
-		leadserver=xmlrpclib.ServerProxy('http://127.0.0.1:8000/CRM/Leads/call/xmlrpc',allow_none=True)	# make the connection to the api server of lead
-		contactserver=xmlrpclib.ServerProxy('http://127.0.0.1:8000/CRM/Contact/call/xmlrpc',allow_none=True)	# make the connection to the api server of contact
-		companyserver=xmlrpclib.ServerProxy('http://127.0.0.1:8000/CRM/Company/call/xmlrpc',allow_none=True)	# make the connection to the api server of company
+	#------------------------------------------------- session is active, make the connection to api
+		leadserver=xmlrpclib.ServerProxy(link+str(URL('CRM','Leads','call/xmlrpc')),allow_none=True,context=context)	# make the connection to the api server of lead
+		contactserver=xmlrpclib.ServerProxy(link+str(URL('CRM','Contact','call/xmlrpc')),allow_none=True,context=context)	# make the connection to the api server of contact
+		companyserver=xmlrpclib.ServerProxy(link+str(URL('CRM','Company','call/xmlrpc')),allow_none=True,context=context)	# make the connection to the api server of company
 		
 		leads_form_fields=leadserver.leads_add_ff()			# ask for the list of the field to make the form and store it into a dict
 		contact_form_fields=contactserver.contact_add_ff()		
@@ -385,15 +386,14 @@ def leads_update():
 	# check the user is loged in or not
 	if session.active==1:
 
-
-		leadserver = xmlrpclib.ServerProxy('http://127.0.0.1:8000/CRM/Leads/call/xmlrpc',allow_none=True)	# make the connection to the api server of lead
+		leadserver = xmlrpclib.ServerProxy(link+str(URL('CRM','Leads','call/xmlrpc')),allow_none=True,context=context)	# make the connection to the api server of lead
 
 
 		lData={} # A dict to store the response of the server
 
 		# take the leads key id from the page we have been redirected to get the data
 		lRequestData={
-			'lead_key_id':16,			#request.vars.leads_key_id,
+			'lead_key_id':request.args[0],
 			'user_id': session.user_id,
 			'company_id':session.company_id
 		}
@@ -405,13 +405,12 @@ def leads_update():
 			session.message=" error in geting the leads update %s" %e
 		else:
 			pass
-		return dict(data=lData)
 
 	else:
 		redirect(URL('../../../ERP/LoginPage/login'))
 		session.flash="login to continue"
 
-	return locals()
+	return dict(data=lData, lead_key_id=lRequestData['lead_key_id'])
 
 #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 def leads_edit():
@@ -423,7 +422,7 @@ def leads_edit():
 		lead_key_id= 16
 
 	#------------------------------------------------- session is active, make the connection to api		
-		leadserver=xmlrpclib.ServerProxy('http://127.0.0.1:8000/CRM/Leads/call/xmlrpc',allow_none=True)	# make the connection to the api server of lead
+		leadserver=xmlrpclib.ServerProxy(link+str(URL('CRM','Leads','call/xmlrpc')),allow_none=True,context=context)	# make the connection to the api server of lead
 		
 		leads_form_fields=leadserver.leads_edit_ff(lead_key_id)			# ask for the list of the field to make the form and store it into a dict
 		
@@ -503,8 +502,8 @@ def contacts():
 	if session.active==1:
 
 
-		server=xmlrpclib.ServerProxy('http://127.0.0.1:8000/CRM/Contact/call/xmlrpc',allow_none=True)		# make the connection to the api server
-
+		server=xmlrpclib.ServerProxy(link+str(URL('CRM','Contact','call/xmlrpc')),allow_none=True,context=context)	# make the connection to the api server of contact
+		
 		lLimit={}		# this dic is to get a single data or a range of data from the api
 
 		lLimit['countTo']=10		# total number of fieds required, replace it with request.vars.* to make it dynamin
@@ -533,8 +532,8 @@ def contacts_add():
 	if session.active==1:
 		done=0
 	#------------------------------------------------- session is active, make the connection to api		
-		contactserver=xmlrpclib.ServerProxy('http://127.0.0.1:8000/CRM/Contact/call/xmlrpc',allow_none=True)	# make the connection to the api server of contact
-		companyserver=xmlrpclib.ServerProxy('http://127.0.0.1:8000/CRM/Company/call/xmlrpc',allow_none=True)	# make the connection to the api server of company
+		contactserver=xmlrpclib.ServerProxy(link+str(URL('CRM','Contact','call/xmlrpc')),allow_none=True,context=context)	# make the connection to the api server of contact
+		companyserver=xmlrpclib.ServerProxy(link+str(URL('CRM','Company','call/xmlrpc')),allow_none=True,context=context)	# make the connection to the api server of company
 		
 		contact_form_fields=contactserver.contact_add_ff()		
 		company_form_fields=companyserver.company_add_ff()		
@@ -730,8 +729,8 @@ def contacts_edit():
 	if session.active==1:
 		done=0
 	#------------------------------------------------- session is active, make the connection to api		
-		contactserver=xmlrpclib.ServerProxy('http://127.0.0.1:8000/CRM/Contact/call/xmlrpc',allow_none=True)	# make the connection to the api server of contact
-		companyserver=xmlrpclib.ServerProxy('http://127.0.0.1:8000/CRM/Company/call/xmlrpc',allow_none=True)	# make the connection to the api server of company
+		contactserver=xmlrpclib.ServerProxy(link+str(URL('CRM','Contact','call/xmlrpc')),allow_none=True,context=context)	# make the connection to the api server of contact
+		companyserver=xmlrpclib.ServerProxy(link+str(URL('CRM','Company','call/xmlrpc')),allow_none=True,context=context)	# make the connection to the api server of company
 		
 		
 		# in this we have to provide the contact key id and get the respective company key id for company details
@@ -938,13 +937,13 @@ def contacts_edit():
 def company_selector():
 	if not request.vars.company_name: return ''
 	try:
-		server=xmlrpclib.ServerProxy('http://127.0.0.1:8000/CRM/Contact/call/xmlrpc',allow_none=True)
+		server=xmlrpclib.ServerProxy(link+str(URL('CRM','Company','call/xmlrpc')),allow_none=True,context=context)	# make the connection to the api server of company
 		pass
 	except Exception as e:
 		return DIV('Either you have lost connectivity with CRM application or it is not yet installed')
 	else:
 		try:
-			lCompanyList = server.ajax_company_list(request.vars.company_name,session.company_id)
+			lCompanyList = server.ajax_company_list(request.vars.company_name,session.company_id)			#,session.company_id
 
 			pass
 		except Exception as e:
@@ -965,7 +964,7 @@ def company_selector():
 def company_details():
 	if not request.vars.contactId: return ''
 	try:
-		server=xmlrpclib.ServerProxy('http://127.0.0.1:8000/CRM/Contact/call/xmlrpc',allow_none=True)
+		server=xmlrpclib.ServerProxy(link+str(URL('CRM','Company','call/xmlrpc')),allow_none=True,context=context)	# make the connection to the api server of company
 		pass
 	except Exception as e:
 		return DIV('Either you have lost connectivity with CRM application or it is not yet installed')
@@ -987,7 +986,7 @@ def company_details():
 def contact_selector():
 	if not request.vars.first_name: return ''
 	try:
-		server=xmlrpclib.ServerProxy('http://127.0.0.1:8000/CRM/Contact/call/xmlrpc',allow_none=True)
+		server=xmlrpclib.ServerProxy(link+str(URL('CRM','Contact','call/xmlrpc')),allow_none=True,context=context)	# make the connection to the api server of contact
 		pass
 	except Exception as e:
 		return DIV('Either you have lost connectivity with CRM application or it is not yet installed')
@@ -1034,7 +1033,7 @@ def contact_selector():
 def contact_details():
 	if not request.vars.contact_key_id: return ''
 	try:
-		server=xmlrpclib.ServerProxy('http://127.0.0.1:8000/CRM/Contact/call/xmlrpc',allow_none=True)
+		server=xmlrpclib.ServerProxy(link+str(URL('CRM','Contact','call/xmlrpc')),allow_none=True,context=context)	# make the connection to the api server of contact
 		pass
 	except Exception as e:
 		return DIV('Either you have lost connectivity with CRM application or it is not yet installed')
@@ -1053,14 +1052,15 @@ def contact_details():
 #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ ajax for lead update $$$$$$$$$$$$$$$$$$$$$$$$$$
 
 def update_leads_ajax():
-	
+	session.message=" "
 	# store all the required data into a single dict and send it to the api
+	done=0
 
 	lRequestData={
 	'request_type':request.vars.request_type,		# get and add
-	'leads_key_id':request.vars.leads_key_id,
+	'lead_key_id':request.vars.leads_key_id,
 	'user_id': session.user_id,				##############
-	'comapany_id':session.company_id,		##############
+	'company_id':session.company_id,		##############
 	'update_head': request.vars.update_head,
 	'update_data': request.vars.update_data,
 	'lead_status_id':1,					#request.vars.status_id,
@@ -1068,24 +1068,44 @@ def update_leads_ajax():
 	'lead_update_id':request.vars.lead_update_id
 	}
 
+	# lRequestData={
+	# 'request_type': 'get',		# get and add
+	# 'lead_key_id': '16',
+	# 'user_id': 2,				##############
+	# 'company_id':25,		##############
+	# 'update_head': 'notes',
+	# 'update_data': 'yes',
+	# 'lead_status_id':1,					#request.vars.status_id,
+	# 'session_id':0		##############
+	# #'lead_update_id':request.vars.lead_update_id
+	# }
+
 	if lRequestData['request_type']=='get': 		# we just have to send the table
+		
 		# make the connection to the desired server
-		leadserver = xmlrpclib.ServerProxy('http://127.0.0.1:8000/CRM/Leads/call/xmlrpc',allow_none=True)	# make the connection to the api server of lead
+		leadserver = xmlrpclib.ServerProxy(link+str(URL('CRM','Leads','call/xmlrpc')),allow_none=True,context=context)	# make the connection to the api server of lead
+
 
 		lData={}		# a dict to store the respose data
-
-		
 		try:		# try to get the data
-			lData = leadserver.fetch_lead_update_details(lRequestData)
+			lData = leadserver.fetch_lead_update_details(lRequestData)			#	dict(data=lRequestData)
+			pass
 		except Exception as e:
 			session.message=" error in geting the leads update %s" %e
+			 
 		else:
-			return lData
+			for key in lData.keys():
+				user_id=lData[key]['db_entered_by']
+				name=db(db.general_user.id==user_id).select(db.general_user.first_name,db.general_user.last_name)
+				lData[key]['db_entered_by']=str(name[0].first_name).title()+" "+str(name[0].last_name).title()
+	
+			done=1
 			pass
 
 	elif lRequestData['request_type']=='add': 		# we have to add the data into the db and send the table
 		# make the connection to the desired server
-		leadserver = xmlrpclib.ServerProxy('http://127.0.0.1:8000/CRM/Leads/call/xmlrpc',allow_none=True)	# make the connection to the api server of lead
+		leadserver = xmlrpclib.ServerProxy(link+str(URL('CRM','Leads','call/xmlrpc')),allow_none=True,context=context)	# make the connection to the api server of lead
+
 
 		lData={}		# a dict to store the respose data
 
@@ -1094,43 +1114,63 @@ def update_leads_ajax():
 		except Exception as e:
 			session.message=" error in geting the leads update %s" %e
 		else:
+			for key in lData.keys():
+				user_id=lData[key]['db_entered_by']
+				name=db(db.general_user.id==user_id).select(db.general_user.first_name,db.general_user.last_name)
+				lData[key]['db_entered_by']=str(name[0].first_name).title()+" "+str(name[0].last_name).title()
+	
+			done=1
 			pass
 
 
-	elif lRequestData['request_type']=='edit':		# we have to update the data
-		# make the connection to the desired server
-		leadserver = xmlrpclib.ServerProxy('http://127.0.0.1:8000/CRM/Leads/call/xmlrpc',allow_none=True)	# make the connection to the api server of lead
+	# elif lRequestData['request_type']=='edit':		# we have to update the data
+	# 	# make the connection to the desired server
+	# 	leadserver = xmlrpclib.ServerProxy('http://127.0.0.1:8000/CRM/Leads/call/xmlrpc',allow_none=True)	# make the connection to the api server of lead
 
-		lData={}		# a dict to store the respose data
+	# 	lData={}		# a dict to store the respose data
 
-		try:		# try to get the data
-			lData = leadserver.edit_lead_update_details(lRequestData)
-		except Exception as e:
-			session.message=" error in geting the leads update %s" %e
-		else:
-			pass
+	# 	try:		# try to get the data
+	# 		lData = leadserver.edit_lead_update_details(lRequestData)
+	# 	except Exception as e:
+	# 		session.message=" error in geting the leads update %s" %e
+	# 	else:
+	# 		pass
 
-	return locals()
+	if done==1:
+		return json.dumps(lData)
+	
 
 #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 def lead_status_ajax():
 	
 
+	# lRequestData={
+	# 'request_type':request.vars.request_type,		# get and add
+	# 'lead_key_id':request.vars.leads_key_id,
+	# 'user_id': session.user_id,
+	# 'session_id':session.session_id,
+	# 'lead_status_master_id':request.vars.lead_status_master_id,
+	# 'company_id':session.company_id,
+	# 'status_id':request.vars.status_id,
+	# 'response':1
+	# }
+
 	lRequestData={
-	'request_type':request.vars.request_type,		# get and add
-	'leads_key_id':request.vars.leads_key_id,
-	'user_id': session.user_id,
-	'session_id':session.session_id,
-	'lead_status_master_id':request.vars.lead_status_master_id,
-	'comapany_id':session.company_id,
-	'status_id':request.vars.status_id,
-	'response':1
+	'request_type': 'get',		# get and add
+	'lead_key_id': '16',
+	'user_id': 2,				##############
+	'company_id':25,		##############
+	'update_head': 'notes',
+	'update_data': 'yes',
+	'lead_status_id':1,					#request.vars.status_id,
+	'session_id':0,		##############
+	'respose':1
 	}
 
 	if lRequestData['request_type']=='get': 		# we just have to send the table
 		# make the connection to the desired server
-		leadserver = xmlrpclib.ServerProxy('http://127.0.0.1:8000/CRM/Leads/call/xmlrpc',allow_none=True)	# make the connection to the api server of lead
-
+		leadserver=xmlrpclib.ServerProxy(link+str(URL('CRM','Leads','call/xmlrpc')),allow_none=True,context=context)	# make the connection to the api server of lead
+		
 		lData={}		# a dict to store the respose data
 
 		try:			# try to get the data
@@ -1142,8 +1182,8 @@ def lead_status_ajax():
 
 	elif lRequestData['request_type']=='add': 		# we have to add the data into the db and send the table
 		# make the connection to the desired server
-		leadserver = xmlrpclib.ServerProxy('http://127.0.0.1:8000/CRM/Leads/call/xmlrpc',allow_none=True)	# make the connection to the api server of lead
-
+		leadserver=xmlrpclib.ServerProxy(link+str(URL('CRM','Leads','call/xmlrpc')),allow_none=True,context=context)	# make the connection to the api server of lead
+		
 		lData={}		# a dict to store the respose data
 
 		try:		# try to get the data

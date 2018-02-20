@@ -1,39 +1,7 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title></title>
-    <link rel="stylesheet" href="{{=URL('static','css/leads_add.css')}}"/> <!--  a custom css file -->
-    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
-    <script src="{{=URL('static','js/leads_add.js')}}"></script>
+{{=request.env.wsgi_url_scheme}}
+{{=request.env.http_host}}
+{{=lData}}
+{{=link}}
+//===
 
-
-
-</head>
-<body>
-
-{{ if session.flash:}}
-<div class="popup"> <a href="#" class="close">
-  <svg id="Layer_1" x="0px" y="0px" width="10px" height="10px" viewBox="215.186 215.671 80.802 80.8" enable-background="new 215.186 215.671 80.802 80.8" xml:space="preserve">
-        <polygon fill="#FFFFFF" points="280.486,296.466 255.586,271.566 230.686,296.471 215.19,280.964 240.086,256.066 215.186,231.17 230.69,215.674 255.586,240.566 280.475,215.671 295.985,231.169 271.089,256.064 295.987,280.96 "/>
-       </svg></a>
-      <div class="flash"><h1 >{{=session.flash or ''}}</h1></div>
-</div>
-{{pass}}
-
-{{=form.custom.begin}}
-<!-- following is code for the error printing in the form, and canot be removed by the html tags -->
-
-<!-- this is div which contains the form -->
-<div class="inner-container">
-    <div class="box">
-      <h1>Super Admin</h1>
-      {{=form.custom.widget.email_id}}
-    {{=form.custom.widget.password}}      
-     <button>Login</button>
-
-    </div>
-  </div>
-  {{=form.custom.end}}.  <!-- end of the login form -->
-
-</body>
-</html>
+{{=session.message}}

@@ -4,9 +4,11 @@
   <link rel="stylesheet" href="/ERP/static/css/navbar.css"/> <!--  a custom css file for flash massage -->
   <link rel="stylesheet" href="/ERP/static/css/custom_styles.css"/> <!--  a custom css file for flash massage -->
 
-
 </head>
 <body>
+
+
+  
 <div class="container-fluid">
   <div class="row padding-10">
     <div class="col-md-2 col-lg-2 col-xs-2 col-sm-2 bg-gray text-center">
@@ -25,12 +27,12 @@
           </div>
         </div>          
       </div>
-      <div class="container-fluid" id="sec_info">
-        <div class="sec_head">
+      <div class="sec_head">
           <h2>{{=data['company_details'][0]['crm_company_field_value']['field_value']}}</h2>
           {{ name = str(data['contact_details'][0]['crm_contact_field_value']['field_value']) + " " + str(data['contact_details'][1]['crm_contact_field_value']['field_value']) }}
           <h6>{{=name.title()}}</h6>
         </div>
+        <input type="hidden" name="lead_key_id" id="lead_key_id" value="{{=lead_key_id}}">
         <div class="margin-10">
           <div class="row">
             <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
@@ -136,11 +138,26 @@
           </div>
           <div class="#">
             <!-- Already added notes -->
+            <table class="table table-striped" id="notes_table">
+            <thead>
+            <tr>
+                <th>Notes</th>
+                <th>Added Time</th>
+                <th>Added By</th>
+            </tr>
+        </thead>
+       
+        <tbody>
+            
+        </tbody>
+            
+          </table>
+
           </div>
           <div class="form-group col-md-6 col-lg-6 col-xs-6 col-sm-6">
-            <textarea class="form-control" rows="4"></textarea>
+            <textarea class="form-control" rows="4" name="notesInput" id="notesInput"></textarea>
             <div class="margin-10 text-right">
-              <button class="margin-10 text-right btn btn-primary">Save</button>
+              <button class="lead_elements margin-10 text-right btn btn-primary" name="notes" data-text_id="notesInput" data-head="notes" onclick="addLeadUpdateInfo(this,'add');" onload="" value="notes">Save</button>
             </div>
           </div>
         </div>
@@ -152,6 +169,19 @@
           </div>
           <div class="#">
             <!-- Already added Water test -->
+            <table class="table table-striped" id="water_analysis_report_table">
+              <thead>
+                <tr>
+                  <th>Water Analysis Report</th>
+                  <th>Added Time</th>
+                  <th>Added By</th>
+                </tr>
+              </thead>
+              <tbody>
+                
+              </tbody>
+          </table>
+
           </div>
           <div class="form-group col-md-6 col-lg-6 col-xs-6 col-sm-6">
             <div class="row">
@@ -161,7 +191,7 @@
                 </div>
               </div>
               <div class="col-lg-2 col-xs-2 col-sm-2 col-md-2">
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#WaterModal">Upload Data</button>
+                <button type="button" class="lead_elements btn btn-primary" data-toggle="modal" data-target="#WaterModal">Upload Data</button>
               </div>
             </div>
           </div>
@@ -174,18 +204,36 @@
           </div>
           <div class="#">
             <!-- Already added design basis -->
+            <table class="table table-striped" id="design_basis_table">
+            <tr>
+              <th>Design Basis</th>
+              <th>Added Time</th>
+              <th>Added By</th>
+            </tr>
+            <tr>
+              <td>Goal</td>
+              <td>08:24 PM</td>
+              <td>Priyesh</td>
+            </tr>
+            <tr>
+              <td>Round</td>
+              <td>08:24 PM</td>
+              <td>Priyesh</td>
+            </tr>
+          </table>
+
           </div>
           <div class="form-group col-md-6 col-lg-6 col-xs-6 col-sm-6">
             <div class="margin-10 text-right">
               <div class="form-group">
                 <div class="input-group input-file" name="Fichier1">
-                  <input type="text" class="form-control" placeholder='Choose a file...' />     
+                  <input type="text" class="form-control" id="design_basis_input" placeholder='Choose a file...' />     
                   <span class="input-group-btn">
                     <button class="btn btn-default btn-choose" type="button">Choose</button>
                   </span>
                 </div>
                 <div class="margin-tp-20 text-right">
-                  <button class="text-right btn btn-primary">Save</button>
+                  <button class="text-right btn btn-primary" data-text_id="design_basis_input" data-head="design_basis" onclick="addLeadUpdateInfo(this);">Save</button>
                 </div>
               </div>
             </div>
@@ -199,18 +247,36 @@
           </div>
           <div class="#">
             <!-- Already added P & ID -->
+            <table class="table table-striped" id="pi_diagram_upload_table">
+            <tr>
+              <th>Diagram Uploads</th>
+              <th>Added Time</th>
+              <th>Added By</th>
+            </tr>
+            <tr>
+              <td>Diagram 1</td>
+              <td>08:24 PM</td>
+              <td>Priyesh</td>
+            </tr>
+            <tr>
+              <td>Diagram 2</td>
+              <td>08:24 PM</td>
+              <td>Priyesh</td>
+            </tr>
+          </table>
+
           </div>
           <div class="form-group col-md-6 col-lg-6 col-xs-6 col-sm-6">
             <div class="margin-10 text-right">
               <div class="form-group">
                 <div class="input-group input-file" name="Fichier1">
-                  <input type="text" class="form-control" placeholder='Choose a file...' />     
+                  <input type="text" class="form-control" id="pi_diagram_upload_input" placeholder='Choose a file...' />     
                   <span class="input-group-btn">
                     <button class="btn btn-default btn-choose" type="button">Choose</button>
                   </span>
                 </div>
                 <div class="margin-tp-20 text-right">
-                  <button class=" text-right btn btn-primary">Save</button>
+                  <button class=" text-right btn btn-primary" data-text_id="pi_diagram_upload_input" data-head="pi_diagram_upload" onclick="addLeadUpdateInfo(this);">Save</button>
                 </div>
               </div>
             </div>
@@ -224,6 +290,24 @@
           </div>
           <div class="#">
             <!-- Already added Quotes -->
+            <table class="table table-striped" id="estimated_cost_table">
+            <tr>
+              <th>Estimated Cost</th>
+              <th>Added Time</th>
+              <th>Added By</th>
+            </tr>
+            <tr>
+              <td>Rs. 2.20</td>
+              <td>08:24 PM</td>
+              <td>Priyesh</td>
+            </tr>
+            <tr>
+              <td>Rs. 8.56</td>
+              <td>08:24 PM</td>
+              <td>Priyesh</td>
+            </tr>
+          </table>
+
           </div>
           <div class="form-group col-md-6 col-lg-6 col-xs-6 col-sm-6">
             <div class="row">
@@ -236,12 +320,12 @@
                 <div class="field_value">
                   <div class="input-group">
                     <span class="input-group-addon">Rs.</span>
-                    <input type="text" class="form-control" aria-label="Amount (to the nearest Rs)">  
+                    <input type="text" class="form-control" aria-label="Amount (to the nearest Rs)" id="estimatedCostInput">  
                   </div>
                 </div>
               </div>
               <div class="col-lg-2 col-xs-2 col-sm-2 col-md-2">
-                <button type="button" class="btn btn-primary">Save</button>
+                <button type="button" class="btn btn-primary" data-text_id="estimatedCostInput" data-head="estimated_cost" onclick="addLeadUpdateInfo(this);" value="notes">Save</button>
               </div>
             </div>
           </div>
@@ -254,12 +338,30 @@
           </div>
           <div class="#">
             <!-- Already added Propoosals -->
+            <table class="table table-striped" id="proposal_table">
+            <tr>
+              <th>Proposal</th>
+              <th>Added Time</th>
+              <th>Added By</th>
+            </tr>
+            <tr>
+              <td>Proposal 1</td>
+              <td>08:24 PM</td>
+              <td>Priyesh</td>
+            </tr>
+            <tr>
+              <td>Proposal 2</td>
+              <td>08:24 PM</td>
+              <td>Priyesh</td>
+            </tr>
+          </table>
+
           </div>
           <div class="form-group col-md-6 col-lg-6 col-xs-6 col-sm-6">
             <div class="margin-10 text-right">
               <div class="form-group">
                 <div class="input-group input-file" name="Fichier1">
-                  <input type="text" class="form-control" placeholder='Choose a file...' />     
+                  <input type="text" class="form-control" id="proposal_input" placeholder='Choose a file...' />     
                   <span class="input-group-btn">
                     <button class="btn btn-default btn-choose" type="button">Choose</button>
                   </span>
@@ -267,7 +369,7 @@
               </div>
             </div>
             <div class="margin-tp-20 text-right">
-                <button class="text-right btn btn-primary">Save</button>
+                <button class="text-right btn btn-primary" data-text_id="proposal_input" data-head="proposal" onclick="addLeadUpdateInfo(this);">Save</button>
             </div>
           </div>
         </div>
@@ -622,13 +724,24 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
+          <button type="button" class="btn btn-primary" data-text_id="water_analysis_report_input" data-head="water_analysis_report" onclick="addLeadUpdateInfo(this);">Save changes</button>
+          <input type="hidden" id="water_analysis_report_input" value="Water Analysis Update">
         </div>
       </div>
     </div>
   </div>
 </body>
 <script>
+  $(document).ready(function() {
+    
+    var elements = $('.lead_elements');
+    $.each(elements, function(k,v){
+      //debugger;
+      addLeadUpdateInfo(v,'get');
+    });
+  });
+
+  
   function bs_input_file() {
   $(".input-file").before(
     function() {
@@ -658,4 +771,39 @@
 $(function() {
   bs_input_file();
 });
+
+/*--------------------ajax call for inserting and updating lead info-----------------------*/
+// water analysis report ki value modal input me present h and modal k save button pr ajx call hai.
+
+function addLeadUpdateInfo(target,request_type){
+  //debugger;
+  var textInputId = $(target).data('text_id');
+  var update_data = $('#'+textInputId).val();
+  var update_head = $(target).data('head');
+  var leads_key_id = $('#lead_key_id').val();
+  
+  $.ajax({
+          type: "POST",
+          url: "{{=URL('CRM', 'update_leads_ajax')}}",
+          data: {
+            request_type: request_type,
+            update_data:update_data,
+            update_head:update_head,
+            leads_key_id: leads_key_id
+          }}).done(function( data ) { 
+            //debugger;
+            $('#'+textInputId).val('');
+            var dat = JSON.parse(data);
+            $('#'+update_head+'_table tbody').empty();
+            $.each(dat, function(k,v){
+              var divId = v['update_head'];
+              //$("#"+divId+'_table tbody').append('<tr><td>'+v['update_data']+'</td><td>'+v['db_entry_time']+'</td><td>'+v['added_by']+'</td></tr>');
+              $("#"+divId+'_table').DataTable().row.add([
+                  v['update_data'], v['db_entry_time'], v['db_entered_by']]).draw();
+            });
+       });
+  //$('#'+update_head+'_table').DataTable();
+}
+/*--------------------ajax call for inserting and updating lead info-----------------------*/
+
 </script>
