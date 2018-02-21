@@ -82,7 +82,7 @@
                     response.write("<td>%s</td>"%data[key]['Lead Source'],escape=False)
                     response.write("<td>%s</td>"%data[key]['Description'],escape=False)
                     response.write("<td>%s</td>"%data[key]['Status'],escape=False)
-                    response.write("<td><a href= %s >edit</a></td>"%URL('leads_update','',args=[data[key]['lead_key_id']]),escape=False)
+                    response.write("<td><a href= %s >edit</a></td>"%URL('leads_update',args=[data[key]['lead_key_id']]),escape=False)
                     response.write("</tr>",escape=False)
                     pass
                     

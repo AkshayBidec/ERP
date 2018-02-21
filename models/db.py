@@ -221,7 +221,7 @@ db.define_table(
     Field('password',type='password', required=True, notnull=True),
     Field('temp_password',type='password', required=False, notnull=False),
     Field('forgot_password_verification',type='string',length=2000,required=False,notnull=False),
-    Field('ip_address',type='string',length=500, required=True, notnull=True),
+    Field('ip_address',type='string',length=500, required=False, notnull=False),
     Field('mac_address',type='string',length=500, required=False, notnull=False),
     Field('locations',type='string',length=500, required=False, notnull=False),
     Field('is_active',type='boolean',default=True, required=True, notnull=True),

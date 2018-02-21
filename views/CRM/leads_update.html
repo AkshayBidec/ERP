@@ -23,7 +23,8 @@
           <div class="#">
             <button type="button" class="btn btn-success">Convert</button>
             <button type="button" class="btn btn-primary">Send E-mail</button>
-            <button type="button" class="btn btn-default">Edit</button>
+            <!-- <button type="button" class="btn btn-default">Edit</button> -->
+            <a href="{{=URL('leads_edit',args=[lead_key_id])}}" class="btn btn-default">Edit</a>
           </div>
         </div>          
       </div>
@@ -32,8 +33,10 @@
           {{ name = str(data['contact_details'][0]['crm_contact_field_value']['field_value']) + " " + str(data['contact_details'][1]['crm_contact_field_value']['field_value']) }}
           <h6>{{=name.title()}}</h6>
         </div>
+
         <input type="hidden" name="lead_key_id" id="lead_key_id" value="{{=lead_key_id}}">
-        <div class="margin-10">
+        
+        <div class="margin-10" style="width: 100%">
           <div class="row">
             <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
               <div class="field_label">
@@ -55,6 +58,7 @@
             <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
               <div class="field_value">
                 {{=data['contact_details'][6]['crm_contact_field_value']['field_value'] or 'NO Email present'}}
+                <br>
               </div>
             </div>
           </div>
@@ -80,11 +84,36 @@
             <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
               <div class="field_value">
                 {{=data['lead_details'][1]['crm_lead_field_value']['field_value']}}
-                have to replace with the data from the leads update tabel
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+              <div class="field_label">
+                Application Of Treated Water
+              </div>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+              <div class="field_value">
+                {{=data['lead_details'][3]['crm_lead_field_value']['field_value'] or 'NA'}}
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+              <div class="field_label">
+                Volume Per Day
+              </div>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+              <div class="field_value">
+                {{=data['lead_details'][4]['crm_lead_field_value']['field_value'] or 'NA'}}
               </div>
             </div>
           </div>
         </div>
+       
+
         <div class="row margin-tp-20">
           <div class="col-sm-12 col-md-12 col-xs-12 col-lg-12">
             <div class="progress">

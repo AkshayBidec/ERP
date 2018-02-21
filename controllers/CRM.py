@@ -386,25 +386,31 @@ def leads_update():
 	# check the user is loged in or not
 	if session.active==1:
 
-		leadserver = xmlrpclib.ServerProxy(link+str(URL('CRM','Leads','call/xmlrpc')),allow_none=True,context=context)	# make the connection to the api server of lead
+		if len(request.args)>0:
+
+			leadserver = xmlrpclib.ServerProxy(link+str(URL('CRM','Leads','call/xmlrpc')),allow_none=True,context=context)	# make the connection to the api server of lead
 
 
-		lData={} # A dict to store the response of the server
+			lData={} # A dict to store the response of the server
 
-		# take the leads key id from the page we have been redirected to get the data
-		lRequestData={
-			'lead_key_id':request.args[0],
-			'user_id': session.user_id,
-			'company_id':session.company_id
-		}
+			# take the leads key id from the page we have been redirected to get the data
+			lRequestData={
+				'lead_key_id':request.args[0],
+				'user_id': session.user_id,
+				'company_id':session.company_id
+			}
 
-		# try to fetch the required data from the api
-		try:
-			lData = leadserver.fetch_lead_basic_details(lRequestData)
-		except Exception as e:
-			session.message=" error in geting the leads update %s" %e
+			# try to fetch the required data from the api
+			try:
+				lData = leadserver.fetch_lead_basic_details(lRequestData)
+			except Exception as e:
+				session.message=" error in geting the leads update %s" %e
+			else:
+				pass
 		else:
-			pass
+			redirect(URL('leads'))
+			session.flash="select a lead to continue"
+
 
 	else:
 		redirect(URL('../../../ERP/LoginPage/login'))
@@ -418,8 +424,8 @@ def leads_edit():
 	# if the user wants to edit the contact details he will be redirected to that page from leads update page
 	if session.active==1:
 		done=0
-		# lead_key_id= request.vars.lead_key_id
-		lead_key_id= 16
+		lead_key_id= request.args[0]
+		# lead_key_id= 16
 
 	#------------------------------------------------- session is active, make the connection to api		
 		leadserver=xmlrpclib.ServerProxy(link+str(URL('CRM','Leads','call/xmlrpc')),allow_none=True,context=context)	# make the connection to the api server of lead
@@ -479,17 +485,17 @@ def leads_edit():
 			else:
 				done=1
 				pass
-
+			if done==1:
+				redirect(URL('leads_update',args=[lead_key_id]))
 			pass
+		return dict(form=lForm,leads_form_fields=leads_form_fields)
 
 	else:
 		redirect(URL('../../../ERP/LoginPage/login'))
 		session.flash="login to continue"
 
-	return dict(form=lForm,leads_form_fields=leads_form_fields)
 
 
-	return locals()
 
 
 #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
@@ -1067,6 +1073,7 @@ def update_leads_ajax():
 	'session_id':session.session_id,		##############
 	'lead_update_id':request.vars.lead_update_id
 	}
+
 
 	# lRequestData={
 	# 'request_type': 'get',		# get and add
