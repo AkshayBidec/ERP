@@ -13,7 +13,7 @@
 <div class="container-fluid">
   <div class="row bg-gray padding-10">
     <div class="col-md-3 col-lg-3 col-xs-3 col-sm-3 text-center">
-      <div class="btn-group">
+     <!--  <div class="btn-group">
         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Action <span class="caret"></span>
         </button>
@@ -24,7 +24,7 @@
           <li role="separator" class="divider"></li>
           <li><a href="#">Separated link</a></li>
         </ul>
-      </div>
+      </div> -->
     </div>
     <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
     </div>
@@ -40,26 +40,30 @@
   <div class="row margin-10">
     <div class="col-md-3 col-lg-3 col-xs-3 col-sm-3 bg-light-gray padding-10 border-right">
       <div class="section_head padding-10">
-        <h3 class="margin-10">Filter Leads</h3>
+        <h3 class="margin-10">Filter Contact</h3>
       </div>
+      
       <div class="filter accordian-container">
-        <div class="custom-checkbox filter-head accordian-head">
+        <div class="custom-checkbox  accordian-head">
           <input type="checkbox" value="#" name="price" id="check-cat-price-0" class="filter-checkbox">
-          <label for="check-cat-price-0">Koyla kaala hai </label>
+          <label for="check-cat-price-0">Name </label>
         </div>
         <div class="filter-body accordian-body">
-          baba ji ki booty
+          Name Starting With
         </div>
       </div>
+      
       <div class="filter accordian-container">
-        <div class="custom-checkbox">
+        <div class="custom-checkbox  accordian-head">
           <input type="checkbox" value="#" name="price" id="check-cat-price-1" class="filter-checkbox">
-          <label for="check-cat-price-1">Chattano ne paala </label>
+          <label for="check-cat-price-1">Company Name </label>
         </div>
       </div>
+   
     </div>
     <div class="col-md-9 col-lg-9 col-xs-9 col-sm-9 ">
-      <table class="table table-bordered">
+      <table class="table table-bordered table-hover" id="contacts_table">
+        <thead>
         <tr>
           <th>Company</th>
           <th>Name</th>
@@ -69,11 +73,12 @@
           <th>Designation</th>
           <th>Department</th>
         </tr>
-        
+        </thead>
+        <tbody>
         {{  if len(data)>0:
                 
                 for key in data.keys():
-                    response.write("<tr>",escape=False)
+                    response.write("<tr id='%s' onclick='page_redirect(this.id)' style='cursor: pointer;'>"%data[key]['contact_key_id'],escape=False)
                     response.write("<td>%s</td>"%data[key]['Company'],escape=False)
                     response.write("<td>%s</td>"%data[key]['Name'],escape=False)
                     response.write("<td>%s</td>"%data[key]['Email'],escape=False)
@@ -90,13 +95,19 @@
         <tr><td colspan=7 class="text-center">Add <a href="{{=URL('leads_add')}}">new lead!</a></td></tr>
         {{pass}}
         {{=session.message}}
-
+        </tbody>
       </table>
     </div>
   </div>  
 </div>
 </body>
 <script>
+  $(document).ready(function(){
+    $('#contacts_table').DataTable();
+  });
+  function page_redirect(id){
+    window.location.href = "{{=URL('contacts_view')}}"+'/'+id;
+  }
   setAccordian();
 function setAccordian() {
 

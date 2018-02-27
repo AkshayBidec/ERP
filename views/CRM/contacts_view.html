@@ -1,0 +1,245 @@
+{{extend 'navbar.html'}}
+<head>
+  
+  <!-- <link rel="stylesheet" href="/ERP/static/css/navbar.css"/>  a custom css file for flash massage --> 
+  <link rel="stylesheet" href="/ERP/static/css/custom_styles.css"/> <!--  a custom css file for flash massage -->
+
+</head>
+<body>
+
+
+  
+<div class="container-fluid">
+  <div class="row padding-10">
+    <div class="col-md-2 col-lg-2 col-xs-2 col-sm-2 bg-gray text-center">
+
+    </div>
+    <div class="col-md-10 col-lg-10 col-sm-10 col-xs-10">
+      <div class="row bg-light-gray padding-10">
+        <div class="col-md-8 col-lg-8 col-xs-8 col-sm-8  text-center">
+          
+        </div>
+        <div class="col-md-4 col-lg-4 col-xs-4 col-sm-4">
+          <div class="#">
+            <!-- <button type="button" class="btn btn-success">Convert</button> -->
+            <button type="button" class="btn btn-primary">Send E-mail</button>
+            <!-- <button type="button" class="btn btn-default">Edit</button> -->
+            <a href="{{=URL('contacts_edit',args=[contact_key_id])}}" class="btn btn-default">Edit Contact</a>
+          </div>
+        </div>          
+      </div>
+      <div class="sec_head">
+          <h2>{{=data['company_details'][0]['crm_company_field_value']['field_value'] or NA}}</h2>
+          {{ name = str(data['contact_details'][0]['crm_contact_field_value']['field_value']) + " " + str(data['contact_details'][1]['crm_contact_field_value']['field_value']) }}
+          <h4>{{=name.title()}}</h4>
+        </div>
+
+        <input type="hidden" name="lead_key_id" id="lead_key_id" value="16">
+        
+
+
+
+<!-- contact info -->
+        <div class="margin-10" style="width: 100%">
+          <div class="row">
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+              <div class="field_label">
+               <strong> Contact Info :--</strong>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+              <div class="field_label">
+                Designation
+              </div>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+              <div class="field_value">
+                {{=data['contact_details'][2]['crm_contact_field_value']['field_value'] or 'NO Email present'}}
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+              <div class="field_label">
+                E-mail
+              </div>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+              <div class="field_value">
+                {{=data['contact_details'][6]['crm_contact_field_value']['field_value'] or 'NO Email present'}}
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+              <div class="field_label">
+                Mobile 
+              </div>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+              <div class="field_value">
+                {{=data['contact_details'][5]['crm_contact_field_value']['field_value'] or 'NO Email present'}}
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+              <div class="field_label">
+                Department                     
+              </div>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+              <div class="field_value">
+                {{=data['contact_details'][3]['crm_contact_field_value']['field_value'] or 'NO Email present'}}
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+              <div class="field_label">
+                Type Of Contact
+              </div>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+              <div class="field_value">
+                {{=data['contact_details'][4]['crm_contact_field_value']['field_value'] or 'NO Email present'}}
+              </div>
+            </div>
+          </div>
+<div>
+  <br>
+</div>
+     
+
+<!-- company info , div are exact copy of the contact-->
+       <div class="margin-0" style="width: 100%"> <!-- changed the margin to 0 -->
+          <div class="row">
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+              <div class="field_label">
+                <strong>Company Info :--</strong>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+              <div class="field_label">
+                Company Name
+              </div>
+            </div>
+            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+              <div class="field_value">
+                {{=data['company_details'][0]['crm_company_field_value']['field_value']}}
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+              <div class="field_label">
+                Type Of Industry
+              </div>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+              <div class="field_value">
+                {{=data['company_details'][1]['crm_company_field_value']['field_value']}}
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+              <div class="field_label">
+                Website 
+              </div>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+              <div class="field_value">
+                {{=data['company_details'][2]['crm_company_field_value']['field_value']}}
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+              <div class="field_label">
+                Phone                     
+              </div>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+              <div class="field_value">
+                {{=data['company_details'][3]['crm_company_field_value']['field_value']}}
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+              <div class="field_label">
+                Fax No
+              </div>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+              <div class="field_value">
+                {{=data['company_details'][4]['crm_company_field_value']['field_value']}}
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+              <div class="field_label">
+               Street
+              </div>
+            </div>
+            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+              <div class="field_value">
+                {{=data['company_details'][5]['crm_company_field_value']['field_value']}}
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+              <div class="field_label">
+                State
+              </div>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+              <div class="field_value">
+                {{=data['company_details'][6]['crm_company_field_value']['field_value']}}
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+              <div class="field_label">
+                City
+              </div>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+              <div class="field_value">
+                {{=data['company_details'][7]['crm_company_field_value']['field_value']}}
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+              <div class="field_label">
+                Pincode
+              </div>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+              <div class="field_value">
+                {{=data['company_details'][8]['crm_company_field_value']['field_value']}}
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+              <div class="field_label">
+                Country
+              </div>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+              <div class="field_value">
+                {{=data['company_details'][9]['crm_company_field_value']['field_value']}}
+              </div>
+            </div>
+          </div>
+

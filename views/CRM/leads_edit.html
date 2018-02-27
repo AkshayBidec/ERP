@@ -1,10 +1,7 @@
 {{extend 'navbar.html'}}
 {{ include 'web2py_ajax.html'}}
     <head>
-        <link rel="stylesheet" href="{{=URL('static','css/flash.css')}}"/> <!--  a custom css file for flash massage -->
-        <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
-        <script src="{{=URL('static','js/flash.js')}}"></script>  <!-- js file dedicated to the flash messages -->
-
+       
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
     </head>
@@ -12,14 +9,7 @@
     <body>
 
 
-{{ if session.flash:}}
-<div class="popup"> <a href="#" class="close">
-  <svg id="Layer_1" x="0px" y="0px" width="10px" height="10px" viewBox="215.186 215.671 80.802 80.8" enable-background="new 215.186 215.671 80.802 80.8" xml:space="preserve">
-        <polygon fill="#FFFFFF" points="280.486,296.466 255.586,271.566 230.686,296.471 215.19,280.964 240.086,256.066 215.186,231.17 230.69,215.674 255.586,240.566 280.475,215.671 295.985,231.169 271.089,256.064 295.987,280.96 "/>
-       </svg></a>
-      <div class="flash"><h1 >{{=session.flash or ''}}</h1></div>
-</div>
-{{pass}}
+
 
         <div class="container">
             <div class="form">
@@ -62,7 +52,7 @@
                                 });
 
                                 function set_company_value(obj) {
-                                    debugger;
+                                    // debugger;
                                     var lContactID = $(obj).data('id');
                                     ajax('{{=URL('CRM', 'contact_details')}}?contactId='+lContactID, [], ':eval')
                                 }
@@ -100,7 +90,7 @@
 
     function setValue(jsonData) {
         $.each(jsonData, function(k,v){
-            debugger;
+            // debugger;
             var element = $('#no_table_'+k).prop('tagName');
             switch(element) {
                 case '':

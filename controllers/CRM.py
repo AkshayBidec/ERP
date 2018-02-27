@@ -2,6 +2,7 @@ import _pickle as cPickle
 import xmlrpc.client as xmlrpclib # import the rpc file
 import json as json # JSON library
 import ssl
+import filters
 context = ssl.SSLContext()
 link=str(request.env.wsgi_url_scheme)+"://"+str(request.env.http_host)	
 
@@ -26,17 +27,16 @@ def leads():
 		# lLimit['countTo']=10		# total number of fieds required, replace it with request.vars.* to make it dynamin
 		# lLimit['countFrom']=0		# no of the row to start from 
 		# lLimit['order']='~db.crm_lead_field_key.id' 	# the name of field to order on, string will be evaluated in the api
-		
 		lLeadsList=[]
 		try:
 			lLeadsList= server.get_leads(session.company_id)		# get the data from the api
 		except Exception as e:
 			session.message=str(lLeadsList) + str(e)
-
 		return dict(data=lLeadsList)
 	else:
 		redirect(URL('../../../ERP/LoginPage/login'))
 		session.flash="login to continue"
+		
 #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 def leads_add():
 	if session.active==1:
@@ -80,16 +80,19 @@ def leads_add():
 	#------------------------------------------------- add the fields of contact form
 		# add the form fields of the contacts
 		for key in sorted(contact_form_fields.keys()):			# take key one by one in a sequence and make the field list
-			
+			name=key
 			if contact_form_fields[key][0]:
 				widget=eval(contact_form_fields[key][0])
 			else:
 				widget=eval('SQLFORM.widgets.string.widget') 		# a default value for a field if the widget not given
 			if contact_form_fields[key][1]:
 				requires=eval(contact_form_fields[key][1])
+
+				# if 'IS_IN_SET' in contact_form_fields[key][1]:
+				# 	name= str(key)+'*'
 			else:
 				requires=[] 		# it is a list and can be empty		
-			fields.append(Field(key,widget=widget, requires=requires))
+			fields.append(Field(name,widget=widget, requires=requires))
 	#------------------------------------------------- make the sql form using the pointer to the list of fields
 
 		lForm= SQLFORM.factory(*fields)			# make the sql form using the form factory
@@ -102,8 +105,14 @@ def leads_add():
 				s= key
 				s=s.title()
 			place='lForm.custom.widget.'+str(key)+'.update(_placeholder=\''+s+'\')'+"\n"
+			
+			if 'IS_IN_SET' in leads_form_fields[key][1] or 'IS_NOT_EMPTY' in leads_form_fields[key][1]:
+				require='lForm.custom.widget.'+str(key)+'["_required"]= " "'
+				pass
 			leads_form_fields[key]=s						
 			exec(place)
+			exec(require)
+
 
 	#-------------------------------------------------
 		for key in contact_form_fields.keys():
@@ -114,8 +123,14 @@ def leads_add():
 				s= key
 				s=s.title()
 			place='lForm.custom.widget.'+str(key)+'.update(_placeholder=\''+s+'\')'+"\n"
+
+			if 'IS_IN_SET' in contact_form_fields[key][1] or 'IS_NOT_EMPTY' in contact_form_fields[key][1]:
+				require='lForm.custom.widget.'+str(key)+'["_required"]= " "'
+				pass
+
 			contact_form_fields[key]=s						
 			exec(place)
+			exec(require)
 	#-------------------------------------------------
 		for key in company_form_fields.keys():
 			if '_' in key:
@@ -125,13 +140,20 @@ def leads_add():
 				s= key
 				s=s.title()
 			place='lForm.custom.widget.'+str(key)+'.update(_placeholder=\''+s+'\')'+"\n"
+
+			if 'IS_IN_SET' in company_form_fields[key][1] or 'IS_NOT_EMPTY' in company_form_fields[key][1]:
+				require='lForm.custom.widget.'+str(key)+'["_required"]= " "'
+				pass
+
 			company_form_fields[key]=s			
 			exec(place)
+			exec(require)
 	#------------------------------------------------- if the form is accepted
+
 		if lForm.process().accepted:
 				company_key_id=int(request.vars.company_key_id)
 				contact_key_id=int(request.vars.contact_key_id)
-	#------------------------------------------------- contact and company is already in the db and we have the key ids of them
+				#------------------------------------------------- contact and company is already in the db and we have the key ids of them
 				if company_key_id != 0 and contact_key_id !=0: # only new leads
 					
 					for key in leads_form_fields.keys(): # update the entered data
@@ -148,15 +170,15 @@ def leads_add():
 						session.message+= str(lResponseDict['msg'])							
 
 					except Exception as e:
-						session.message=" error while adding contact details (%s)" %e
-						session.flash=" error while adding conatact details (%s)" %e
+						session.message=" error while adding lead details (%s)" %e
+						session.flash=" error while adding lead details (%s)" %e
 					else:
 						done=1
 						pass
 
 					session.flash='condition 1'+" "+str(company_key_id) +" "+str(type(company_key_id))
 					pass
-	#------------------------------------------------- have the company key id and new data in contact and its new lead
+				#------------------------------------------------- have the company key id and new data in contact and its new lead
 
 				elif company_key_id != 0 and contact_key_id ==0: # contant and leads
 					session.message=''
@@ -173,7 +195,7 @@ def leads_add():
 						
 						contact_key_id= lResponseDict['lKeyId']
 						
-						session.message+= str(lResponseDict['msg'])
+						# session.message+= str(lResponseDict['msg'])
 						
 					except Exception as e:
 						session.message+=" error while adding contact details (%s)" %e
@@ -191,11 +213,11 @@ def leads_add():
 						try:    
 						
 							lResponseDict= leadserver.add_leads(dict(data=leads_form_fields)) 		# send the dictioinary to the server
-							session.message+= str(lResponseDict['msg'])							
+							# session.message+= str(lResponseDict['msg'])							
 
 						except Exception as e:
-							session.message=" error while adding contact details (%s)" %e
-							session.flash=" error while adding conatact details (%s)" %e
+							session.message=" error while adding leads details (%s)" %e
+							session.flash=" error while adding leads details (%s)" %e
 						else:
 							done=1
 							pass
@@ -203,7 +225,7 @@ def leads_add():
 						pass
 					session.flash='condition 2'
 					pass
-	#------------------------------------------------- whole data is new
+				#------------------------------------------------- whole data is new
 
 				elif company_key_id == 0 and contact_key_id ==0: #	all
 					
@@ -239,9 +261,10 @@ def leads_add():
 							lResponseDict= contactserver.add_contact(dict(data=contact_form_fields)) 		# send the dictioinary to the server
 							
 							contact_key_id= lResponseDict['lKeyId']
-							session.message+= str(lResponseDict['msg'])
+							# session.message+= str(lResponseDict['msg'])
 							
 						except Exception as e:
+							# session.message=str(lResponseDict['msg'])
 							session.message+=" error while adding contact details (%s)" %e
 							session.flash=" error while adding conatact details (%s)" %e
 						else:
@@ -257,11 +280,11 @@ def leads_add():
 							try:    
 							
 								lResponseDict= leadserver.add_leads(dict(data=leads_form_fields)) 		# send the dictioinary to the server
-								session.message+= str(lResponseDict['msg'])							
+								# session.message+= str(lResponseDict['msg'])							
 
 							except Exception as e:
-								session.message=" error while adding contact details (%s)" %e
-								session.flash=" error while adding conatact details (%s)" %e
+								session.message=" error while adding leads details (%s)" %e
+								session.flash=" error while adding leads details (%s)" %e
 							else:
 								done=1
 								pass
@@ -272,7 +295,7 @@ def leads_add():
 					session.flash='condition 3'
 					pass
 
-	#------------------------------------------------- contact was present but have to add the company and update the details of the contact
+				#------------------------------------------------- contact was present but have to add the company and update the details of the contact
 				
 				elif company_key_id==0 and contact_key_id !=0: 
 					 
@@ -293,7 +316,7 @@ def leads_add():
 							lResponseDict= companyserver.add_company(dict(data=company_form_fields)) 		# send the dictioinary to the server
 							
 							company_key_id= lResponseDict['lKeyId'] 	# the new id from the api
-							session.message+= str(lResponseDict['msg'])
+							# session.message+= str(lResponseDict['msg'])
 
 						except Exception as e:
 							session.message+=" error while adding company details (%s)" %e 
@@ -309,7 +332,7 @@ def leads_add():
 							try:    
 								lResponseDict= contactserver.add_contact_company_key_id(dict(data=contact_form_fields)) 		# send the dictioinary to the server
 								
-								session.message+= str(lResponseDict['msg'])
+								# session.message+= str(lResponseDict['msg'])
 								
 							except Exception as e:
 								session.message+=" error while adding contact details (%s)" %e
@@ -327,11 +350,11 @@ def leads_add():
 								try:    
 								
 									lResponseDict= leadserver.add_leads(dict(data=leads_form_fields)) 		# send the dictioinary to the server
-									session.message+= str(lResponseDict['msg'])							
+									# session.message+= str(lResponseDict['msg'])							
 
 								except Exception as e:
-									session.message=" error while adding contact details (%s)" %e
-									session.flash=" error while adding conatact details (%s)" %e
+									session.message=" error while adding leads details (%s)" %e
+									session.flash=" error while adding leads details (%s)" %e
 								else:
 									done=1
 									pass
@@ -354,13 +377,12 @@ def leads_add():
 						leads_form_fields['session_id']=session.session_id
 
 						try:    
-						
 							lResponseDict= leadserver.add_leads(dict(data=leads_form_fields)) 		# send the dictioinary to the server
-							session.message+= str(lResponseDict['msg'])							
+							# session.message+= str(lResponseDict['msg'])							
 
 						except Exception as e:
-							session.message=" error while adding contact details (%s)" %e
-							session.flash=" error while adding conatact details (%s)" %e
+							session.message=" error while adding leads details (%s)" %e
+							session.flash=" error while adding leads details (%s)" %e
 						else:
 							done=1
 							pass
@@ -381,17 +403,19 @@ def leads_add():
 
 #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 def leads_update():
-	# this is the fun to only load the update page for the 1st time remaining will be done by ajax
-	
+	# this is the func to only load the update page for the 1st time remaining will be done by ajax
+	done=0 		# a flag to represent the succes
 	# check the user is loged in or not
 	if session.active==1:
-
 		if len(request.args)>0:
-
 			leadserver = xmlrpclib.ServerProxy(link+str(URL('CRM','Leads','call/xmlrpc')),allow_none=True,context=context)	# make the connection to the api server of lead
-
-
 			lData={} # A dict to store the response of the server
+
+			# session_details={'comapny_id':session.company_id,
+   #                 'user_id':session.user_id,
+   #                 'lead_key_id':request.args[0],
+
+   #                 }
 
 			# take the leads key id from the page we have been redirected to get the data
 			lRequestData={
@@ -406,7 +430,14 @@ def leads_update():
 			except Exception as e:
 				session.message=" error in geting the leads update %s" %e
 			else:
+				done=1
 				pass
+
+			if done==1:
+				return dict(data=lData, lead_key_id=lRequestData['lead_key_id'],session_details=lRequestData)
+			else:
+				sessin.message=' Envalid lead selected '
+
 		else:
 			redirect(URL('leads'))
 			session.flash="select a lead to continue"
@@ -416,87 +447,93 @@ def leads_update():
 		redirect(URL('../../../ERP/LoginPage/login'))
 		session.flash="login to continue"
 
-	return dict(data=lData, lead_key_id=lRequestData['lead_key_id'])
 
 #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 def leads_edit():
 	# this page is only to edit the leads details 
 	# if the user wants to edit the contact details he will be redirected to that page from leads update page
 	if session.active==1:
-		done=0
-		lead_key_id= request.args[0]
-		# lead_key_id= 16
+		if len(request.args)>0:
+			done=0
+			lead_key_id= request.args[0]
+			# lead_key_id= 16
 
-	#------------------------------------------------- session is active, make the connection to api		
-		leadserver=xmlrpclib.ServerProxy(link+str(URL('CRM','Leads','call/xmlrpc')),allow_none=True,context=context)	# make the connection to the api server of lead
+			#------------------------------------------------- session is active, make the connection to api		
+			leadserver=xmlrpclib.ServerProxy(link+str(URL('CRM','Leads','call/xmlrpc')),allow_none=True,context=context)	# make the connection to the api server of lead
+			
+			leads_form_fields=leadserver.leads_edit_ff(lead_key_id)			# ask for the list of the field to make the form and store it into a dict
+			
+			fields=[] 		# a simple list to store the form fields
+			#------------------------------------------------- add the form fields of leads into the list
+			for key in sorted(leads_form_fields.keys()):			# take key one by one in a sequence and make the field list
+				if leads_form_fields[key][0]:
+					widget=eval(leads_form_fields[key][0])
+				else:
+					widget=eval('SQLFORM.widgets.string.widget') 		# a default value for a field if the widget not given
+				
+				if leads_form_fields[key][1]:
+					requires=eval(leads_form_fields[key][1])
+				else:
+					requires=[] 		# it is a list and can be empty	
+
+				fields.append(Field(key,widget=widget, requires=requires, default=leads_form_fields[key][2]))
+
+
 		
-		leads_form_fields=leadserver.leads_edit_ff(lead_key_id)			# ask for the list of the field to make the form and store it into a dict
-		
-		fields=[] 		# a simple list to store the form fields
-	#------------------------------------------------- add the form fields of leads into the list
-		for key in sorted(leads_form_fields.keys()):			# take key one by one in a sequence and make the field list
-			if leads_form_fields[key][0]:
-				widget=eval(leads_form_fields[key][0])
-			else:
-				widget=eval('SQLFORM.widgets.string.widget') 		# a default value for a field if the widget not given
-			
-			if leads_form_fields[key][1]:
-				requires=eval(leads_form_fields[key][1])
-			else:
-				requires=[] 		# it is a list and can be empty	
+			#------------------------------------------------- make the sql form using the pointer to the list of fields
 
-			fields.append(Field(key,widget=widget, requires=requires, default=leads_form_fields[key][2]))
+			lForm= SQLFORM.factory(*fields)			# make the sql form using the form factory
+			#------------------------------------------------- add the place holder using the same dictionary
+			for key in leads_form_fields.keys():
+				if '_' in key:
+					s= key.replace('_',' ')
+					s=s.title()
+				else:
+					s= key
+					s=s.title()
+				place='lForm.custom.widget.'+str(key)+'.update(_placeholder=\''+s+'\')'+"\n"
+				leads_form_fields[key]=s						
+				exec(place)
+
+			lForm.custom.widget.lead_status['_required']=''
+			lForm.custom.widget.lead_source['_required']=''
+			lForm.custom.widget.lead_owner['_required']=''
 
 
-	
-	#------------------------------------------------- make the sql form using the pointer to the list of fields
 
-		lForm= SQLFORM.factory(*fields)			# make the sql form using the form factory
-	#------------------------------------------------- add the place holder using the same dictionary
-		for key in leads_form_fields.keys():
-			if '_' in key:
-				s= key.replace('_',' ')
-				s=s.title()
-			else:
-				s= key
-				s=s.title()
-			place='lForm.custom.widget.'+str(key)+'.update(_placeholder=\''+s+'\')'+"\n"
-			leads_form_fields[key]=s						
-			exec(place)
+			if lForm.process().accepted:
+				
+				session.message=''					
+				for key in leads_form_fields.keys(): # update the entered data
+					leads_form_fields[key]=eval('lForm.vars.'+key)
+				
+				leads_form_fields['lead_key_id']=lead_key_id		# add the extra data, take the lead id to specify the update
+				leads_form_fields['user_id']=session.user_id
+				leads_form_fields['session_id']=session.session_id
+				leads_form_fields['company_id']=session.session_id
 
-		if lForm.process().accepted:
-			
-			session.message=''					
-			for key in leads_form_fields.keys(): # update the entered data
-				leads_form_fields[key]=eval('lForm.vars.'+key)
-			
-			leads_form_fields['lead_key_id']=lead_key_id		# add the extra data, take the lead id to specify the update
-			leads_form_fields['user_id']=session.user_id
-			leads_form_fields['session_id']=session.session_id
-			leads_form_fields['company_id']=session.session_id
+				try:    
+					lResponseDict= leadserver.edit_leads(dict(data=leads_form_fields)) 		# send the dictioinary to the server
+					session.message+= str(lResponseDict['msg'])							
 
-			try:    
-				lResponseDict= leadserver.edit_lieds(dict(data=leads_form_fields)) 		# send the dictioinary to the server
-				session.message+= str(lResponseDict['msg'])							
-
-			except Exception as e:
-				session.message=" error while editing leads details (%s)" %e
-				session.flash=" error while editing leads details (%s)" %e
-			else:
-				done=1
+				except Exception as e:
+					session.message=" error while editing leads details (%s)" %e
+					session.flash=" error while editing leads details (%s)" %e
+				else:
+					done=1
+					pass
+				if done==1:
+					redirect(URL('leads_update',args=[lead_key_id]))
 				pass
-			if done==1:
-				redirect(URL('leads_update',args=[lead_key_id]))
-			pass
-		return dict(form=lForm,leads_form_fields=leads_form_fields)
+			return dict(form=lForm,leads_form_fields=leads_form_fields)
+
+		else:
+			redirect(URL('leads'))
+			session.flash="select a lead to edit"
 
 	else:
 		redirect(URL('../../../ERP/LoginPage/login'))
 		session.flash="login to continue"
-
-
-
-
 
 #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
@@ -600,6 +637,13 @@ def contacts_add():
 			company_form_fields[key]=s			
 			exec(place)
 	
+
+		lForm.custom.widget.company_name['_required']=''
+		lForm.custom.widget.company_name['_required']=''
+		lForm.custom.widget.first_name['_required']=''
+		lForm.custom.widget.type_of_contact['_required']=''
+
+
 	#------------------------------------------------- if the form is accepted
 		if lForm.process().accepted:
 				company_key_id=int(request.vars.company_key_id)
@@ -741,7 +785,7 @@ def contacts_edit():
 		
 		# in this we have to provide the contact key id and get the respective company key id for company details
 		# contact_key_id=request.vars.company_key_id 		# uncomment to connet to other page
-		contact_key_id=34
+		contact_key_id=request.args[0]
 		contact_form_fields=contactserver.contact_edit_ff(contact_key_id)		
 
 		company_key_id=contact_form_fields['company_key_id']
@@ -828,9 +872,9 @@ def contacts_edit():
 					try:    
 						lResponseDict= contactserver.edit_contact(dict(data=contact_form_fields)) 		# send the dictioinary to the server
 						
-						contact_key_id= lResponseDict['lKeyId']
+						# contact_key_id= lResponseDict['lKeyId']
 						
-						session.message+= str(lResponseDict['msg'])
+						# session.message+= str(lResponseDict['msg'])
 						
 					except Exception as e:
 						session.message+=" error while adding contact details (%s)" %e
@@ -912,9 +956,10 @@ def contacts_edit():
 						try:    
 							lResponseDict= contactserver.edit_contact(dict(data=contact_form_fields)) 		# send the dictioinary to the server
 							
-							contact_key_id= lResponseDict['lKeyId']
 							
-							session.message+= str(lResponseDict['msg'])
+							# contact_key_id= lResponseDict['lKeyId']
+							
+							# session.message+= str(lResponseDict['msg'])
 							
 						except Exception as e:
 							session.message+=" error while adding contact details (%s)" %e
@@ -928,13 +973,56 @@ def contacts_edit():
 					
 					
 				if done ==1:
-					# redirect(URL('contacts'))
+					redirect(URL('contacts_view',args=[contact_key_id]))
 					pass
 	else:
 		redirect(URL('../../../ERP/LoginPage/login'))
 		session.flash="login to continue"
 
 	return dict(form=lForm,contact_form_fields=contact_form_fields,company_form_fields=company_form_fields)
+
+#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+def contacts_view():
+	# this is the func to only load the update page for the 1st time remaining will be done by ajax
+	done=0
+	# check the user is loged in or not
+	if session.active==1:
+
+		if len(request.args)>0:
+			
+			leadserver = xmlrpclib.ServerProxy(link+str(URL('CRM','Contact','call/xmlrpc')),allow_none=True,context=context)	# make the connection to the api server of lead
+			
+			lData={} # A dict to store the response of the server
+
+			# take the leads key id from the page we have been redirected to get the data
+			lRequestData={
+				'contact_key_id':request.args[0],
+				'user_id': session.user_id,
+				'company_id':session.company_id
+			}
+
+			# try to fetch the required data from the api
+			try:
+				lData = leadserver.fetch_contact_basic_details(lRequestData)
+			except Exception as e:
+				session.message=" error in geting the leads update %s" %e
+			else:
+				session.message=""
+				done=1
+				pass
+
+
+			if done==1:
+				return dict(data=lData, contact_key_id=lRequestData['contact_key_id'])
+
+		else:
+			redirect(URL('contacts'))
+			session.flash="select a contact to continue"
+
+	else:
+		redirect(URL('../../../ERP/LoginPage/login'))
+		session.flash="login to continue"
 
 #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
@@ -958,7 +1046,7 @@ def company_selector():
 			return DIV(*[DIV (k[1],
 					 data={'id': "%s" % k[0]},
                      _onclick="set_company_value(this)",
-                     _onmouseover="this.style.backgroundColor='yellow'",
+                     _onmouseover="this.style.backgroundColor='lightblue'",
                      _onmouseout="this.style.backgroundColor='white'"
                      ) for k in lCompanyList.items() ] )
 			pass
@@ -1008,8 +1096,9 @@ def contact_selector():
 				return DIV(*[DIV(k['crm_contact_field_value']['field_value']+'-'+k['crm_company_field_value']['field_value'],
 							data={'contact_id': "%s" % k['crm_contact_field_value']['contact_key_id'], 'company_id': "%s" % k['crm_contact_field_key']['company_key_id']},
 							_onclick="set_contact_value(this)",
-							_onmouseover="this.style.backgroundColor='yellow'",
-                     		_onmouseout="this.style.backgroundColor='white'"
+							_onmouseover="this.style.backgroundColor='lightblue'",
+                     		_onmouseout="this.style.backgroundColor='white'",
+                     		_style="cursor: pointer;"
                      	) for k in lContactDetail])
 				pass
 			pass
@@ -1057,6 +1146,10 @@ def contact_details():
 
 #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ ajax for lead update $$$$$$$$$$$$$$$$$$$$$$$$$$
 
+
+
+
+#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ 
 def update_leads_ajax():
 	session.message=" "
 	# store all the required data into a single dict and send it to the api
@@ -1073,8 +1166,6 @@ def update_leads_ajax():
 	'session_id':session.session_id,		##############
 	'lead_update_id':request.vars.lead_update_id
 	}
-
-
 	# lRequestData={
 	# 'request_type': 'get',		# get and add
 	# 'lead_key_id': '16',

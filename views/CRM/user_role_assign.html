@@ -1,72 +1,12 @@
-<!DOCTYPE html>
-<html>
+
+{{extend 'navbar.html'}}
 <head>
 	<meta charset="utf-8">
-   	<meta name="viewport" content="width=device-width, initial-scale=1">
-  	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  	<script src="https://use.fontawesome.com/6353c44d0f.js"></script>
-  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
-  <link rel="stylesheet" href="/ERP/static/css/navbar.css"/> <!--  a custom css file for flash massage -->
 	<link rel="stylesheet" href="/ERP/static/css/custom_styles.css"/> <!--  a custom css file for flash massage -->
 
 
 </head>
 <body>
-
-<nav class="navbar navbar-inverse margin-0">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="#"><i class="fa fa-bars"></i></a>
-    </div>
-    <ul class="nav navbar-nav" style="margin-left: 2%;">
-      <li class=""><a href="/ERP/DashBoard/./../../ERP/DashBoard/dashboard">Home</a></li>
-      <li><a href="/ERP/DashBoard/./../../ERP/CRM/crm">CRM</a></li>
-      <li><a href="/ERP/DashBoard/./../../ERP/CRM/leads">Leads</a></li>
-      <li><a href="/ERP/DashBoard/./../../ERP/CRM/contacts">Contacts</a></li>
-       <li><a href="/ERP/DashBoard/./../../ERP/LoginPage/logout">Logout</a></li>
-    </ul>
-    
-    <ul class="nav navbar-nav pull-right" style="width: 35%;">
-      
-      <li class="progress-bar" role="progressbar"
-       aria-valuemax="100" style="width:30%;margin-top: 4%;">
-        70%
-      </li>
-      
-      <li><a href="#"><i class="fa fa-bell"></i></a></li>
-      <li><a href="#"><i class="fa fa-cogs"></i></a></li>
-      
-      <li class="dropdown">
-         
-          <a href="#" class="dropdown-toggle" type="button" data-toggle="dropdown"><i class="fa fa-user"></i><span> Anonymous</span>
-          <span class="caret"></span></a>
-          <div class="dropdown-menu pull-right dd-menu">
-              <ul>
-                <li><strong>nitidh namw</strong></li>
-                <li><strong>User Id :name@name.com</strong></li>
-                <li><a href="/ERP/DashBoard/./../../ERP/DashBoard/dashboard">My Account</a></li>
-                <div class="border"></div>
-                <li><a href="#">another option</a></li>
-                <li><a href="#">another option</a></li>
-                <li><a href="#">another option</a></li>
-                <div class="border"></div>
-                <li><a href="#">another option</a></li>
-                <li><a href="#">another option</a></li>
-                <li><a href="/ERP/DashBoard/./../../ERP/LoginPage/logout">Logout</a></li>
-              </ul>
-          </div>
-      </li>
-      
-    </ul>
-    
-  </div>
-</nav>
- <!-- file that contain all the data related to the navbar -->
-
-
-
   
 <div class="container-fluid">
   <div class="well">
@@ -100,4 +40,3 @@
     
 </body>
 
-</html>

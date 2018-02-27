@@ -12,7 +12,7 @@
 <div class="container-fluid">
   <div class="row padding-10">
     <div class="col-md-2 col-lg-2 col-xs-2 col-sm-2 bg-gray text-center">
-      Some text here
+
     </div>
     <div class="col-md-10 col-lg-10 col-sm-10 col-xs-10">
       <div class="row bg-light-gray padding-10">
@@ -24,7 +24,7 @@
             <button type="button" class="btn btn-success">Convert</button>
             <button type="button" class="btn btn-primary">Send E-mail</button>
             <!-- <button type="button" class="btn btn-default">Edit</button> -->
-            <a href="{{=URL('leads_edit',args=[lead_key_id])}}" class="btn btn-default">Edit</a>
+            <a href="{{=URL('leads_edit',args=[lead_key_id])}}" class="btn btn-default">Edit Leads</a>
           </div>
         </div>          
       </div>
@@ -174,15 +174,16 @@
                 <th>Added Time</th>
                 <th>Added By</th>
             </tr>
-        </thead>
+            </thead>
        
-        <tbody>
+            <tbody>
+                
+            </tbody>
             
-        </tbody>
-            
-          </table>
+            </table>
 
           </div>
+          
           <div class="form-group col-md-6 col-lg-6 col-xs-6 col-sm-6">
             <textarea class="form-control" rows="4" name="notesInput" id="notesInput"></textarea>
             <div class="margin-10 text-right">
@@ -191,6 +192,7 @@
           </div>
         </div>
       </div><!-- Sec notes khatam -->
+      
       <div class="container-fluid" id="sec_notes">
         <div class="margin-tp-20">
           <div class="sec_head">
@@ -262,56 +264,16 @@
                   </span>
                 </div>
                 <div class="margin-tp-20 text-right">
-                  <button class="text-right btn btn-primary" data-text_id="design_basis_input" data-head="design_basis" onclick="addLeadUpdateInfo(this);">Save</button>
+                  <button class="text-right btn btn-primary" data-text_id="design_basis_input" data-head="design_basis" onclick="addLeadUpdateInfo(this,'add');">Save</button>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div><!-- sec design basis khatam -->
-      <div class="container-fluid" id="sec_design_basis">
-        <div class="margin-tp-20">
-          <div class="sec_head">
-            <h3>P &amp; I Diagrams Upload</h3>
-          </div>
-          <div class="#">
-            <!-- Already added P & ID -->
-            <table class="table table-striped" id="pi_diagram_upload_table">
-            <tr>
-              <th>Diagram Uploads</th>
-              <th>Added Time</th>
-              <th>Added By</th>
-            </tr>
-            <tr>
-              <td>Diagram 1</td>
-              <td>08:24 PM</td>
-              <td>Priyesh</td>
-            </tr>
-            <tr>
-              <td>Diagram 2</td>
-              <td>08:24 PM</td>
-              <td>Priyesh</td>
-            </tr>
-          </table>
+      {{=LOAD('../../CRM/Leads/upload.load',vars=dict(lead_key_id = lead_key_id , user_id = session.user_id ,company_id = session.company_id , session_id=session.session_id , lead_status_id = 1), ajax=True)}}
 
-          </div>
-          <div class="form-group col-md-6 col-lg-6 col-xs-6 col-sm-6">
-            <div class="margin-10 text-right">
-              <div class="form-group">
-                <div class="input-group input-file" name="Fichier1">
-                  <input type="text" class="form-control" id="pi_diagram_upload_input" placeholder='Choose a file...' />     
-                  <span class="input-group-btn">
-                    <button class="btn btn-default btn-choose" type="button">Choose</button>
-                  </span>
-                </div>
-                <div class="margin-tp-20 text-right">
-                  <button class=" text-right btn btn-primary" data-text_id="pi_diagram_upload_input" data-head="pi_diagram_upload" onclick="addLeadUpdateInfo(this);">Save</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div><!-- sec P&I diagram khatam -->
+
       <div class="container-fluid" id="sec_notes">
         <div class="margin-tp-20">
           <div class="sec_head">
@@ -354,7 +316,7 @@
                 </div>
               </div>
               <div class="col-lg-2 col-xs-2 col-sm-2 col-md-2">
-                <button type="button" class="btn btn-primary" data-text_id="estimatedCostInput" data-head="estimated_cost" onclick="addLeadUpdateInfo(this);" value="notes">Save</button>
+                <button type="button" class="btn btn-primary" data-text_id="estimatedCostInput" data-head="estimated_cost" onclick="addLeadUpdateInfo(this,'add');" value="notes">Save</button>
               </div>
             </div>
           </div>
@@ -403,13 +365,13 @@
           </div>
         </div>
       </div><!--sec Proposal Upload khatam -->
-    </div>
+  </div>
     <!-- Main Dashboard Ends Here -->
 
    
   </div>
 
-</div>
+
 <!-- modal sections -->
   <div class="modal fade" id="WaterModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog modal-lg" role="document">
@@ -762,14 +724,15 @@
 </body>
 <script>
   $(document).ready(function() {
-    
+    $.noConflict();
     var elements = $('.lead_elements');
     $.each(elements, function(k,v){
       //debugger;
       addLeadUpdateInfo(v,'get');
     });
-  });
+    
 
+  });
   
   function bs_input_file() {
   $(".input-file").before(
@@ -810,7 +773,9 @@ function addLeadUpdateInfo(target,request_type){
   var update_data = $('#'+textInputId).val();
   var update_head = $(target).data('head');
   var leads_key_id = $('#lead_key_id').val();
-  
+
+   //debugger;
+
   $.ajax({
           type: "POST",
           url: "{{=URL('CRM', 'update_leads_ajax')}}",
@@ -823,9 +788,15 @@ function addLeadUpdateInfo(target,request_type){
             //debugger;
             $('#'+textInputId).val('');
             var dat = JSON.parse(data);
+            $('#'+update_head+'_table').DataTable().destroy();
             $('#'+update_head+'_table tbody').empty();
+            $('#'+update_head+'_table').DataTable();
+            $("#pi_diagram_upload_table").DataTable();
+
             $.each(dat, function(k,v){
+              //debugger;
               var divId = v['update_head'];
+              //$("#"+divId+'_table').empty();
               //$("#"+divId+'_table tbody').append('<tr><td>'+v['update_data']+'</td><td>'+v['db_entry_time']+'</td><td>'+v['added_by']+'</td></tr>');
               $("#"+divId+'_table').DataTable().row.add([
                   v['update_data'], v['db_entry_time'], v['db_entered_by']]).draw();

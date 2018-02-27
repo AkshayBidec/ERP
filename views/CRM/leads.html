@@ -13,7 +13,7 @@
 <div class="container-fluid">
   <div class="row bg-gray padding-10">
     <div class="col-md-3 col-lg-3 col-xs-3 col-sm-3 text-center">
-      <div class="btn-group">
+      <!-- <div class="btn-group">
         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Action <span class="caret"></span>
         </button>
@@ -24,7 +24,7 @@
           <li role="separator" class="divider"></li>
           <li><a href="#">Separated link</a></li>
         </ul>
-      </div>
+      </div> -->
     </div>
     <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
     </div>
@@ -42,24 +42,42 @@
       <div class="section_head padding-10">
         <h3 class="margin-10">Filter Leads</h3>
       </div>
-      <div class="filter accordian-container">
-        <div class="custom-checkbox filter-head accordian-head">
-          <input type="checkbox" value="#" name="price" id="check-cat-price-0" class="filter-checkbox">
-          <label for="check-cat-price-0">Koyla kaala hai </label>
-        </div>
-        <div class="filter-body accordian-body">
-          baba ji ki booty
-        </div>
-      </div>
-      <div class="filter accordian-container">
-        <div class="custom-checkbox">
-          <input type="checkbox" value="#" name="price" id="check-cat-price-1" class="filter-checkbox">
-          <label for="check-cat-price-1">Chattano ne paala </label>
-        </div>
-      </div>
+      <div>
+            <div class="filter accordian-container">
+              <div class="custom-checkbox accordian-head">
+                <input type="checkbox" value="#" name="price" id="check-cat-price-0" class="filter-checkbox">
+                <label for="check-cat-price-0">Contact Name </label>
+              </div>
+              <div class="filter-body accordian-body">
+                Name Starting with
+              </div>
+            </div>
+
+            <div class="filter accordian-container">
+              <div class="custom-checkbox">
+                <input type="checkbox" value="#" name="price" id="check-cat-price-1" class="filter-checkbox">
+                <label for="check-cat-price-1">Company Name</label>
+              </div>
+            </div>
+            
+            <div class="filter accordian-container">
+              <div class="custom-checkbox">
+                <input type="checkbox" value="#" name="price" id="check-cat-price-2" class="filter-checkbox">
+                <label for="check-cat-price-2">Lead Status </label>
+              </div>
+            </div>
+            
+            <div class="filter accordian-container">
+              <div class="custom-checkbox">
+                <input type="checkbox" value="#" name="price" id="check-cat-price-3" class="filter-checkbox">
+                <label for="check-cat-price-3">Lead Owner </label>
+              </div>
+            </div>
+    </div>
     </div>
     <div class="col-md-9 col-lg-9 col-xs-9 col-sm-9 ">
-      <table class="table table-bordered">
+      <table class="table table-bordered table-hover" id="leads_table">
+        <thead>
         <tr>
           <th>Company</th>
           <th>Name</th>
@@ -68,13 +86,14 @@
           <th>Lead Source</th>
           <th>Description</th>
           <th>Status</th>
-          <th>Action</th>
         </tr>
+        </thead>
 
+        <tbody>
         {{  if len(data)>0:
                 
                 for key in data.keys():
-                    response.write("<tr>",escape=False)
+                    response.write("<tr id='%s' onclick='page_redirect(this.id)' style='cursor: pointer;''>"%data[key]['lead_key_id'],escape=False)
                     response.write("<td>%s</td>"%data[key]['Company'],escape=False)
                     response.write("<td>%s</td>"%data[key]['Name'],escape=False)
                     response.write("<td>%s</td>"%data[key]['Email'],escape=False)
@@ -82,7 +101,6 @@
                     response.write("<td>%s</td>"%data[key]['Lead Source'],escape=False)
                     response.write("<td>%s</td>"%data[key]['Description'],escape=False)
                     response.write("<td>%s</td>"%data[key]['Status'],escape=False)
-                    response.write("<td><a href= %s >edit</a></td>"%URL('leads_update',args=[data[key]['lead_key_id']]),escape=False)
                     response.write("</tr>",escape=False)
                     pass
                     
@@ -91,13 +109,21 @@
         {{ else:}}
         <tr><td colspan=8 class="text-center">Add <a href="{{=URL('leads_add')}}">new lead!</a></td></tr>
         {{pass}}
-
+        </tbody>
       </table>
     </div>
   </div>  
 </div>
 </body>
 <script>
+  $(document).ready(function(){
+    $.noConflict();
+    $('#leads_table').DataTable();
+  });
+  function page_redirect(id){
+    
+    window.location.href = "{{=URL('leads_update')}}"+'/'+id;
+  }
   setAccordian();
 function setAccordian() {
 
@@ -119,5 +145,6 @@ function setAccordian() {
 
 }
 
+/*{{=session.message}}*/
 </script>
 </body>

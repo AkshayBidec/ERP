@@ -316,6 +316,13 @@ db.define_table(
     Field('db_updated_by',type='integer',required=False,notnull=False),
     Field('session_id',db.general_session)
 )
+
+db.define_table('image',
+        Field('title'),
+        Field('actual_name'),
+        Field('file_data', 'upload'),
+        format = '%(title)s')
+
 # -------------------------------------------------------------------------
 # after defining tables, uncomment below to enable auditing
 # -------------------------------------------------------------------------

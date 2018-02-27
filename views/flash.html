@@ -1,0 +1,26 @@
+<head>
+	<link rel="stylesheet" href="{{=URL('static','css/flash.css')}}"/> <!--  a custom css file for flash massage -->
+	<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+
+</head>
+
+<body>
+	
+	<input type="checkbox" id="hide-me" style="display: none;">
+	{{ if session.flash:}}
+	
+	<label for="hide-me">
+	  <div class="message"><span class="close">X</span>
+	    <div class="text-center"><strong >Attention:</strong></div> <br>
+	    {{=session.flash or ''}}
+	  </div>
+	</label>
+	{{pass}}
+
+
+
+
+
+
+
+</body>

@@ -1,59 +1,74 @@
-
-.popup {
-    position: absolute;
-    left: 80%;
-    top: 20%;
-    transform: translate(-50%, -50%);
-    background: white;
-    height:200px;
-    width:330px;
-    border-radius:7px;
-    border:1px solid red;
-    font-family:'helvetica neue';
+.message{
+  z-index: 5;
 }
 
-.flash{
-	/*color:white;*/
-    font-family:helvetica;
-    /*font-size:.9em;*/
-    text-align:center;
-    line-height:4px;
-    margin: auto;
-    top: 10%;
-
-}
-
-.flash h1 {
-    color:black;
-    font-family:helvetica;
-    font-size:.99em;
-    text-align:left;
-    /*font-weight:bold;*/
-    line-height:20px;
-    margin-top:20px;
-    right: 20%;
-}
-
-#Layer_1 {
-    float:right;
-    margin:10px;
-}
-
-
-/*.popup {
-  text-decoration: none;
-  padding: 20px;
-  display: inline-block;
-  border: 1px solid $red;
+#hide-me ~ label {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  color: $white;
-  transform: translate(-50%,-50%);
-  transition: all .4s;
-  
-  &:hover {
-    border-color: $green;
-    color: $green;
-  }
-}*/
+  display: flex;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  background: rgba(0,0,0,.5);
+  background: radial-gradient(ellipse at center, rgba(0,0,0,.2) 0%, rgba(0,0,0,.9) 150%);
+} 
+#hide-me ~ label > .message {
+  position: relative;
+  margin: auto;
+  width: 400px;
+  background: #F7F9F3;
+  padding: 2.5em;
+  box-shadow: 0 5px 30px 5px #222;
+}
+#hide-me ~ label .close {
+  display: block;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  color: #eee;
+  background: #C00;
+  padding: 3px;
+  border-radius: 2em;
+  width: 1.2em;
+  height: 1.2em;
+  text-align: center;
+  cursor: pointer;
+}
+#hide-me {
+  display: none;
+}
+#hide-me[type=checkbox] ~ .content {
+  -webkit-filter: blur(5px);
+}
+#hide-me[type=checkbox]:checked ~ label {
+  display: none;
+}
+#hide-me[type=checkbox]:checked ~ .content {
+  -webkit-filter: none;
+}
+
+/** begin: debugging tool 
+    This positions the checkbox that powers this effect in the upper right-hand corner. To redisplay the popup box, uncheck the box.
+**/
+#hide-me {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: block;
+}
+/** end: bebugging tool **/
+
+/** begin: content styles **/
+article {
+  width: 960px;
+  margin: 1em auto;
+}
+h1{
+  font-family: helvetica, verdana, sans-serif;
+  font-size: 2.5em;
+}
+#lipsum {
+  column-count: 2;
+}
+/** end: content styles **/

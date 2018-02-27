@@ -46,7 +46,7 @@ def login():
 					# if they donot match, it will exhicute
 					# increase the no of attempts 
 					session.no_loging_attempts=+1
-					session.flash+='*Invalid username or password.*'
+					session.flash='*Invalid username or password.*'
 					lSFlag=0
 					pass
 
@@ -57,11 +57,11 @@ def login():
 						# fetch all the related data from session
 						session_flag=db(db.general_session.user_id == row.id).select() 
 						if len(session_flag)>0:
-							session.flash+=' * '+ str(len(session_flag))+" *"
+							# session.flash+=' * '+ str(len(session_flag))+" *"
 							# not a 1st time user
 							if session_flag[-1].is_active ==1:
 								# session is active at other place
-								session.flash+='already Logged in to other machine, Logout to continue'
+								session.flash='Already Logged in to other machine, Logout to continue'
 								# redirect('logout')
 								lSFlag=0
 								lRedirect=1
@@ -87,11 +87,11 @@ def login():
 									session.name= row.first_name +" "+ row.last_name
 									session.user_id=row.id
 									session.user_type='superadmin'
-									session.flash+='*succesful insert in session db'
+									# session.flash='*succesful insert in session db'
 									pass 
 
 								except Exception as e:
-									session.flash+="*Errors while inserting session details (%s)" % e.message
+									session.flash="*Errors while inserting session details (%s)" % e.message
 									lSFlag=0
 									pass
 
@@ -103,11 +103,11 @@ def login():
 												)
 										# reset the no of attempts
 										session.login_time= datetime.now()
-										session.flash+='* succesfull general_user'
+										# session.flash='* succesfull general_user'
 										pass 
 
 									except Exception as e:
-										session.flash+="*Errors while inserting session details (%s)" % e.message
+										session.flash="*Errors while inserting session details (%s)" % e.message
 										lSFlag=0
 										pass
 
@@ -141,11 +141,11 @@ def login():
 								session.name= row.first_name +" "+ row.last_name
 								session.user_id=row.id
 								session.user_type='superadmin'
-								session.flash+='*succesful insert in session db'
+								# session.flash='*Succesful insert in session db'
 								pass 
 
 							except Exception as e:
-								session.flash+="*Errors while inserting session details (%s)" % e.message
+								session.flash="*Errors while inserting session details (%s)" % e.message
 								lSFlag=0
 								pass
 
@@ -156,11 +156,11 @@ def login():
 											no_login_attempts= session.no_loging_attempts
 											)
 									session.login_time= datetime.now()
-									session.flash='* succesfull general_user'
+									session.flash='* Succesfull general_user'
 									pass 
 
 								except Exception as e:
-									session.flash+="*Errors while inserting session details (%s)" % e.message
+									session.flash="*Errors while inserting session details (%s)" % e.message
 									lSFlag=0
 									pass
 
@@ -174,7 +174,7 @@ def login():
 					pass
 				pass
 			except Exception as e:
-				session.flash+='* error while checking the data %s' % e
+				session.flash+='* Error while checking the data %s' % e
 
 				pass
 
@@ -189,7 +189,7 @@ def login():
 				# redirect('forgot_password')
 				pass
 			else:
-				session.flash+=' *error in login '
+				# session.flash=' *error in login *'
 				# redirect('first_time_login_SA')
 				pass
 	

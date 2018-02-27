@@ -1,25 +1,21 @@
 {{extend 'navbar.html'}}
 {{ include 'web2py_ajax.html'}}
     <head>
-        <link rel="stylesheet" href="{{=URL('static','css/flash.css')}}"/> <!--  a custom css file for flash massage -->
-        <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
-        <script src="{{=URL('static','js/flash.js')}}"></script>  <!-- js file dedicated to the flash messages -->
-
+        
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+        <style type="text/css">
+            .error{
+              font-size:14px;
+              text-align:center;
+              color: #ff471a;
+            }
+        </style>
+
 
     </head>
 
     <body>
-
-
-{{ if session.flash:}}
-<div class="popup"> <a href="#" class="close">
-  <svg id="Layer_1" x="0px" y="0px" width="10px" height="10px" viewBox="215.186 215.671 80.802 80.8" enable-background="new 215.186 215.671 80.802 80.8" xml:space="preserve">
-        <polygon fill="#FFFFFF" points="280.486,296.466 255.586,271.566 230.686,296.471 215.19,280.964 240.086,256.066 215.186,231.17 230.69,215.674 255.586,240.566 280.475,215.671 295.985,231.169 271.089,256.064 295.987,280.96 "/>
-       </svg></a>
-      <div class="flash"><h1 >{{=session.flash or ''}}</h1></div>
-</div>
-{{pass}}
 
         <div class="container">
             <div class="form">
@@ -40,7 +36,11 @@
 
                             {{for key in company_form_fields.keys():}}
                             <div class="form-group col-md-6 col-lg-6 col-xs-6 col-sm-6">
-                                <label for="exampleInputEmail1">{{=company_form_fields[key]}}</label>
+                                <label for="exampleInputEmail1">{{=company_form_fields[key]}}
+                                    {{if eval('form.custom.widget.'+key+"['_required']") != None:}}
+                                        <span style="color: red;">*</span>
+                                        {{pass}}
+                                </label>
                                 {{=eval('form.custom.widget.'+key)}}
                             </div>
                             {{pass}}
@@ -54,26 +54,37 @@
 
                             {{for key in contact_form_fields.keys():}}
                             <div class="form-group col-md-6 col-lg-6 col-xs-6 col-sm-6">
-                                <label for="exampleInputEmail1">{{=contact_form_fields[key]}}</label>
+                                <label for="exampleInputEmail1">{{=contact_form_fields[key]}}
+                                    {{if eval('form.custom.widget.'+key+"['_required']") != None:}}
+                                        <span style="color: red;">*</span>
+                                        {{pass}}
+                                    
+                                </label>
                                 {{=eval('form.custom.widget.'+key)}}
                             </div>
                             {{pass}}
-
+                            {{=form.custom.widget.first_name['_class']}}
                             <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
                                 <h3>Lead Information</h3>
                             </div>
 
                             {{for key in leads_form_fields.keys():}}
                             <div class="form-group col-md-6 col-lg-6 col-xs-6 col-sm-6">
-                                <label for="exampleInputEmail1">{{=leads_form_fields[key]}}</label>
+                                <label for="exampleInputEmail1">{{=leads_form_fields[key]}}
+                                    {{if eval('form.custom.widget.'+key+"['_required']") != None:}}
+                                        <span style="color: red;">*</span>
+                                        {{pass}}
+                                    
+                                </label>
                                 {{=eval('form.custom.widget.'+key)}}
                             </div>
                             {{pass}}
+                            
 
                             <style>
                                 #suggestions { position: relative; }
-                                .suggestions { background: white; border: solid 1px #55A6C8; }
-                                .suggestions DIV { padding: 2px 4px 2px 4px; }
+                                .suggestions { background: white; border: solid 1px #55A6C8; border-bottom-left-radius: 5px; border-bottom-right-radius: 5px; }
+                                .suggestions DIV { padding: 2px 4px 2px 4px; cursor: pointer;}
                             </style>
         
                         </div>
@@ -106,11 +117,14 @@
     
 </script>
 <script type="text/javascript">
+    // Function to set property of autocomplete off
+    $('#no_table_company_name').prop('autocomplete','off');
+    $('#no_table_first_name').prop('autocomplete','off');
     // Global variable
     var companyJsonFields = {};
     var contactJsonFields = {};
     // Javascript functions for search the company name and contact name
-    $('[name="company_name"]').after('<div style="position: absolute;" id="company_suggestions" class="suggestions"></div>');
+    $('[name="company_name"]').after('<div style="position: absolute; width: 95%; z-index: 100;" id="company_suggestions" class="suggestions"></div>');
     jQuery("#no_table_company_name").keyup(function(){
         reset_company_field_value();
         ajax('{{=URL('CRM', 'company_selector')}}', ['company_name'], 'company_suggestions');
@@ -175,7 +189,7 @@
     }
 
     // Functions to set the value contact value
-    $('[name="first_name"]').after('<div style="position: absolute;" id="contact_suggestions" class="suggestions"></div>');
+    $('[name="first_name"]').after('<div style="position: absolute; width: 95%; z-index: 100;" id="contact_suggestions" class="suggestions"></div>');
 
     jQuery("#no_table_first_name").keyup(function(){
         reset_contact_field_value();
@@ -203,7 +217,7 @@
     }
 
     function set_contact_value(obj) {
-        debugger;
+        //debugger;
         var lCompanyCheck = $('#company_key_id').val();
         var lContactId = $(obj).data('contact_id');
         var lCompanyId = $(obj).data('company_id');
@@ -218,7 +232,7 @@
         //debugger;
         contactJsonFields = jsonData;
         $.each(jsonData, function(k,v){
-            debugger;
+            //debugger;
             var element = $('#no_table_'+k).prop('tagName');
             switch(element) {
                 case 'SELECT':
