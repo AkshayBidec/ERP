@@ -3,6 +3,23 @@
 <head>
   <title>Login</title>
     <link rel="stylesheet" href="{{=URL('static','css/login.css')}}"/> <!--  a custom css file -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- <script src="{{=URL('static','js/jquery.js')}}"></script> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!-- <script src="{{=URL('static','js/web2py_bootstrap.js')}}"></script> -->
+    
+    <script src="https://use.fontawesome.com/6353c44d0f.js"></script>
+   
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
+   
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+          
+    <!-- <script src="{{=URL('static','js/script.js')}}"></script> -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat|Roboto" rel="stylesheet">
     
     
 </head>
@@ -10,16 +27,31 @@
 <body>
 
 {{include 'flash.html'}}
+  
   <div class="login-page"> <!-- this is div which contains the form -->
     <div class="form">
       {{=form.custom.begin}}
-        <h1>Super Admin</h1>
-        {{=form.custom.widget.email_id}}
-  	    {{=form.custom.widget.password}}   
-  	    <button>Login</button>
+        <h1><img src="{{=URL('static','images/user_account.png')}}"></h1>
+        <div class="row">
+          <div class="input-field col s12">
+            <i class="material-icons prefix">account_circle</i>
+            {{=form.custom.widget.email_id}}
+            <label>Email-ID</label>
+
+          </div>
+          <div class="input-field col s12">
+            <i class="material-icons prefix">lock</i>
+            {{=form.custom.widget.password}}
+            <label>Password</label>
+          </div>
+        </div>
+  	   <button class="btn waves-effect waves-light" type="submit" name="action">SIGN IN
+          <i class="material-icons right">arrow_forward</i>
+        </button>
       {{=form.custom.end}} <!-- end of the login form -->
       {{if lRedirect == 1:}}
-      <h4><a href="{{=URL('../../../ERP/LoginPage/logout_from_all',vars={'user_id':session.user_id,'login_time': session.login_time,'session_id': session.session_id})}}">Logout from other devices!</a></h4>
+      
+      <h6 style="margin-top: 20px;"><a href="{{=URL('../../../ERP/LoginPage/logout_from_all',vars={'user_id':session.user_id,'login_time': session.login_time,'session_id': session.session_id})}}"><strong>Logout from other devices.</strong></a></h6>
       {{pass}}
     </div>
   </div>

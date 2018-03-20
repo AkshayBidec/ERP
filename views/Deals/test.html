@@ -1,0 +1,10 @@
+{{=deal_form_fields}}
+
+{{=lForm}}
+
+
+{{=str(type(deal_form_fields['final_contract']))}}
+{{=type(deal_form_fields['final_quotation'])}}
+{{ if 'FieldStorage' in str(type( deal_form_fields['final_contract'])):}}
+done
+{{pass}}

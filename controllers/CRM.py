@@ -8,43 +8,93 @@ link=str(request.env.wsgi_url_scheme)+"://"+str(request.env.http_host)
 
 # it will contain all the views and the api call related to the crm app
 #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+def session_check():
+	if session.active==1:
+		if db(db.general_session.id== session.session_id).select(db.general_session.is_active)[0].is_active == 1:
+			return True
+			
+		else:		# have to destroy the local session also
+			session.session_id=0
+			session.company_id=''
+			session.username=''
+			session.name=''
+			session.user_id=''
+			session.login_time= ''
+			session.user_type=''
+			session.active=0
+			return False
+	else:
+		return False
 
 #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$--CRM--$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-
 def crm():
-	return locals()
-
+	if session_check():
+		return locals()
+	else:
+		redirect(URL('../../../ERP/LoginPage/login'))
+		session.flash="login to continue"
 #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$--LEADS--$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 def leads():
-	# this function is responcible for the main leads dahboard
+	# this function is responsible for the main leads dahboard
 	# by default it will contain 10 leads per page
 	
-	if session.active==1:
+	if session_check():
 		server = xmlrpclib.ServerProxy(link+str(URL('CRM','Leads','call/xmlrpc')),allow_none=True,context=context)	# make the connection to the api server of lead
 		
+
 		data=[]
-		# lLimit={}
-		# lLimit['countTo']=10		# total number of fieds required, replace it with request.vars.* to make it dynamin
-		# lLimit['countFrom']=0		# no of the row to start from 
-		# lLimit['order']='~db.crm_lead_field_key.id' 	# the name of field to order on, string will be evaluated in the api
+		lFilterFlag=0
+		lFilterData={}
+		lFilterOutput={}
+		if request.vars.lFilterFlag:
+			# check the filter flag
+			lFilterFlag=int( request.vars.lFilterFlag)
+			lFilterOutput=eval(request.vars.lFilterOutput)
+			pass
 		lLeadsList=[]
-		try:
-			lLeadsList= server.get_leads(session.company_id)		# get the data from the api
-		except Exception as e:
-			session.message=str(lLeadsList) + str(e)
-		return dict(data=lLeadsList)
+		lFilterData={
+					'lFilterOutput':lFilterOutput,
+					'company_id':session.company_id
+				}
+
+		if lFilterFlag==0: 		# no filter is applied 
+			try:
+				lLeadsList= server.get_leads(session.company_id)		# get the data from the api
+			except Exception as e:
+				session.message=str(lLeadsList) + str(e)
+		elif lFilterFlag==1: 	# filter is applied and have to fetch the data from different function
+			try:
+				
+				# lLeadsList= server.get_leads(session.company_id)		# get the data from the api
+				lLeadsList= server.get_leads_with_filter(dict(lFilterData))		# get the data from the api
+			except Exception as e:
+				session.message=str(lLeadsList) + str(e)
+
+		return dict(data=lLeadsList['data'],filter_field=lLeadsList['filter_field'],data_flag=lLeadsList['data_flag'],lFilterData=lFilterData)
+
 	else:
 		redirect(URL('../../../ERP/LoginPage/login'))
 		session.flash="login to continue"
 		
 #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+def delete_lead(lead_key_id):
+		leadserver=xmlrpclib.ServerProxy(link+str(URL('CRM','Leads','call/xmlrpc')),allow_none=True,context=context)	# make the connection to the api server of lead
+		lReturnData=leadserver.lead_delete(lead_key_id)	
+
+		if lReturnData=='done':
+			return 'done'
+		else:
+			session.flash='data not deleted'
+#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 def leads_add():
-	if session.active==1:
+	if session_check():
 		done=0
 	#------------------------------------------------- session is active, make the connection to api
 		leadserver=xmlrpclib.ServerProxy(link+str(URL('CRM','Leads','call/xmlrpc')),allow_none=True,context=context)	# make the connection to the api server of lead
-		contactserver=xmlrpclib.ServerProxy(link+str(URL('CRM','Contact','call/xmlrpc')),allow_none=True,context=context)	# make the connection to the api server of contact
-		companyserver=xmlrpclib.ServerProxy(link+str(URL('CRM','Company','call/xmlrpc')),allow_none=True,context=context)	# make the connection to the api server of company
+		contactserver=xmlrpclib.ServerProxy(link+str(URL('ERP','Contacts','call/xmlrpc')),allow_none=True,context=context)	# make the connection to the ERP api server of contact
+		companyserver=xmlrpclib.ServerProxy(link+str(URL('ERP','Company','call/xmlrpc')),allow_none=True,context=context)	# make the connection to the ERP api server of company
+		contactCRMServer=xmlrpclib.ServerProxy(link+str(URL('CRM','Contact','call/xmlrpc')),allow_none=True,context=context)	# make the connection to the api server of contact
+		companyCRMServer=xmlrpclib.ServerProxy(link+str(URL('CRM','Company','call/xmlrpc')),allow_none=True,context=context)	# make the connection to the api server of company
 		
 		leads_form_fields=leadserver.leads_add_ff()			# ask for the list of the field to make the form and store it into a dict
 		contact_form_fields=contactserver.contact_add_ff()		
@@ -104,7 +154,12 @@ def leads_add():
 			else:
 				s= key
 				s=s.title()
-			place='lForm.custom.widget.'+str(key)+'.update(_placeholder=\''+s+'\')'+"\n"
+			if 'text' in leads_form_fields[key][0]:
+				place='lForm.custom.widget.'+str(key)+'.update(_class=\'materialize-textarea\')'+"\n"
+				pass
+			else:
+				place='lForm.custom.widget.'+str(key)+'.update(_class=\'validate\')'+"\n"
+				pass
 			
 			if 'IS_IN_SET' in leads_form_fields[key][1] or 'IS_NOT_EMPTY' in leads_form_fields[key][1]:
 				require='lForm.custom.widget.'+str(key)+'["_required"]= " "'
@@ -122,7 +177,12 @@ def leads_add():
 			else:
 				s= key
 				s=s.title()
-			place='lForm.custom.widget.'+str(key)+'.update(_placeholder=\''+s+'\')'+"\n"
+			if 'text' in contact_form_fields[key][0]:
+				place='lForm.custom.widget.'+str(key)+'.update(_class=\'materialize-textarea\')'+"\n"
+				pass
+			else:
+				place='lForm.custom.widget.'+str(key)+'.update(_class=\'validate\')'+"\n"
+				pass
 
 			if 'IS_IN_SET' in contact_form_fields[key][1] or 'IS_NOT_EMPTY' in contact_form_fields[key][1]:
 				require='lForm.custom.widget.'+str(key)+'["_required"]= " "'
@@ -139,8 +199,12 @@ def leads_add():
 			else:
 				s= key
 				s=s.title()
-			place='lForm.custom.widget.'+str(key)+'.update(_placeholder=\''+s+'\')'+"\n"
-
+			if 'text' in company_form_fields[key][0]:
+				place='lForm.custom.widget.'+str(key)+'.update(_class=\'materialize-textarea\')'+"\n"
+				pass
+			else:
+				place='lForm.custom.widget.'+str(key)+'.update(_class=\'validate\')'+"\n"
+				pass
 			if 'IS_IN_SET' in company_form_fields[key][1] or 'IS_NOT_EMPTY' in company_form_fields[key][1]:
 				require='lForm.custom.widget.'+str(key)+'["_required"]= " "'
 				pass
@@ -160,6 +224,7 @@ def leads_add():
 						leads_form_fields[key]=eval('lForm.vars.'+key)
 
 					leads_form_fields['contact_key_id']=contact_key_id		# add the extra data
+					leads_form_fields['name']=session.name
 					leads_form_fields['user_id']=session.user_id
 					leads_form_fields['company_id']=session.company_id
 					leads_form_fields['session_id']=session.session_id
@@ -191,8 +256,11 @@ def leads_add():
 					contact_form_fields['session_id']=session.session_id
 
 					try:    
-						lResponseDict= contactserver.add_contact(dict(data=contact_form_fields)) 		# send the dictioinary to the server
+						lResponseCRMDict= contactCRMServer.add_contact(dict(data=contact_form_fields)) # send the dictionary to the CRM server
+						contact_form_fields['contact_key_id']=lResponseCRMDict['lKeyId'] 
 						
+						lResponseDict= contactserver.add_contact(dict(data=contact_form_fields)) 		# send the dictioinary to the ERP server
+
 						contact_key_id= lResponseDict['lKeyId']
 						
 						# session.message+= str(lResponseDict['msg'])
@@ -206,6 +274,7 @@ def leads_add():
 							leads_form_fields[key]=eval('lForm.vars.'+key)
 
 						leads_form_fields['contact_key_id']=contact_key_id		# add the extra data
+						leads_form_fields['name']=session.name
 						leads_form_fields['user_id']=session.user_id
 						leads_form_fields['company_id']=session.company_id
 						leads_form_fields['session_id']=session.session_id
@@ -239,6 +308,9 @@ def leads_add():
 					lResponseDict={}
 					
 					try:    						
+						lResponseCRMDict = companyCRMServer.add_company(dict(data=company_form_fields))
+						company_form_fields['company_key_id'] = lResponseCRMDict['lKeyId']
+						
 						lResponseDict= companyserver.add_company(dict(data=company_form_fields)) 		# send the dictioinary to the server
 						
 						company_key_id= lResponseDict['lKeyId'] 	# the new id from the api
@@ -258,7 +330,10 @@ def leads_add():
 						contact_form_fields['session_id']=session.session_id
 
 						try:    
-							lResponseDict= contactserver.add_contact(dict(data=contact_form_fields)) 		# send the dictioinary to the server
+							lResponseCRMDict= contactCRMServer.add_contact(dict(data=contact_form_fields)) # send the dictionary to the CRM server
+							contact_form_fields['contact_key_id']=lResponseCRMDict['lKeyId'] 
+							
+							lResponseDict= contactserver.add_contact(dict(data=contact_form_fields)) 		# send the dictioinary to the ERP server
 							
 							contact_key_id= lResponseDict['lKeyId']
 							# session.message+= str(lResponseDict['msg'])
@@ -273,6 +348,7 @@ def leads_add():
 								leads_form_fields[key]=eval('lForm.vars.'+key)
 
 							leads_form_fields['contact_key_id']=contact_key_id		# add the extra data
+							leads_form_fields['name']=session.name
 							leads_form_fields['user_id']=session.user_id
 							leads_form_fields['company_id']=session.company_id
 							leads_form_fields['session_id']=session.session_id
@@ -313,8 +389,10 @@ def leads_add():
 						lResponseDict={}
 						
 						try:    						
-							lResponseDict= companyserver.add_company(dict(data=company_form_fields)) 		# send the dictioinary to the server
+							lResponseCRMDict = companyCRMServer.add_company(dict(data=company_form_fields))
+							company_form_fields['company_key_id'] = lResponseCRMDict['lKeyId']
 							
+							lResponseDict= companyserver.add_company(dict(data=company_form_fields)) 		# send the dictioinary to the server
 							company_key_id= lResponseDict['lKeyId'] 	# the new id from the api
 							# session.message+= str(lResponseDict['msg'])
 
@@ -330,7 +408,8 @@ def leads_add():
 							contact_form_fields['company_id']=session.company_id
 
 							try:    
-								lResponseDict= contactserver.add_contact_company_key_id(dict(data=contact_form_fields)) 		# send the dictioinary to the server
+								lResponseDict= contactserver.add_contact_company_key_id(dict(data=contact_form_fields)) 		# send the dictioinary to the ERP server
+								lResponseCRMDict= contactCRMServer.add_contact_company_key_id(dict(data=contact_form_fields)) 		# send the dictioinary to the CRM server
 								
 								# session.message+= str(lResponseDict['msg'])
 								
@@ -343,6 +422,7 @@ def leads_add():
 									leads_form_fields[key]=eval('lForm.vars.'+key)
 
 								leads_form_fields['contact_key_id']=contact_key_id		# add the extra data
+								leads_form_fields['name']=session.name
 								leads_form_fields['user_id']=session.user_id
 								leads_form_fields['company_id']=session.company_id
 								leads_form_fields['session_id']=session.session_id
@@ -372,6 +452,7 @@ def leads_add():
 							leads_form_fields[key]=eval('lForm.vars.'+key)
 
 						leads_form_fields['contact_key_id']=contact_key_id		# add the extra data
+						leads_form_fields['name']=session.name
 						leads_form_fields['user_id']=session.user_id
 						leads_form_fields['company_id']=session.company_id
 						leads_form_fields['session_id']=session.session_id
@@ -406,16 +487,16 @@ def leads_update():
 	# this is the func to only load the update page for the 1st time remaining will be done by ajax
 	done=0 		# a flag to represent the succes
 	# check the user is loged in or not
-	if session.active==1:
+	if session_check():
 		if len(request.args)>0:
 			leadserver = xmlrpclib.ServerProxy(link+str(URL('CRM','Leads','call/xmlrpc')),allow_none=True,context=context)	# make the connection to the api server of lead
 			lData={} # A dict to store the response of the server
 
-			# session_details={'comapny_id':session.company_id,
-   #                 'user_id':session.user_id,
-   #                 'lead_key_id':request.args[0],
+				# session_details={'comapny_id':session.company_id,
+	   #                 'user_id':session.user_id,
+	   #                 'lead_key_id':request.args[0],
 
-   #                 }
+	   #                 }
 
 			# take the leads key id from the page we have been redirected to get the data
 			lRequestData={
@@ -436,7 +517,7 @@ def leads_update():
 			if done==1:
 				return dict(data=lData, lead_key_id=lRequestData['lead_key_id'],session_details=lRequestData)
 			else:
-				sessin.message=' Envalid lead selected '
+				session.message=' Envalid lead selected '
 
 		else:
 			redirect(URL('leads'))
@@ -452,7 +533,7 @@ def leads_update():
 def leads_edit():
 	# this page is only to edit the leads details 
 	# if the user wants to edit the contact details he will be redirected to that page from leads update page
-	if session.active==1:
+	if session_check():
 		if len(request.args)>0:
 			done=0
 			lead_key_id= request.args[0]
@@ -491,7 +572,13 @@ def leads_edit():
 				else:
 					s= key
 					s=s.title()
-				place='lForm.custom.widget.'+str(key)+'.update(_placeholder=\''+s+'\')'+"\n"
+				if 'text' in leads_form_fields[key][0]:
+					place='lForm.custom.widget.'+str(key)+'.update(_class=\'materialize-textarea\')'+"\n"
+					pass
+				else:
+					place='lForm.custom.widget.'+str(key)+'.update(_class=\'validate\')'+"\n"
+					pass
+				#place='lForm.custom.widget.'+str(key)+'.update(_placeholder=\''+s+'\')'+"\n"
 				leads_form_fields[key]=s						
 				exec(place)
 
@@ -508,6 +595,7 @@ def leads_edit():
 					leads_form_fields[key]=eval('lForm.vars.'+key)
 				
 				leads_form_fields['lead_key_id']=lead_key_id		# add the extra data, take the lead id to specify the update
+				leads_form_fields['name']=session.name
 				leads_form_fields['user_id']=session.user_id
 				leads_form_fields['session_id']=session.session_id
 				leads_form_fields['company_id']=session.session_id
@@ -542,29 +630,42 @@ def contacts():
 	# this function is responcible for the main contact dahboard
 	# by default it will contain 10 contact per page
 	
-	if session.active==1:
-
+	if session_check():
 
 		server=xmlrpclib.ServerProxy(link+str(URL('CRM','Contact','call/xmlrpc')),allow_none=True,context=context)	# make the connection to the api server of contact
-		
-		lLimit={}		# this dic is to get a single data or a range of data from the api
 
-		lLimit['countTo']=10		# total number of fieds required, replace it with request.vars.* to make it dynamin
-		lLimit['countFrom']=0		# no of the row to start from 
-		lLimit['order']='~db.crm_contact_field_key.id' 	# the name of field to order on, string will be evaluated in the api
-		
-		data={}
-		lContactList={}
-		
-		try:
-			lContactList= server.get_contact(lLimit)		# get the data from the api
+		data=[]
+		lFilterFlag=0
+		lFilterData={}
+		lFilterOutput={}
+		if request.vars.lFilterFlag:
+			# check the filter flag
+			lFilterFlag=int( request.vars.lFilterFlag)
+			lFilterOutput=eval(request.vars.lFilterOutput)
+			pass
+		lContactsList=[]
+		lFilterData={
+					'lFilterOutput':lFilterOutput,
+					'company_id':session.company_id
+				}
 
-		except Exception as e:
-			session.message=str(lContactList) + str(e)
-		else:
-			session.message=''
-
-		return dict(data=lContactList)
+		if lFilterFlag==0: 		# no filter is applied 
+			try:
+				lContactsList= server.get_contact(session.company_id)		# get the data from the api
+			except Exception as e:
+				session.message=str(lContactsList) + str(e)
+				return e
+		elif lFilterFlag==1: 	# filter is applied and have to fetch the data from different function
+			try:
+				
+				# lContactsList= server.get_contact(session.company_id)		# get the data from the api
+				lContactsList= server.get_contacts_with_filter(dict(lFilterData))		# get the data from the api
+				pass
+			except Exception as e:
+				session.message=str(lContactsList) + str(e)
+				return e
+		# return locals()
+		return dict(data=lContactsList['data'],data_flag=lContactsList['data_flag'],filter_field=lContactsList['filter_field'],lFilterData=lFilterData)
 
 	else:
 		redirect(URL('../../../ERP/LoginPage/login'))
@@ -572,11 +673,13 @@ def contacts():
 
 #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 def contacts_add():
-	if session.active==1:
+	if session_check():
 		done=0
 	#------------------------------------------------- session is active, make the connection to api		
-		contactserver=xmlrpclib.ServerProxy(link+str(URL('CRM','Contact','call/xmlrpc')),allow_none=True,context=context)	# make the connection to the api server of contact
-		companyserver=xmlrpclib.ServerProxy(link+str(URL('CRM','Company','call/xmlrpc')),allow_none=True,context=context)	# make the connection to the api server of company
+		contactserver=xmlrpclib.ServerProxy(link+str(URL('ERP','Contacts','call/xmlrpc')),allow_none=True,context=context)	# make the connection to the api server of contact
+		companyserver=xmlrpclib.ServerProxy(link+str(URL('ERP','Company','call/xmlrpc')),allow_none=True,context=context)	# make the connection to the api server of company
+		contactCRMServer=xmlrpclib.ServerProxy(link+str(URL('CRM','Contact','call/xmlrpc')),allow_none=True,context=context)	# make the connection to the api server of contact
+		companyCRMServer=xmlrpclib.ServerProxy(link+str(URL('CRM','Company','call/xmlrpc')),allow_none=True,context=context)	# make the connection to the api server of company
 		
 		contact_form_fields=contactserver.contact_add_ff()		
 		company_form_fields=companyserver.company_add_ff()		
@@ -622,7 +725,12 @@ def contacts_add():
 			else:
 				s= key
 				s=s.title()
-			place='lForm.custom.widget.'+str(key)+'.update(_placeholder=\''+s+'\')'+"\n"
+			if 'text' in contact_form_fields[key][0]:
+				place='lForm.custom.widget.'+str(key)+'.update(_class=\'materialize-textarea\')'+"\n"
+				pass
+			else:
+				place='lForm.custom.widget.'+str(key)+'.update(_class=\'validate\')'+"\n"
+				pass
 			contact_form_fields[key]=s						
 			exec(place)
 	#-------------------------------------------------
@@ -633,7 +741,12 @@ def contacts_add():
 			else:
 				s= key
 				s=s.title()
-			place='lForm.custom.widget.'+str(key)+'.update(_placeholder=\''+s+'\')'+"\n"
+			if 'text' in company_form_fields[key][0]:
+				place='lForm.custom.widget.'+str(key)+'.update(_class=\'materialize-textarea\')'+"\n"
+				pass
+			else:
+				place='lForm.custom.widget.'+str(key)+'.update(_class=\'validate\')'+"\n"
+				pass
 			company_form_fields[key]=s			
 			exec(place)
 	
@@ -664,7 +777,10 @@ def contacts_add():
 					contact_form_fields['session_id']=session.session_id
 
 					try:    
-						lResponseDict= contactserver.add_contact(dict(data=contact_form_fields)) 		# send the dictioinary to the server
+						lResponseCRMDict= contactCRMServer.add_contact(dict(data=contact_form_fields)) # send the dictionary to the CRM server
+						contact_form_fields['contact_key_id']=lResponseCRMDict['lKeyId'] 
+						
+						lResponseDict= contactserver.add_contact(dict(data=contact_form_fields)) 		# send the dictioinary to the ERP server
 						
 						contact_key_id= lResponseDict['lKeyId']
 						
@@ -698,8 +814,10 @@ def contacts_add():
 						lResponseDict={}
 						
 						try:    						
-							lResponseDict= companyserver.add_company(dict(data=company_form_fields)) 		# send the dictioinary to the server
+							lResponseCRMDict = companyCRMServer.add_company(dict(data=company_form_fields))
+							company_form_fields['company_key_id'] = lResponseCRMDict['lKeyId']
 							
+							lResponseDict= companyserver.add_company(dict(data=company_form_fields)) 		# send the dictioinary to the server
 							company_key_id= lResponseDict['lKeyId'] 	# the new id from the api
 							session.message+= str(lResponseDict['msg'])
 
@@ -718,7 +836,10 @@ def contacts_add():
 							contact_form_fields['session_id']=session.session_id
 
 							try:    
-								lResponseDict= contactserver.add_contact(dict(data=contact_form_fields)) 		# send the dictioinary to the server
+								lResponseCRMDict= contactCRMServer.add_contact(dict(data=contact_form_fields)) # send the dictionary to the CRM server
+								contact_form_fields['contact_key_id']=lResponseCRMDict['lKeyId'] 
+								
+								lResponseDict= contactserver.add_contact(dict(data=contact_form_fields)) 		# send the dictioinary to the ERP server
 								
 								contact_key_id= lResponseDict['lKeyId']
 								
@@ -748,8 +869,10 @@ def contacts_add():
 						contact_form_fields['session_id']=session.session_id
 
 						try:    
+							lResponseCRMDict= contactCRMServer.add_contact(dict(data=contact_form_fields)) # send the dictionary to the CRM server
+							contact_form_fields['contact_key_id']=lResponseCRMDict['lKeyId'] 
+
 							lResponseDict= contactserver.add_contact(dict(data=contact_form_fields)) 		# send the dictioinary to the server
-							
 							contact_key_id= lResponseDict['lKeyId']
 							
 							session.message+= str(lResponseDict['msg'])
@@ -776,7 +899,7 @@ def contacts_add():
 
 #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 def contacts_edit():
-	if session.active==1:
+	if session_check():
 		done=0
 	#------------------------------------------------- session is active, make the connection to api		
 		contactserver=xmlrpclib.ServerProxy(link+str(URL('CRM','Contact','call/xmlrpc')),allow_none=True,context=context)	# make the connection to the api server of contact
@@ -834,7 +957,13 @@ def contacts_edit():
 			else:
 				s= key
 				s=s.title()
-			place='lForm.custom.widget.'+str(key)+'.update(_placeholder=\''+s+'\')'+"\n"
+			if 'text' in contact_form_fields[key][0]:
+				place='lForm.custom.widget.'+str(key)+'.update(_class=\'materialize-textarea\')'+"\n"
+				pass
+			else:
+				place='lForm.custom.widget.'+str(key)+'.update(_class=\'validate\')'+"\n"
+				pass
+			#place='lForm.custom.widget.'+str(key)+'.update(_placeholder=\''+s+'\')'+"\n"
 			contact_form_fields[key]=s						
 			exec(place)
 	#-------------------------------------------------
@@ -845,7 +974,13 @@ def contacts_edit():
 			else:
 				s= key
 				s=s.title()
-			place='lForm.custom.widget.'+str(key)+'.update(_placeholder=\''+s+'\')'+"\n"
+			if 'text' in company_form_fields[key][0]:
+				place='lForm.custom.widget.'+str(key)+'.update(_class=\'materialize-textarea\')'+"\n"
+				pass
+			else:
+				place='lForm.custom.widget.'+str(key)+'.update(_class=\'validate\')'+"\n"
+				pass
+			#place='lForm.custom.widget.'+str(key)+'.update(_placeholder=\''+s+'\')'+"\n"
 			company_form_fields[key]=s			
 			exec(place)
 	
@@ -904,8 +1039,10 @@ def contacts_edit():
 						lResponseDict={}
 						
 						try:    						
-							lResponseDict= companyserver.add_company(dict(data=company_form_fields)) 		# send the dictioinary to the server
+							lResponseCRMDict = companyCRMServer.add_company(dict(data=company_form_fields))
+							company_form_fields['company_key_id'] = lResponseCRMDict['lKeyId']
 							
+							lResponseDict= companyserver.add_company(dict(data=company_form_fields)) 		# send the dictioinary to the server
 							company_key_id= lResponseDict['lKeyId'] 	# the new id from the api
 							session.message+= str(lResponseDict['msg'])
 
@@ -982,12 +1119,11 @@ def contacts_edit():
 	return dict(form=lForm,contact_form_fields=contact_form_fields,company_form_fields=company_form_fields)
 
 #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-
 def contacts_view():
 	# this is the func to only load the update page for the 1st time remaining will be done by ajax
 	done=0
 	# check the user is loged in or not
-	if session.active==1:
+	if session_check():
 
 		if len(request.args)>0:
 			
@@ -1025,7 +1161,6 @@ def contacts_view():
 		session.flash="login to continue"
 
 #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-
 #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$-- AJAX request --$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 #AJAX request to get the company details on page "leads_add.html"
 def company_selector():
@@ -1145,10 +1280,6 @@ def contact_details():
 	pass
 
 #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ ajax for lead update $$$$$$$$$$$$$$$$$$$$$$$$$$
-
-
-
-
 #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ 
 def update_leads_ajax():
 	session.message=" "
@@ -1293,3 +1424,230 @@ def lead_status_ajax():
 
 
 	return locals()
+
+#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+def datatable():
+	data= dict(request.vars['data'])
+	data_flag=request.vars['data_flag']
+	if len(data)>0:
+		lFields=data['0'].keys()
+	else:
+		lFields='No Data Available'
+	lRedirectKey=request.vars['lRedirectKey'] or ' '
+	return locals()
+
+#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+def load_filter():
+	filter_field=eval(request.vars['filter_field'])
+	filter_value=eval(request.vars['filter_value'])
+	# lForm=F.filter_form(dict(filter_field))
+	fields=[]
+
+	field_value={}
+	for key in filter_value.keys():
+		if len(filter_value[key])>0:
+			for data in filter_value[key]:
+				field_value[data.split('.')[0]]=[data.split('.')[1].split('(')[0],data.split('.')[1].split('(')[1].split('"')[1]]
+
+
+
+	for category in list(filter_field.keys()):
+
+		for key in sorted(filter_field[category].keys()):			# take key one by one in a sequence and make the field list
+			
+			fields.append(Field(key,'boolean'))
+
+
+
+			if filter_field[category][key][0]: 	# we have a give field type
+				
+
+				if 'options' in filter_field[category][key][0]:		# it have a predeffind data set so have to give a data list
+					lRequires1=eval('request.post_vars.'+key) 		# local variable to strore the output of the eval
+					lConditionString=filter_field[category][key][1]
+					
+					# make a new is in set list with multiple= true
+					if '{' in lConditionString:
+						lConditionString = lConditionString.split('{')[1].split('}')[0]
+						lConditionString='IS_IN_SET({'+lConditionString+'},multiple=True)'
+					elif '[' in lConditionString:
+						lConditionString = lConditionString.split('[')[1].split(']')[0]
+						lConditionString='IS_IN_SET(['+lConditionString+'],multiple=True)'
+					
+					fields.append(Field(key+'_option',widget=eval(filter_field[category][key][0]), requires=eval(lConditionString)))
+					fields.append(Field(key+'_option_data','hidden'))
+					pass
+				
+				else: 		# for the rest of the data types in which user have entered the data
+					if 'text' in filter_field[category][key][0]:
+						filter_field[category][key][0]='SQLFORM.widgets.string.widget'
+
+					fields.append(Field(key+'_condition',widget=SQLFORM.widgets.options.widget,requires=IS_IN_SET({'startswith':'Starts With','endswith':'Ends With','contains':'Contains'},multiple=True),))
+					fields.append(Field(key+'_condition_data',widget=eval(filter_field[category][key][0]), requires=IS_NOT_EMPTY() if eval('request.post_vars.'+key) else None ))
+					pass
+			
+
+			else: # take the field type of string by default ,, not gona happen but for the precautions
+				
+					fields.append(Field(key+'_condition',widget=SQLFORM.widgets.options.widget,requires=IS_IN_SET({'startswith':'Starts With','endswith':'Ends With','contains':'Contains'},multiple=True)))
+					fields.append(Field(key+'_condition_data',widget=eval(filter_field[category][key][0]), requires=IS_NOT_EMPTY() if eval('request.post_vars.'+key) else None ))
+	
+
+
+	lForm= SQLFORM.factory(*fields)
+
+	# for key in field_value.keys():
+	# 	lForm.element('option',_value='contains')['_selected']=''
+
+
+	lFilterOutput={}		# a dict to store the final output of the filter and send it to the orignal page
+	lList=[] 		# a local list to store the data while processing
+		
+	if lForm.process().accepted:
+		# if the filters are acceptedconvert them accordingly
+		for condition in filter_field.keys():
+			for key in filter_field[condition].keys(): 		# select a perticular key for a condition like 
+				if eval('lForm.vars.'+key):		 # if the check box was selected
+					
+					if eval('lForm.vars.'+key+'_condition'):
+						lConditionString = eval('lForm.vars.'+key+'_condition')		# final output=> city.endswith('value')
+						lValue=eval('lForm.vars.'+key+'_condition_data')
+						lList.append(str(key)+'.'+str(lConditionString[0])+'("'+str(lValue)+'")')
+					else :
+						lConditionString = 'contains'	# final output=> city.endswith('value')
+						lValue=eval('lForm.vars.'+key+'_option')
+						lList.append(str(key)+'.'+str(lConditionString)+'("'+str(lValue[0])+'")')
+					
+					pass
+				pass
+
+			lFilterOutput[condition]=lList
+			lList=[]
+			pass
+
+		# the data id succesfully converted and now have to make a dict and send it to the source page
+		lFilterFlag=1		# 1 =true and  0= false
+		redirect(URL(request.env.http_referer.split('/')[-3],request.env.http_referer.split('/')[-2],request.env.http_referer.split('/')[-1].split('?')[0],extension=False,vars={'lFilterFlag':lFilterFlag,'lFilterOutput':lFilterOutput}), client_side=True)
+		pass
+	form=lForm
+	# return dict(form=lForm,filter_field=filter_field,filter_value=filter_value)
+	return locals()
+
+#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$--- Contacts and Company details storing for ERP----$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+def add_erp_contact(lContactData):
+	done=0
+	
+	lReturnDict={'lKeyId':0,'msg':''}
+	# have to enter the data into the key table first
+	
+	try:
+		lKeyId=db.general_contact_field_key.insert(
+				id=lContactData['data']['contact_key_id'],
+				company_key_id=lContactData['data']['company_key_id'],
+				company_id=lContactData['data']['company_id'] ,
+				db_entry_time=lambda:datetime.now(),
+				db_entered_by=lContactData['data']['user_id'],
+				session_id=lContactData['data']['session_id']
+			)
+	
+		lReturnDict['lKeyId']=int(lKeyId)
+	
+	except Exception as e:
+		lReturnDict['msg']='error in adding contact key (%s)' %e
+		return lReturnDict	
+	
+	else:
+		rows=db(db.general_contact_field.field_name != None).select()
+		for row in rows:
+			if row.is_active== True:
+				try:
+					db.general_contact_field_value.insert(
+						field_id=row.id ,
+						contact_key_id=lKeyId ,
+						field_value=lContactData['data'][row.field_name] ,  # to insert the data take the respective data from the dictionary
+						db_entry_time=lambda:datetime.now(),
+						db_entered_by=lContactData['data']['user_id'],
+						company_id=lContactData['data']['company_id'],
+						session_id=lContactData['data']['session_id']
+						)
+					pass
+				except Exception as e:
+					lReturnDict['msg']='error in adding contact data (%s)' %e
+					return lReturnDict	
+				else:
+					done=1
+
+	if done==1:
+		lReturnDict['msg']=' contact done '
+	return lReturnDict
+	pass
+
+def update_company_contact_key_id(data):
+	done=0
+	
+	lReturnDict={'lKeyId':0,'msg':''}
+	# have to enter the data into the key table first
+	
+	try:
+		db(db.general_contact_field_key.id==data['data']['contact_key_id']).update(
+				company_key_id=data['data']['company_key_id'],
+				db_updated_by=data['data']['user_id'] ,
+				db_update_time=lambda:datetime.now()
+			)
+		
+	except Exception as e:
+		lReturnDict['msg']='error in adding contact key (%s)' %e
+		return lReturnDict	
+
+	else:
+		done=1
+
+
+	if done==1:
+		lReturnDict['msg']=' contact updated '
+	return lReturnDict
+	pass
+
+def add_contact_company_erp(data):
+	done=0
+	lReturnDict={'lKeyId':0,'msg':''}
+	# have to enter the data into the key table first
+	try:
+		lKeyId=db.general_contact_company_field_key.insert(
+				id=data['data']['company_key_id'],
+				company_id=data['data']['company_id'],
+				db_entry_time=lambda:datetime.now(),
+				db_entered_by=data['data']['user_id'],
+				session_id=data['data']['session_id']
+			)
+		lReturnDict['lKeyId']=int(lKeyId)
+	except Exception as e:
+		lReturnDict['msg']='error in adding company key (%s)' %e
+		return lReturnDict
+	else:
+		rows=db(db.crm_company_field.field_name).select()
+		for row in rows:
+			if row.is_active== True:
+				try:
+					db.general_contact_company_field_value.insert(
+						field_id=row.id ,
+						company_key_id=lKeyId ,
+						field_value=data['data'][row.field_name] ,  # to insert the data take the respective data from the dictionary
+						db_entry_time=lambda:datetime.now(),
+						db_entered_by=data['data']['user_id'],
+						company_id=data['data']['company_id'],
+						session_id=data['data']['session_id']
+						)
+					pass
+				except Exception as e:
+					lReturnDict['msg']='error in adding company data (%s)' %e
+					return lReturnDict
+				else:
+					done=1
+		pass
+
+	if done==1:
+		lReturnDict['msg']="company done"
+		return lReturnDict
+	pass

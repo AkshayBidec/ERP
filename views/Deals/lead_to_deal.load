@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+		
+                  <form action="" enctype="multipart/form-data" method="post">
+
+              <div class="modal-content">
+                  <h4>Convert Lead</h4>
+
+                    <input name="_formname" type="hidden" value="upload_form">
+
+                    <div class="modal_inner_content">
+                      
+
+                       <div class="row">
+                        <div class="input-field col s12">
+                            <label for="head_id">Final Price</label>
+                            <input  id="head_id" class="double materialize-textarea" name="final_price" type="text" value="" autocomplete="off" >
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="file-field input-field">
+                        <div class="btn">
+                          <span>Final Contract</span>
+                          <input class="upload" name="final_contract" type="file">
+                        </div>
+                        <div class="file-path-wrapper">
+                          <input class="file-path validate" type="text" placeholder="Upload a Final Contract">
+                        </div>
+                      </div>
+                      </div>
+                      <div class="row">
+                        <div class="file-field input-field">
+                        <div class="btn">
+                          <span>Final Quotaion</span>
+                          <input class="upload" name="final_quotation" type="file">
+                        </div>
+                        <div class="file-path-wrapper">
+                          <input class="file-path validate" type="text" placeholder="Upload a Final Quotation">
+                        </div>
+                      </div>
+                      </div>
+                      <div class="row">
+                        <div class="input-field col s12">
+                            <label for='description'>Description</label>
+                            <textarea  id="description" class="string materialize-textarea" name="description" type="text-area" ></textarea>
+                        </div>
+                      </div>
+                    </div> 
+                  
+                </div>
+              <div class="modal-footer">
+                <input type="submit" value="Submit" class="modal-action modal-close btn  waves-effect waves-green btn-flat">
+                <!-- <a href="#!" >Submit</a> -->
+              </div>
+              </form>
+
+             

@@ -49,6 +49,8 @@ def company_reg_page():
 					        									 IS_NOT_IN_DB(db,db.general_company_details.verification_code,error_message='code is alredy been used')])
 					         )
 	session.flash='hello '
+	lForm.custom.widget.company_name.update(_class='validate')
+
 	
 	if lForm.process().accepted:
 		session.flash+='* form accepted *'
@@ -143,6 +145,17 @@ def superuser_reg_page():
 # this page can be motified from the superuser
 def general_reg_page():
     return locals()
+
+#==============================================================================
+# test function to get the new design
+def add():
+    return locals()
+
+#==============================================================================
+# test function to get the new design
+def components():
+    return locals()
+
 
 #==============================================================================
 from gluon import *

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+    <div class="col-md-9 col-lg-9 col-xs-9 col-sm-9 ">
+      <table class="table table-bordered table-hover" id="leads_table">
+        <thead>
+        <tr>
+          <th></th>
+          {{for field in lFields:
+              if 'id' not in field:
+                response.write("<th>%s</th>"%field,escape=False)
+                pass
+
+          }}
+          {{pass}}
+        </tr>
+        </thead>
+
+        <tbody>
+         {{  if data_flag==1:
+                for key in data.keys():
+                    response.write("<tr id='%s' style='cursor: pointer;''><td class='#'><form action='#'><input type='checkbox' name='name_+%s' id='id_+%s' onclick='action_menu(this.className)' class='list_checkbox'><label for='id_+%s'></label></form></td>"%(data[key][lRedirectKey],data[key][lRedirectKey],data[key][lRedirectKey],data[key][lRedirectKey]),escape=False)
+                    for field in lFields:
+                      if 'id' not in field:
+                      d=data[key][field][0:100] if len(data[key][field])< 100 else data[key][field][0:100]+' ...'
+                        response.write("<td onclick='page_redirect(this)'>%s</td>"%d,escape=False)
+                        pass
+                      pass
+                    response.write("</tr>",escape=False)
+                    pass
+                    
+        }}
+        {{ else:}}
+        <tr><td colspan=8 class="text-center">Add <a href="{{=URL('leads_add', extension=False)}}">new </a></td></tr>
+        {{pass}}
+        </tbody>
+      </table>
+    </div>

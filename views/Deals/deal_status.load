@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<div class="row">
+  <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12 margin-tp-20 padding-10 text-left">
+    <div class="progress">
+      
+      {{for key in lStatusData.keys():}}
+      {{if lStatusData[key][0] == 1 :
+        lClass = 'progress-bar-warning progress-bar-striped'
+        elif lStatusData[key][0] == 2:
+        lClass = 'progress-bar-success'
+        elif lStatusData[key][0] == 3:
+        lClass = 'progress-bar-danger'
+        elif lStatusData[key][0] == 0:
+        lClass= 'progress_empty'
+        pass
+      }}
+      <a class="progress-bar waves-effect waves-light {{=lClass}} tooltipped" data-position="bottom" data-delay="50" data-tooltip="{{=key.title().replace('_',' ')}}" id="{{=lStatusData[key][1]}}" style="width: {{=100/len(lStatusData)}}%" onclick="openChangeModal(this);">
+        <span class="sr-only">{{=key}}</span>
+      </a>
+      {{pass}}
+      
+    </div>
+  </div>
+</div>
+<!-- Modal Structure -->
+  <div id="lead_status_modal" class="modal">
+    <form>
+    <div class="modal-content">
+      <h4 id="lead_status_modal_header"></h4>
+      <input name="_formname" type="hidden" value="status_form">
+      <input type="hidden" name="lead_status_master_id" id="lead_status_master_id">
+      <input type="hidden" name="field_name" id="field_name">
+      <!-- <input type="hidden" name="lead_key_id" id="lead_key_id" value={{=session_data['lead_key_id']}}> -->
+    </div>
+    <div class="modal-content">
+      Please select the status :
+      <select name="lead_status_stage_value" id="lead_status_stage_value">
+        <option value="0">Not Started</option>
+        <option value="1">Under Progress</option>
+        <option value="2">Completed</option>
+      </select>
+    </div>
+    <div class="modal-footer">
+      <button type="submit" class="modal-action modal-close waves-effect waves-green btn-flat">Save</button>
+    </div>
+    </form>
+  </div>    
+
+<script type="text/javascript">
+  $('.tooltipped').tooltip({delay: 50});
+
+  function openChangeModal(divRef) {
+    debugger;
+    $('#lead_status_modal_header').html(divRef.dataset.tooltip);
+    $('#field_name').val(divRef.dataset.tooltip);
+    $('#lead_status_master_id').val(divRef.id);
+    $('#lead_status_modal').modal('open');
+  } 
+</script> 
+ <div class="container-fluid" id="sec_timeline">
+        <div class="margin-tp-20">
+              <div class="sec_head">
+                <h3>Timeline</h3>
+              </div>
+
+
+              <table class="table table-striped" id="time_line_table">
+              <thead>
+              <tr>
+                  <th>Activity</th>
+                  <th>Stage</th>
+                  <th>Progress</th>
+                  <th>Modified At</th>
+                  <th>Modified By</th>
+              </tr>
+              </thead>
+              {{  if len(data)>0:
+                  
+                        for key in data.keys():
+                            response.write("<tr >",escape=False)
+                            
+                            response.write("<td>%s</td>"%data[key]['general_deal_status']['activity'],escape=False)
+                            response.write("<td>%s</td>"%data[key]['general_deal_status_master']['deal_status'],escape=False)
+                            response.write("<td>%s%s</td>"%(data[key]['general_deal_status_master']['progress'],'%'),escape=False)
+                            response.write("<td>%s</td>"%data[key]['general_deal_status']['db_entry_time'],escape=False)
+                            response.write("<td>%s</td>"%data[key]['general_deal_status']['db_entered_by_name'],escape=False)
+                            
+                            response.write("</tr>",escape=False)
+                            pass
+                            
+                }}
+                {{ else:}}
+                  <tr><td colspan=8 class="text-center">Add New</td></tr>
+                {{pass}}
+         
+              <tbody>
+         
+                     
+              </tbody>
+              
+              </table>
+
+
+        </div>
+      </div>
+
+ 

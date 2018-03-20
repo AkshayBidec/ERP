@@ -3,13 +3,18 @@
 
     <head>
         <link rel="stylesheet" href="{{=URL('static','css/flash.css')}}"/> <!--  a custom css file for flash massage-->
-        <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
-        <script src="{{=URL('static','js/flash.js')}}"></script>  <!-- js file dedicated to the flash messages -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://use.fontawesome.com/6353c44d0f.js"></script>
 
         <!-- Latest compiled and minified CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <link rel="stylesheet" href="{{=URL('static','css/company_reg_page.css')}}"/> <!--  a custom css file -->
 
+        <!-- Compiled and minified CSS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+
+        <!-- Compiled and minified JavaScript -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
         <!-- jQuery library -->
         <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
@@ -19,26 +24,127 @@
         <!-- <link href="../css/style.css" rel="stylesheet" type="text/css" /> -->
         <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script src="http://hl360opencodeserver.com/assets/js/city_state.js"></script> -->
+        <link href="https://fonts.googleapis.com/css?family=Montserrat|Roboto" rel="stylesheet">
+        <link rel="stylesheet" href="{{=URL('static','css/new_style.css')}}" /> <!--  a custom css file for flash massage -->
         <title id="page-title">Company registration</title>
-
 
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
     </head>
 
     <body>
-    {{ if session.flash:}} <!-- for the session message -->
-    <div class="popup"> <a href="#" class="close">
-      <svg id="Layer_1" x="0px" y="0px" width="10px" height="10px" viewBox="215.186 215.671 80.802 80.8" enable-background="new 215.186 215.671 80.802 80.8" xml:space="preserve">
-            <polygon fill="red" points="280.486,296.466 255.586,271.566 230.686,296.471 215.19,280.964 240.086,256.066 215.186,231.17 230.69,215.674 255.586,240.566 280.475,215.671 295.985,231.169 271.089,256.064 295.987,280.96 "/>
-           </svg></a>
-          <div class="flash"><h1 >{{=session.flash }}</h1></div>
-    </div>
-    {{pass}}
-
-            {{=form.custom.begin}}
-           
-        <div class="container">
+        {{=form.custom.begin}}
+        <div class="main_full_block">
+            <div class="row bg-light-gray padding-10 line_height_35">
+                <div class="col-md-7 col-lg-7 col-xs-7 col-sm-7 main_block_head text-left">
+                    <div class="page_head">
+                        <h2 class="margin-0 padding-20">Company Registration</h2>
+                    </div>
+                </div>
+                <div class="col-md-5 col-lg-5 col-xs-5 col-sm-5">
+                    <div class="text-center padding-20">
+                        <input type="submit" class="btn btn-success" value="Submit">
+                        <!-- <button type="submit" class="btn btn-success">Submit</button> -->
+                        <button type="reset" class="btn btn-primary">Reset</button>
+                    </div>
+                </div>          
+            </div>
+            <div class="container-fluid" id="sec_timeline">
+                <div class="margin-tp-20 sec_container padding-20">
+                    <div class="sec_head padding-20">
+                        <h3 class="margin-0">Company Information</h3>  
+                    </div>
+                    <div class="sec_body padding-20">
+                        <div class="row">
+                            <div class="input-field col s6">
+                                {{=form.custom.widget.company_name}}
+                                <label for="exampleInputEmail1" data-error="wrong" data-success="right">Company Name *</label>
+                            </div>
+                            <div class="input-field col s6">
+                                {{=form.custom.widget.company_identification}}
+                                <label for="exampleInputEmail1">Legal Reg No</label>
+                            </div>
+                            <div class="input-field col s12">
+                                {{=form.custom.widget.company_address_line1}}
+                                <label for="exampleInputEmail1">Address Line 1 *</label>
+                            </div>
+                            <div class="input-field col s12">
+                                {{=form.custom.widget.company_address_line2}}
+                                <label for="exampleInputEmail1">Address Line 2</label>
+                            </div>
+                            <div class="input-field col s6">
+                                {{=form.custom.widget.office_number}} 
+                                <label for="exampleInputEmail1">Office Number *</label>
+                            </div>
+                            <div class="input-field col s6">
+                                {{=form.custom.widget.country}}
+                                <label for="exampleInputEmail1">Country *</label>
+                            </div>
+                            <div class="input-field col s6">
+                                {{=form.custom.widget.states}}
+                                <label for="exampleInputEmail1">State *</label>
+                            </div>
+                            <div class="input-field col s6">
+                                {{=form.custom.widget.city}}  
+                                <label for="exampleInputEmail1">City *</label>
+                            </div>
+                            <div class="input-field col s6">
+                                {{=form.custom.widget.pincode}}
+                                <label for="exampleInputEmail1">Postal Code *</label>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <div class="sec_head padding-20">
+                        <h3 class="margin-0">Super Admin Information</h3>  
+                    </div>
+                    <div class="sec_body padding-20">
+                        <div class="row">
+                            <div class="input-field col s6">
+                                {{=form.custom.widget.first_name}}
+                                <label for="exampleInputEmail1" >First Name *</label>
+                            </div>
+                            <div class="input-field col s6">
+                                {{=form.custom.widget.last_name}}  
+                                <label for="exampleInputEmail1">Last Name *</label>
+                            </div>
+                            <div class="input-field col s6">
+                                {{=form.custom.widget.email_id}}  
+                                <label for="exampleInputEmail1">Email-ID *</label>
+                            </div>
+                            <div class="input-field col s6">
+                                {{=form.custom.widget.mobile_number}}  
+                                <label for="exampleInputEmail1">Mobile Number *</label>
+                            </div>
+                            <div class="input-field col s6">
+                                {{=form.custom.widget.password}}  
+                                <label for="exampleInputEmail1">Password *</label>
+                            </div>
+                            <div class="input-field col s6">
+                                {{=form.custom.widget.verify_password}}  
+                                <label for="exampleInputEmail1">Verify Password *</label>
+                            </div>
+                            <div class="input-field col s6">
+                                {{=form.custom.widget.verification_code}}
+                                <label for="exampleInputEmail1">Verification Code *</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row bg-light-gray padding-10 line_height_35">
+                <div class="col-md-7 col-lg-7 col-xs-7 col-sm-7 main_block_head text-left">
+                  
+                </div>
+                <div class="col-md-5 col-lg-5 col-xs-5 col-sm-5">
+                  <div class="text-center padding-20">
+                    <button type="submit" class="btn btn-success">Submit</button>
+                    <button type="reset" class="btn btn-primary">Reset</button>
+                  </div>
+                </div>          
+            </div>
+        </div>       
+        <!-- <div class="container">
             <div class="form">
                 <div class="page_menu">
                     <div class="row">
@@ -81,50 +187,50 @@
                                 {{=form.custom.widget.states}}
                             </div>
                             <div class="form-group col-md-6 col-lg-6 col-xs-6 col-sm-6">
-                                <label for="exampleInputEmail1">City *</label>
                                 {{=form.custom.widget.city}}  
+                                <label for="exampleInputEmail1">City *</label>
                             </div>
                             <div class="form-group col-md-6 col-lg-6 col-xs-6 col-sm-6">
-                                <label for="exampleInputEmail1">Postal Code *</label>
                                 {{=form.custom.widget.pincode}}
+                                <label for="exampleInputEmail1">Postal Code *</label>
                             </div>
                             <div class="form-group col-md-6 col-lg-6 col-xs-6 col-sm-6">
-                                <label for="exampleInputEmail1">Office Number *</label>
                                 {{=form.custom.widget.office_number}} 
-                            </div>
+                                <label for="exampleInputEmail1">Office Number *</label>
+                            </div> -->
 
                             <!-- super admin details -->
 
-                            <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
+                            <!-- <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
                                 <h3>Contact Info : </h3>
                             </div>
                             <div class="form-group col-md-6 col-lg-6 col-xs-6 col-sm-6">
-                                <label for="exampleInputEmail1">First Name</label>
                                 {{=form.custom.widget.first_name}}
+                                <label for="exampleInputEmail1">First Name</label>
                             </div>
                             <div class="form-group col-md-6 col-lg-6 col-xs-6 col-sm-6">
-                                <label for="exampleInputEmail1">Last Name</label>
                                 {{=form.custom.widget.last_name}}  
+                                <label for="exampleInputEmail1">Last Name</label>
                             </div>
                             <div class="form-group col-md-6 col-lg-6 col-xs-6 col-sm-6">
-                                <label for="exampleInputEmail1">Email-ID</label>
                                 {{=form.custom.widget.email_id}}  
+                                <label for="exampleInputEmail1">Email-ID</label>
                             </div>
                             <div class="form-group col-md-6 col-lg-6 col-xs-6 col-sm-6">
-                                <label for="exampleInputEmail1">Mobile Number</label>
                                 {{=form.custom.widget.mobile_number}}  
+                                <label for="exampleInputEmail1">Mobile Number</label>
                             </div>
                             <div class="form-group col-md-6 col-lg-6 col-xs-6 col-sm-6">
-                                <label for="exampleInputEmail1">Password</label>
                                 {{=form.custom.widget.password}}  
+                                <label for="exampleInputEmail1">Password</label>
                             </div>
                              <div class="form-group col-md-6 col-lg-6 col-xs-6 col-sm-6">
-                                <label for="exampleInputEmail1">Verify Password</label>
                                 {{=form.custom.widget.verify_password}}  
+                                <label for="exampleInputEmail1">Verify Password</label>
                             </div>
                             <div class="form-group col-md-6 col-lg-6 col-xs-6 col-sm-6">
-                                <label for="exampleInputEmail1">Verification Code *</label>
                                 {{=form.custom.widget.verification_code}}
+                                <label for="exampleInputEmail1">Verification Code *</label>
                             </div>
 
                         </div>
@@ -142,17 +248,8 @@
                         </div>
                     </div>
             </div>
-        </div>
+        </div> -->
         {{=form.custom.end}}
-<script type="text/javascript">
-    /*function setUserTimeZone() {
-        $('#local_timezone').val(Intl.DateTimeFormat().resolvedOptions().timeZone);
-        //debugger;
-        var now = new Date();
-        var month = parseInt(now.getMonth()) + 1;
-        $('#local_entry_time').val(now.getFullYear()+'-'+month+'-'+now.getDate()+' '+now.toLocaleTimeString());
-    }
-    setUserTimeZone();*/
-</script>
+
     </body>
 </html>

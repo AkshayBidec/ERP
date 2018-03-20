@@ -1,0 +1,289 @@
+{{=session.message}}
+{{session.message=''}}
+{{extend 'navbar.html'}}
+{{ include 'web2py_ajax.html'}}
+    <head>
+        
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+        <style type="text/css">
+            .error{
+              font-size:14px;
+              text-align:center;
+              color: #ff471a;
+            }
+        </style>
+
+
+    </head>
+
+    <body>
+{{ include 'CRM/crm_navbar.html'}}
+
+        <div class="main_full_block">
+            <div class="well" style="padding: 0;">
+                {{=form.custom.begin}}
+                <div class="row bg-light-gray ">
+                    <div class="col-md-7 col-lg-7 col-xs-7 col-sm-7 main_block_head text-left">
+                      <div class="page_head">
+                        <h2 class="margin-0 padding-20">Add New Deal</h2>
+                      </div>
+                    </div>
+                    <div class="col-md-5 col-lg-5 col-xs-5 col-sm-5">
+                      <div class="text-center padding-20">
+                        <button type="submit" class="btn btn-success">Submit</button>
+                        <button type="button" class="btn btn-primary">Save and Add New</button>
+                      </div>
+                    </div>  
+                </div>
+                <div class="container-fluid" id="sec_timeline">
+                    <div class="sec_container padding-20">
+                        <div class="sec_head padding-20">
+                            <h3 class="margin-0">Company Information</h3>
+                        </div>
+                        <div class="sec_body padding-20">
+                            <div class="row">
+                                {{for key in company_form_fields.keys():}}
+                                <div class="input-field col s6">
+                                    {{=eval('form.custom.widget.'+key)}}
+                                    <label for="no_table_{{=key}}">{{=company_form_fields[key]}}
+                                        {{if eval('form.custom.widget.'+key+"['_required']") != None:}}
+                                            *
+                                            {{pass}}
+                                    </label>
+                                </div>
+                                {{pass}}
+                            </div>
+                        </div>
+                        <div class="sec_head padding-20">
+                            <h3 class="margin-0">Contact Information</h3>
+                            <input type="hidden" name="company_key_id" id="company_key_id" value=0>
+                            <input type="hidden" name="contact_key_id" id="contact_key_id" value=0>
+                        </div>
+                        <div class="sec_body padding-20">
+                            <div class="row">
+                                {{for key in contact_form_fields.keys():}}
+                                <div class="input-field col s6">
+                                    {{=eval('form.custom.widget.'+key)}}
+                                    <label for="no_table_{{=key}}">{{=contact_form_fields[key]}}{{if eval('form.custom.widget.'+key+"['_required']") != None:}} *{{pass}}</label>
+                                </div>
+                                {{pass}}
+                            </div>
+                        </div>
+                        <div class="sec_head padding-20">
+                            <h3 class="margin-0">Deal Information</h3>
+                        </div>
+                        <div class="sec_body padding-20">
+                            <div class="row">
+                                
+                                {{for key in deal_form_fields.keys():}}
+                                {{if key == 'final_quotation' or key == 'final_contract':}}
+                                <div class="file-field input-field col s6">
+                                    <div class="btn">
+                                        <span>{{=deal_form_fields[key]}}</span>
+                                        {{=eval('form.custom.widget.'+key)}}
+                                    </div>
+                                    <div class="file-path-wrapper">
+                                        <input class="file-path validate" type="text">
+                                    </div>
+                                </div>
+                                {{else:}}
+                                <div class="input-field col s6">
+                                    {{=eval('form.custom.widget.'+key)}}
+                                    <label for="no_table_{{=key}}">{{=deal_form_fields[key]}}
+                                        {{if eval('form.custom.widget.'+key+"['_required']") != None:}}
+                                            *
+                                            {{pass}}
+                                        
+                                    </label>
+                                </div>
+                                    {{pass}}
+                                {{pass}}
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row bg-light-gray padding-10 line_height_35">
+                    <div class="col-md-7 col-lg-7 col-xs-7 col-sm-7 main_block_head text-left">
+                      
+                    </div>
+                    <div class="col-md-5 col-lg-5 col-xs-5 col-sm-5">
+                      <div class="text-center padding-20">
+                        <button type="submit" class="btn btn-success">Submit</button>
+                        <button type="reset" class="btn btn-primary">Reset</button>
+                      </div>
+                    </div>          
+                </div>
+                
+                {{=form.custom.end}}
+            </div>
+        </div>
+<script type="text/javascript">
+    function setUserTimeZone() {
+        $('#local_timezone').val(Intl.DateTimeFormat().resolvedOptions().timeZone);
+        //debugger;
+        var now = new Date();
+        var month = parseInt(now.getMonth()) + 1;
+        $('#local_entry_time').val(now.getFullYear()+'-'+month+'-'+now.getDate()+' '+now.toLocaleTimeString());
+    }
+    setUserTimeZone();
+
+    
+</script>
+<script type="text/javascript">
+
+  $(document).ready(function() {
+    $('select').material_select();
+    $('#no_table_final_quotation').prop('accept','.pdf');
+    $('#no_table_final_contract').prop('accept','.pdf');
+  });
+        
+    // Function to set property of autocomplete off
+    $('#no_table_company_name').prop('autocomplete','off');
+    $('#no_table_first_name').prop('autocomplete','off');
+    // Global variable
+    var companyJsonFields = {};
+    var contactJsonFields = {};
+    // Javascript functions for search the company name and contact name
+    $('[name="company_name"]').after('<div style="position: absolute; width: 95%; z-index: 100;" id="company_suggestions" class="suggestions"></div>');
+    jQuery("#no_table_company_name").keyup(function(){
+        reset_company_field_value();
+        ajax('{{=URL('CRM', 'company_selector')}}', ['company_name'], 'company_suggestions');
+        $('#company_suggestions').show();
+    });
+
+
+    // Function to reset the values in the input types and remove the values already set
+    function reset_company_field_value() {
+        $.each(companyJsonFields, function(k,v){
+            if (k != 'company_name') {
+                var element = $('#no_table_'+k).prop('tagName');
+                switch(element) {
+                    case '':
+                        break;
+                    default:
+                        $('#no_table_'+k).val(function() {
+                            return this.defaultValue;
+                        });
+                        $('#no_table_'+k).prop('readonly',false);
+                        break;
+                }
+            }
+        });
+        $('#company_key_id').val('0');
+        Materialize.updateTextFields();
+        /*var allInput = $(':input[type=text]');
+        $("form").each(function(){
+            $(this).find(':input').val(); //<-- Should return all input elements in that specific form.
+            $(this).find(':input').prop('readonly',false);
+            $(this).find('textarea').val(); //<-- Should return all input elements in that specific form.
+            $(this).find('textarea').prop('readonly',false);
+            $('#company_key_id').val('0');
+        });*/
+    }
+
+
+    function set_company_value(obj) {
+        var lCompanyID = $(obj).data('id');
+        ajax('{{=URL('CRM', 'company_details')}}?contactId='+lCompanyID, [], ':eval');
+        $('#company_key_id').val(lCompanyID);
+    }
+
+    function setCompanyValue(jsonData) {
+        companyJsonFields = jsonData;
+        $.each(jsonData, function(k,v){
+            //debugger;
+            var element = $('#no_table_'+k).prop('tagName');
+            switch(element) {
+                case 'SELECT':
+                    $('option:selected', 'select[name="'+k+'"]').removeAttr('selected');
+                    $('#no_table_'+k).prop('disabled',false);
+                    $('select').material_select();
+                    break;
+                default:
+                    $('#no_table_'+k).val(v);
+                    $('#no_table_'+k).prop('readonly',true);
+                    Materialize.updateTextFields();
+                    break;
+            } 
+        });
+        $("#no_table_company_name").prop('readonly',false);
+        $('#company_suggestions').hide();
+    }
+
+    function set_contact_company_value(lCompanyID) {
+        ajax('{{=URL('CRM', 'company_details')}}?contactId='+lCompanyID, [], ':eval');
+        $('#company_key_id').val(lCompanyID);
+    }
+
+    // Functions to set the value contact value
+    $('[name="first_name"]').after('<div style="position: absolute; width: 95%; z-index: 100;" id="contact_suggestions" class="suggestions"></div>');
+
+    jQuery("#no_table_first_name").keyup(function(){
+        reset_contact_field_value();
+        lCompanyID = $('#company_key_id').val();
+        ajax('{{=URL('CRM', 'contact_selector')}}', ['first_name','company_key_id'], 'contact_suggestions');
+        $('#contact_suggestions').show();
+    });
+
+
+    function reset_contact_field_value() {
+        $.each(contactJsonFields, function(k,v){
+            if (k != 'first_name') {
+                var element = $('#no_table_'+k).prop('tagName');
+                switch(element) {
+                    case 'SELECT':
+                        $('option:selected', 'select[name="'+k+'"]').removeAttr('selected');
+                        $('select').material_select();
+                        // $('#no_table_'+k).prop('disabled',false);
+                        break;
+                    default:
+                        $('#no_table_'+k).val(function() {
+                            return this.defaultValue;
+                        });
+                        $('#no_table_'+k).prop('readonly',false);
+                        Materialize.updateTextFields();
+                        break;
+                }
+            }
+        });
+        $('#contact_key_id').val('0');
+    }
+
+    function set_contact_value(obj) {
+        //debugger;
+        var lCompanyCheck = $('#company_key_id').val();
+        var lContactId = $(obj).data('contact_id');
+        var lCompanyId = $(obj).data('company_id');
+        if (lCompanyCheck == 0) {
+            set_contact_company_value(lCompanyId);
+        }
+        $('#contact_key_id').val(lContactId);
+        ajax('{{=URL('CRM', 'contact_details')}}', ['contact_key_id'], ':eval');
+    }
+
+    function setContactValue(jsonData) {
+        //debugger;
+        contactJsonFields = jsonData;
+        $.each(jsonData, function(k,v){
+            //debugger;
+            var element = $('#no_table_'+k).prop('tagName');
+            switch(element) {
+                case 'SELECT':
+                    $('select[name="'+k+'"]').find('option[value="'+v+'"]').attr("selected",true);
+                    $('select').material_select();
+                    // $('#no_table_'+k).prop('disabled',true);
+                    break;
+                default:
+                    $('#no_table_'+k).val(v);
+                    $('#no_table_'+k).prop('readonly',true);
+                    Materialize.updateTextFields();
+                    break;
+            } 
+        });
+        $("#no_table_first_name").prop('readonly',false);
+        $('#contact_suggestions').hide();
+    }
+</script>
+    </body>

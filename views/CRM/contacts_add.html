@@ -7,9 +7,70 @@
     </head>
 
     <body>
-
-        <div class="container">
-            <div class="form">
+        {{ include 'CRM/crm_navbar.html'}}
+        <div class="main_full_block">
+            {{=form.custom.begin}}
+            <div class="well " style="padding: 0;">
+                <div class="row bg-light-gray">
+                    <div class="col-md-7 col-lg-7 col-xs-7 col-sm-7 main_block_head text-left">
+                      <div class="page_head">
+                        <h2 class="margin-0 padding-20">Add New Contact</h2>
+                      </div>
+                    </div>
+                    <div class="col-md-5 col-lg-5 col-xs-5 col-sm-5">
+                      <div class="text-center padding-20">
+                        <button class="btn waves-effect waves-light" type="submit" name="action">Submit
+                        </button>
+                        <button type="button" class="btn btn-primary grey lighten-1">Reset</button>
+                      </div>
+                    </div>
+                </div>
+                <div class="container-fluid" id="sec_timeline">
+                    <div class="sec_container">
+                        <div class="sec_head padding-20">
+                            <h3 class="margin-0">Company Information</h3>
+                        </div>
+                        <div class="sec_body padding-20">
+                            <div class="row">
+                                {{for key in company_form_fields.keys():}}
+                                <div class="input-field col s6">
+                                    {{=eval('form.custom.widget.'+key)}}
+                                    <label for="no_table_{{=key}}">{{=company_form_fields[key]}}</label>
+                                </div>
+                                {{pass}}
+                            </div>
+                        </div>
+                        <div class="sec_head padding-20">
+                            <h3 class="margin-0">Contact Information</h3>
+                            <input type="hidden" name="company_key_id" id="company_key_id" value=0>
+                            <input type="hidden" name="contact_key_id" id="contact_key_id" value=0>
+                        </div>
+                        <div class="sec_body padding-20">
+                            <div class="row">
+                                {{for key in contact_form_fields.keys():}}
+                                <div class="input-field col s6">
+                                    {{=eval('form.custom.widget.'+key)}}
+                                    <label for="no_table_{{=key}}">{{=contact_form_fields[key]}}</label>
+                                </div>
+                                {{pass}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row bg-light-gray padding-10 line_height_35">
+                    <div class="col-md-7 col-lg-7 col-xs-7 col-sm-7 main_block_head text-left">
+                      
+                    </div>
+                    <div class="col-md-5 col-lg-5 col-xs-5 col-sm-5">
+                      <div class="text-center padding-20">
+                        <button class="btn waves-effect waves-light" type="submit" name="action">Submit
+                        </button>
+                        <button type="reset" class="btn btn-primary grey lighten-1">Reset</button>
+                      </div>
+                    </div>          
+                </div>
+            </div>
+            <!-- <div class="form">
                 <div class="page_menu">
                     <div class="row">
                         <div class="col-md-6 col-lg-6 col-xs-12 col-sm-8">
@@ -66,8 +127,9 @@
                             </p>
                         </div>
                     </div>
-                     {{=form.custom.end}}
-            </div>
+                     
+            </div> -->
+            {{=form.custom.end}}
         </div>
 <script type="text/javascript">
     function setUserTimeZone() {
@@ -82,6 +144,9 @@
     
 </script>
 <script type="text/javascript">
+    $(document).ready(function() {
+        $('select').material_select();
+      });
     // Function to set property of autocomplete off
     $('#no_table_company_name').prop('autocomplete','off');
     $('#no_table_first_name').prop('autocomplete','off');
@@ -100,17 +165,22 @@
     // Function to reset the values in the input types and remove the values already set
     function reset_company_field_value() {
         $.each(companyJsonFields, function(k,v){
-            var element = $('#no_table_'+k).prop('tagName');
-            switch(element) {
-                case '':
-                    break;
-                default:
-                    $('#no_table_'+k).val();
-                    $('#no_table_'+k).prop('readonly',false);
-                    break;
+            if (k != 'company_name') {
+                var element = $('#no_table_'+k).prop('tagName');
+                switch(element) {
+                    case '':
+                        break;
+                    default:
+                        $('#no_table_'+k).val(function() {
+                            return this.defaultValue;
+                        });
+                        $('#no_table_'+k).prop('readonly',false);
+                        break;
+                }
             }
         });
         $('#company_key_id').val('0');
+        Materialize.updateTextFields();
         /*var allInput = $(':input[type=text]');
         $("form").each(function(){
             $(this).find(':input').val(); //<-- Should return all input elements in that specific form.
@@ -137,10 +207,12 @@
                 case 'SELECT':
                     $('option:selected', 'select[name="'+k+'"]').removeAttr('selected');
                     $('#no_table_'+k).prop('disabled',false);
+                    $('select').material_select();
                     break;
                 default:
                     $('#no_table_'+k).val(v);
                     $('#no_table_'+k).prop('readonly',true);
+                    Materialize.updateTextFields();
                     break;
             } 
         });
@@ -166,16 +238,22 @@
 
     function reset_contact_field_value() {
         $.each(contactJsonFields, function(k,v){
-            var element = $('#no_table_'+k).prop('tagName');
-            switch(element) {
-                case 'SELECT':
-                    $('option:selected', 'select[name="'+k+'"]').removeAttr('selected');
-                    $('#no_table_'+k).prop('disabled',false);
-                    break;
-                default:
-                    $('#no_table_'+k).val();
-                    $('#no_table_'+k).prop('readonly',false);
-                    break;
+            if (k != 'first_name') {
+                var element = $('#no_table_'+k).prop('tagName');
+                switch(element) {
+                    case 'SELECT':
+                        $('option:selected', 'select[name="'+k+'"]').removeAttr('selected');
+                        $('select').material_select();
+                        // $('#no_table_'+k).prop('disabled',false);
+                        break;
+                    default:
+                        $('#no_table_'+k).val(function() {
+                            return this.defaultValue;
+                        });
+                        $('#no_table_'+k).prop('readonly',false);
+                        Materialize.updateTextFields();
+                        break;
+                }
             }
         });
         $('#contact_key_id').val('0');
@@ -202,11 +280,13 @@
             switch(element) {
                 case 'SELECT':
                     $('select[name="'+k+'"]').find('option[value="'+v+'"]').attr("selected",true);
-                    $('#no_table_'+k).prop('disabled',true);
+                    //$('#no_table_'+k).prop('disabled',true);
+                    $('select').material_select();
                     break;
                 default:
                     $('#no_table_'+k).val(v);
                     $('#no_table_'+k).prop('readonly',true);
+                    Materialize.updateTextFields();
                     break;
             } 
         });
@@ -214,6 +294,5 @@
         $('#contact_suggestions').hide();
     }
 </script>
-message:--
-{{=session.message}}
+
     </body>

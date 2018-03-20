@@ -1,0 +1,290 @@
+/*
+Theme Name: Project Realm
+Author: Priyesh Sharma
+Description: Styles for Project Realm
+Version: 1.1.0
+*/
+
+/*----------------------------------------Layout design-----------------------------------------------------*/
+*{
+	outline: none;
+	/*-webkit-touch-callout: none;*/
+	-webkit-text-size-adjust: none;
+	-webkit-overflow-scrolling: touch;
+    font-family: 'Montserrat', sans-serif;
+    -moz-box-sizing: border-box;
+         box-sizing: border-box;
+}
+
+html{
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+body{
+    background-color: #fff;
+}
+#site-header,.d-btn,h1,h2,h3, .menu_options{
+    font-family:Montserrat,sans-serif
+}
+body,h4,h5,html{
+    font-family:Roboto,Helvetica,Arial,sans-serif;
+    margin:0
+}
+h1,h2,h3,h4,h5{
+    font-weight:400
+}
+h2{
+    font-size: 30px;
+}
+h3{
+    font-size: 24px;
+}
+header{
+    position: relative;
+    top: 0;
+    width: 100%;
+    z-index: 10;
+}
+header .dropdown_menu{
+  z-index: 1000;
+}
+a{
+    text-decoration: none;
+    color: inherit;
+}
+a:hover{
+    text-decoration: none;
+    color: none;
+}
+.padding-10{
+    padding: 10px; 
+}
+.padding-20{
+    padding: 20px; 
+}
+.margin-tp-20{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.upper_nav_container{
+    background-color: #f6f6f6;
+    position: relative;
+    z-index: 1000;
+}
+.upper_nav{
+    line-height: 30px;
+    font-size: 12px;
+    color: darkgrey;
+    padding: 0 20px;
+}
+.upper_nav > div{
+    display: inline-block;
+    padding: 0 20px;
+}
+.right_menu{
+    display: inline-block;
+    padding: 0 20px; 
+}
+#Avyakt{
+    display: inline-block;
+}
+#Avyakt::before{
+    content:"|";
+}
+.main_nav{
+    font-size: 16px;
+    color: darkgrey;
+    padding: 0 40px;
+    background-color: #fff;
+}
+.logo{
+    display: inline-block;
+    height: 60px;
+}
+
+.logo > img, #logo_client > img{
+    height: 70px;
+    width: auto;
+}
+.main_menu, .menu_options, .main_nav_left, .main_nav_right{
+   display: inline-block;
+   padding: 0 20px;
+   line-height: 70px; 
+}
+.menu_options{
+    padding:0 10px;
+    position: relative;
+}
+.menu_options  ul > li{
+  line-height: 40px; 
+}
+.menu_options  ul > li:hover{
+  background-color: rgba(0,0,0,0.03);
+} 
+/*-- ## Layout L-update styles ## --*/
+.side_bar_fixed{
+    position: fixed;
+    background-color: #f9f9f9;
+    z-index: 1;
+    top:0;
+    padding-top: 100px;
+    bottom:0;
+    left: 0;
+    width: 20%;
+}
+.main_block{
+    width:80%;
+    margin-left: 20%;
+}
+.main_full_block{
+    width: 100%;
+}
+.side_bar_head{
+    color:#23abe2;
+    font-family: 'Montserrat', sans-serif;
+}
+.side_bar_elements{
+    font-family: 'Roboto', sans-serif;
+    color: #4a4a4a;
+}
+.side_bar_elements > a:hover{
+    color: #23abe2;
+}
+.bg-light-gray{
+    background-color: #f0f0f0;
+}
+.line_height_35{
+    line-height: 35px;
+    vertical-align: middle;
+}
+.margin-0{
+    margin:0;
+}
+.modal{
+    bottom: inherit;
+}
+.modal-content {
+    position: static;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    border: none;
+    border: none;
+    border-radius: 0px;
+    outline: 0;
+    -webkit-box-shadow: 0 3px 9px rgba(0,0,0,.5);
+}
+/*-- ## Layout L-update styles ends ## --*/
+
+/*-- ## Layout L-Add/L-edit styles Starts ## --*/
+.page_head{
+    padding: 0 40px;
+}
+
+.filter_parent_container{
+  max-height: 50vh;
+  overflow-y: auto;
+}
+/*-- ## Layout L-Add/L-edit styles End  ## --*/
+.page_head{
+    padding: 0 40px;
+}
+
+/*-- ## Layout L-list styles Starts  ## --*/
+.z_index_10k{
+  position: relative;
+  z-index: 10000;
+}
+
+.display_none{
+  display: none;
+}
+
+
+/*-- ## Layout L-list styles Ends  ## --*/
+
+/*----------------------------------------Layout design ends-----------------------------------------------------*/
+
+/*-- Compnents ---*/
+
+/*-- Progress Bar --*/
+
+.progress {
+    height: 20px;
+    margin-bottom: 20px;
+    overflow: hidden;
+    background-color: #f5f5f5;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,.1);
+    box-shadow: inset 0 1px 2px rgba(0,0,0,.1);
+}
+.progress_empty {
+    height: 20px;
+    margin-bottom: 20px;
+    overflow: hidden;
+    background-color: #f5f5f5;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,.1);
+    box-shadow: inset 0 1px 2px rgba(0,0,0,.1);
+}
+.display_none{
+    display: none;
+}
+.field_label{
+    font-family: Montserrat,sans-serif;
+    color: #9b9b9b;
+    font-weight: bolder;
+    font-size: 15px;
+}
+.field_value{
+    font-family: Roboto;
+}
+.lead_status{
+  font-weight: bold;
+  font-family: Montserrat;
+  font-size: 18px;
+} 
+.lead_update_head > .open{
+  color:  #008ECC;
+}
+.lead_update_head > .converted{
+  color: #3FE0D0;
+}
+.lead_update_head > .lost{
+  color: #B22222;
+}
+.display_inline_block{
+  display: inline-block;
+}
+.padding-lr-10{
+  padding: 0 10px;
+}
+/*----------------------------------------ERROR design starts-----------------------------------------------------*/
+/* label color */
+   .input-field label {
+     color: #000;
+   }
+   /* label focus color */
+   .input-field input[type=text]:focus + label {
+     color: #000;
+   }
+   /* label underline focus color */
+   .input-field input[type=text]:focus {
+     border-bottom: 1px solid #000;
+     box-shadow: 0 1px 0 0 #000;
+   }
+   /* valid color */
+   .input-field input[type=text].valid {
+     border-bottom: 1px solid #000;
+     box-shadow: 0 1px 0 0 #000;
+   }
+   /* invalid color */
+   .input-field input[type=text].invalid {
+     border-bottom: 1px solid #000;
+     box-shadow: 0 1px 0 0 #000;
+   }
+   /* icon prefix focus color */
+   .input-field .prefix.active {
+     color: #000;
+   }
+/*----------------------------------------ERROR design ends-----------------------------------------------------*/

@@ -1,0 +1,490 @@
+{{extend 'navbar.html'}}
+
+
+<body>
+  {{ include 'CRM/crm_navbar.html'}}
+    
+  </header> 
+  <!-- Nav bar ended -->
+
+  <!-- Main Layout(L-update) start here -->
+    <!-- side section fixed -->
+    <div class="side_bar_fixed">
+      <div class="side_bar_container padding-10">
+        <div class="side_bar_head margin-tp-20">
+          <h3>Quick Links</h3>
+        </div>
+        <div class="side_bar_elements_container margin-tp-20">
+          <div class="padding-10 side_bar_elements">
+            <a href="#sec_deal_info">Deal Information</a>
+          </div>
+          <div class="padding-10 side_bar_elements">
+            <a href="#sec_timeline">Timeline</a>
+          </div>
+          <div class="padding-10 side_bar_elements">
+            <a href="#sec_water_test">Water Analysis Test</a>
+          </div>
+          <div class="padding-10 side_bar_elements">
+            <a href="#sec_design_basis">Design Basis</a>
+          </div>
+          <div class="padding-10 side_bar_elements">
+            <a href="#sec_pid">P &amp; I Diagrams Upload</a>
+          </div>
+          <div class="padding-10 side_bar_elements">
+            <a href="#sec_treatment">Treatment Scheme</a>
+          </div>
+          <div class="padding-10 side_bar_elements">
+            <a href="#sec_technical">Technical Details</a>
+          </div>
+          <div class="padding-10 side_bar_elements">
+            <a href="#sec_scope">Scope of supply and schedule of Exclusions</a>
+          </div>
+          <div class="padding-10 side_bar_elements">
+            <a href="#sec_est_cost">Estimated Cost</a>
+          </div>
+          <div class="padding-10 side_bar_elements">
+            <a href="#sec_prices_tc">Prices with commercial Terms and Conditions</a>
+          </div>
+          <div class="padding-10 side_bar_elements">
+            <a href="#sec_proposal">Proposal Upload</a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <!-- side section fixed ends -->
+    <!-- main section -->
+    <div class="main_block">
+      <div class="row bg-light-gray padding-10 line_height_35">
+        <div class="col-md-7 col-lg-7 col-xs-7 col-sm-7 main_block_head text-left">
+          <div class="#">
+            <h2 class="margin-0"><a href="{{=URL('view')}}"><span class="glyphicon glyphicon-arrow-left padding-lr-10" aria-hidden="true"></span></a> {{=data['company_details'][0]['general_contact_company_field_value']['field_value']}}</h2>
+          </div>
+        </div>
+        <div class="col-md-5 col-lg-5 col-xs-5 col-sm-5">
+          <div class="text-center">
+            <!-- <button type="button" onclick="open_custom_modal('custom_modal_id')" class="btn btn-success">Open Custom Modal</button> -->
+            <!-- <button type="button" data-target="modal101" class="btn modal-trigger">Convert</button> -->
+            <!-- Convertion Modal-->
+            <!-- modal is at the end of this page-->
+            <button type="button" class="btn btn-primary">Send E-mail</button>
+            <a href="{{=URL('edit',args=[deal_key_id])}}"><button type="button" class="btn btn-primary">Edit</button></a>
+          </div>
+        </div>          
+      </div>
+
+      <!-- Info Block -->
+      <div class="container-fluid" id="sec_deal_info_2">
+        <div class="margin-tp-20 padding-lr-10">
+              
+          <div class="row">
+            <div class="col-md-12 col-xs-12 col-lg-12 col-sm-12">
+              <blockquote>
+                <h5 class="margin-0">Company Info</h5>
+              </blockquote>
+            </div>
+            <div class="row">
+            <div class="col-md-2 col-xs-2 col-sm-2 col-lg-2">
+              <div class="field_label">
+                Company Name
+              </div>
+            </div>
+            <div class="col-md-2 col-xs-2 col-sm-2 col-lg-2">
+              <div class="field_value">
+                {{=data['company_details'][0]['general_contact_company_field_value']['field_value'] or 'NA'}}
+              </div>
+            </div>
+            <div class="col-md-2 col-sm-2 col-xs-2 col-lg-2">
+              
+            </div>
+            <div class="col-md-2 col-xs-2 col-sm-2 col-lg-2">
+              <div class="field_label">
+                Type of Industry
+              </div>
+            </div>
+            <div class="col-md-2 col-xs-2 col-sm-2 col-lg-2">
+              <div class="field_value">
+              {{=data['company_details'][1]['general_contact_company_field_value']['field_value'] or 'NA'}}
+              </div>
+            </div>
+            <div class="col-md-2 col-sm-2 col-xs-2 col-lg-2">
+              
+            </div>
+
+            </div>
+            
+            <div class="row">
+            <div class="col-md-2 col-xs-2 col-sm-2 col-lg-2">
+              <div class="field_label">
+                Website
+              </div>
+            </div>
+            <div class="col-md-2 col-xs-2 col-sm-2 col-lg-2">
+              <div class="field_value">
+              {{=data['company_details'][2]['general_contact_company_field_value']['field_value'] or 'NA'}}
+              </div>
+            </div>
+            <div class="col-md-2 col-sm-2 col-xs-2 col-lg-2">
+              
+            </div>
+            <div class="col-md-2 col-xs-2 col-sm-2 col-lg-2">
+              <div class="field_label">
+                Phone No.
+              </div>
+            </div>
+            <div class="col-md-2 col-xs-2 col-sm-2 col-lg-2">
+              <div class="field_value">
+              {{=data['company_details'][3]['general_contact_company_field_value']['field_value'] or 'NA'}}
+              </div>
+            </div>
+            <div class="col-md-2 col-sm-2 col-xs-2 col-lg-2">
+              
+            </div>
+            </div>
+            <!-- -->
+            <div class="row">
+            <div class="col-md-2 col-xs-2 col-sm-2 col-lg-2">
+              <div class="field_label">
+                Fax No.
+              </div>
+            </div>
+            <div class="col-md-2 col-xs-2 col-sm-2 col-lg-2">
+              <div class="field_value">
+                {{=data['company_details'][4]['general_contact_company_field_value']['field_value'] or 'NA'}}
+              </div>
+            </div>
+            <div class="col-md-2 col-sm-2 col-xs-2 col-lg-2">
+              
+            </div>
+            <div class="col-md-2 col-xs-2 col-sm-2 col-lg-2">
+              <div class="field_label">
+                Address
+              </div>
+            </div>
+            <div class="col-md-2 col-xs-2 col-sm-2 col-lg-2">
+              <div class="field_value">
+                {{=data['company_details'][5]['general_contact_company_field_value']['field_value'] }}, {{=data['company_details'][7]['general_contact_company_field_value']['field_value']}},<br>
+                {{=data['company_details'][6]['general_contact_company_field_value']['field_value']}}, {{=data['company_details'][8]['general_contact_company_field_value']['field_value']}},<br>
+                {{=data['company_details'][9]['general_contact_company_field_value']['field_value']}}
+              </div>
+            </div>
+            <div class="col-md-2 col-sm-2 col-xs-2 col-lg-2">
+              
+            </div>
+            </div>
+            <!-- -->
+          </div>
+          <!-- -->
+          <div class="row">
+            <div class="col-md-12 col-xs-12 col-lg-12 col-sm-12">
+              <blockquote>
+                <h5 class="margin-0">Contact Info</h5>
+              </blockquote>
+            </div>
+            <div class="row">
+            <div class="col-md-2 col-xs-2 col-sm-2 col-lg-2">
+              <div class="field_label">
+                Name
+              </div>
+            </div>
+            <div class="col-md-2 col-xs-2 col-sm-2 col-lg-2">
+              <div class="field_value">
+                {{=data['contact_details'][0]['general_contact_field_value']['field_value'].title()}} {{=data['contact_details'][1]['general_contact_field_value']['field_value'].title()}}
+              </div>
+            </div>
+            <div class="col-md-2 col-sm-2 col-xs-2 col-lg-2">
+              
+            </div>
+            <div class="col-md-2 col-xs-2 col-sm-2 col-lg-2">
+              <div class="field_label">
+                Designation
+              </div>
+            </div>
+            <div class="col-md-2 col-xs-2 col-sm-2 col-lg-2">
+              <div class="field_value">
+               {{=data['contact_details'][2]['general_contact_field_value']['field_value'].title()}}
+              </div>
+            </div>
+            <div class="col-md-2 col-sm-2 col-xs-2 col-lg-2">
+              
+            </div>
+
+            </div>
+            <div class="row">
+            <div class="col-md-2 col-xs-2 col-sm-2 col-lg-2">
+              <div class="field_label">
+                Department
+              </div>
+            </div>
+            <div class="col-md-2 col-xs-2 col-sm-2 col-lg-2">
+              <div class="field_value">
+                {{=data['contact_details'][3]['general_contact_field_value']['field_value'].title()}} 
+              </div>
+            </div>
+            <div class="col-md-2 col-sm-2 col-xs-2 col-lg-2">
+              
+            </div>
+            <div class="col-md-2 col-xs-2 col-sm-2 col-lg-2">
+              <div class="field_label">
+                Type of Contact
+              </div>
+            </div>
+            <div class="col-md-2 col-xs-2 col-sm-2 col-lg-2">
+              <div class="field_value">
+                {{=data['contact_details'][4]['general_contact_field_value']['field_value'].title()}}
+              </div>
+            </div>
+            <div class="col-md-2 col-sm-2 col-xs-2 col-lg-2">
+              
+            </div>
+            </div>
+            <!-- -->
+            <div class="row">
+            <div class="col-md-2 col-xs-2 col-sm-2 col-lg-2">
+              <div class="field_label">
+                Phone
+              </div>
+            </div>
+            <div class="col-md-2 col-xs-2 col-sm-2 col-lg-2">
+              <div class="field_value">
+                {{=data['contact_details'][5]['general_contact_field_value']['field_value'].title()}} 
+              </div>
+            </div>
+            <div class="col-md-2 col-sm-2 col-xs-2 col-lg-2">
+              
+            </div>
+            <div class="col-md-2 col-xs-2 col-sm-2 col-lg-2">
+              <div class="field_label">
+                E-mail
+              </div>
+            </div>
+            <div class="col-md-2 col-xs-2 col-sm-2 col-lg-2">
+              <div class="field_value">
+                {{=data['contact_details'][6]['general_contact_field_value']['field_value'].title()}}
+              </div>
+            </div>
+            <div class="col-md-2 col-sm-2 col-xs-2 col-lg-2">
+              
+            </div>
+            </div>
+            <!-- -->
+          </div>
+            <!-- -->
+          <div class="row">
+             <div class="col-md-12 col-xs-12 col-lg-12 col-sm-12">
+              <blockquote>
+                <h5 class="margin-0">Deal Info</h5>
+              </blockquote>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-2 col-xs-2 col-sm-2 col-lg-2">
+              <div class="field_label">
+                Deal Source
+              </div>
+            </div>
+            <div class="col-md-2 col-xs-2 col-sm-2 col-lg-2">
+              <div class="field_value">
+                {{=data['deal_details'][0]['general_deal_field_value']['field_value'].title()}} 
+              </div>
+            </div>
+            <div class="col-md-2 col-sm-2 col-xs-2 col-lg-2">
+              
+            </div>
+            <div class="col-md-2 col-xs-2 col-sm-2 col-lg-2">
+              <div class="field_label">
+                Current Status
+              </div>
+            </div>
+            <div class="col-md-2 col-xs-2 col-sm-2 col-lg-2">
+              <div class="field_value">
+                {{=data['deal_details'][1]['general_deal_field_value']['field_value'].split('.')[0].title()}}
+                {{current_deal_status=data['deal_details'][1]['general_deal_field_value']['field_value'].split('.')[1]}}
+              </div>
+            </div>
+            <div class="col-md-2 col-sm-2 col-xs-2 col-lg-2">
+              
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-2 col-xs-2 col-sm-2 col-lg-2">
+              <div class="field_label">
+                Lead Owner
+              </div>
+            </div>
+            <div class="col-md-2 col-xs-2 col-sm-2 col-lg-2">
+              <div class="field_value">
+                {{=data['deal_details'][2]['general_deal_field_value']['field_value'].title()}} 
+              </div>
+            </div>
+            <div class="col-md-2 col-sm-2 col-xs-2 col-lg-2">
+              
+            </div>
+            <div class="col-md-2 col-xs-2 col-sm-2 col-lg-2">
+              <div class="field_label">
+                Applicantion of Treated Water
+              </div>
+            </div>
+            <div class="col-md-2 col-xs-2 col-sm-2 col-lg-2">
+              <div class="field_value">
+               {{=data['deal_details'][3]['general_deal_field_value']['field_value'].title()}}
+              </div>
+            </div>
+            <div class="col-md-2 col-sm-2 col-xs-2 col-lg-2">
+              
+            </div>
+          </div>
+            <!-- -->
+            <div class="row">
+            <div class="col-md-2 col-xs-2 col-sm-2 col-lg-2">
+              <div class="field_label">
+                Volume Per Day
+              </div>
+            </div>
+            <div class="col-md-2 col-xs-2 col-sm-2 col-lg-2">
+              <div class="field_value">
+                {{=data['deal_details'][4]['general_deal_field_value']['field_value'].title()}} 
+              </div>
+            </div>
+            <div class="col-md-2 col-sm-2 col-xs-2 col-lg-2">
+              
+            </div>
+            <div class="col-md-2 col-xs-2 col-sm-2 col-lg-2">
+              <div class="field_label">
+                Initial Description
+              </div>
+            </div>
+            <div class="col-md-2 col-xs-2 col-sm-2 col-lg-2">
+              <div class="field_value">
+                 {{=data['deal_details'][5]['general_deal_field_value']['field_value']}}
+              </div>
+            </div>
+            <div class="col-md-2 col-sm-2 col-xs-2 col-lg-2">
+              
+            </div>
+            </div>
+            <!-- -->
+          </div>
+        </div>
+      
+
+        <!-- this is the ajax to load the status and the timeline form the erp application -->
+
+      {{=LOAD('../../ERP/Deals/deal_status.load',vars=dict(deal_key_id = deal_key_id , user_id = session.user_id ,company_id = session.company_id , session_id=session.session_id, user_name=session.name , deal_status_id = current_deal_status), ajax=True)}}
+    
+    <div class="container-fluid" id="sec_design_basis">
+        <div class="margin-tp-20">
+              <div class="sec_head">
+                <h3>Notes</h3>
+              </div>
+      {{=LOAD('../../ERP/Deals/deal_upload.load',vars=dict(deal_key_id = deal_key_id , user_id = session.user_id ,company_id = session.company_id , session_id=session.session_id, user_name=session.name , deal_status_id = current_deal_status,update_head='notes'), ajax=True)}}
+
+        </div>
+      </div>
+      <div class="container-fluid" id="sec_design_basis">
+        <div class="margin-tp-20">
+              <div class="sec_head">
+                <h3>Water Analysis Report</h3>
+              </div>
+      {{=LOAD('../../ERP/Deals/deal_upload.load',vars=dict(deal_key_id = deal_key_id , user_id = session.user_id ,company_id = session.company_id , session_id=session.session_id, user_name=session.name , deal_status_id = current_deal_status,update_head='water_analysis_report'), ajax=True)}}
+
+        </div>
+      </div>
+
+
+       <div class="container-fluid" id="sec_design_basis">
+        <div class="margin-tp-20">
+              <div class="sec_head">
+                <h3>Design Basis</h3>
+              </div>
+
+      {{=LOAD('../../ERP/Deals/deal_upload.load',vars=dict(deal_key_id = deal_key_id , user_id = session.user_id ,company_id = session.company_id , session_id=session.session_id, user_name=session.name , deal_status_id = current_deal_status,update_head='design_basis'), ajax=True)}}
+              
+        </div>
+      </div>
+
+      <div class="container-fluid" id="sec_pid">
+        <div class="margin-tp-20">
+              <div class="sec_head">
+                <h3>P &amp; I Diagrams Upload</h3>
+              </div>
+
+      {{=LOAD('../../ERP/Deals/deal_upload.load',vars=dict(deal_key_id = deal_key_id , user_id = session.user_id ,company_id = session.company_id , session_id=session.session_id , user_name=session.name, deal_status_id = current_deal_status,update_head='p_&_i_diagram'), ajax=True)}}
+
+
+        </div>
+      </div>
+
+
+      <div class="container-fluid" id="sec_treatment">
+        <div class="margin-tp-20">
+              <div class="sec_head">
+                <h3>Treatment Scheme</h3>
+              </div>
+      {{=LOAD('../../ERP/Deals/deal_upload.load',vars=dict(deal_key_id = deal_key_id , user_id = session.user_id ,company_id = session.company_id , session_id=session.session_id , user_name=session.name, deal_status_id = current_deal_status,update_head='treatment_scheme'), ajax=True)}}
+              
+
+        </div>
+      </div>
+      <div class="container-fluid" id="sec_design_basis">
+        <div class="margin-tp-20">
+              <div class="sec_head">
+                <h3>Technical Details</h3>
+              </div>
+                   {{=LOAD('../../ERP/Deals/deal_upload.load',vars=dict(deal_key_id = deal_key_id , user_id = session.user_id ,company_id = session.company_id , user_name=session.name, session_id=session.session_id , deal_status_id = current_deal_status,update_head='technical_details'), ajax=True)}}
+
+        </div>
+      </div>
+      <div class="container-fluid" id="sec_design_basis">
+        <div class="margin-tp-20">
+              <div class="sec_head">
+                <h3>Scope of Supply and schedule of exclusions</h3>
+              </div>
+
+        {{=LOAD('../../ERP/Deals/deal_upload.load',vars=dict(deal_key_id = deal_key_id , user_id = session.user_id ,company_id = session.company_id , user_name=session.name, session_id=session.session_id , deal_status_id = current_deal_status,update_head='scope_of_supply_and_schedule_of_exclusions'), ajax=True)}}
+
+             </div>
+      </div>
+
+      <div class="container-fluid" id="sec_design_basis">
+        <div class="margin-tp-20">
+              <div class="sec_head">
+                <h3>Proposal Upload</h3>
+              </div>
+
+        {{=LOAD('../../ERP/Deals/deal_upload.load',vars=dict(deal_key_id = deal_key_id , user_id = session.user_id ,company_id = session.company_id , user_name=session.name, session_id=session.session_id , deal_status_id = current_deal_status,update_head='proposal_upload'), ajax=True)}}
+
+             </div>
+      </div>
+
+      <div class="container-fluid" id="sec_design_basis">
+        <div class="margin-tp-20">
+              <div class="sec_head">
+                <h3>Competitors</h3>
+              </div>
+
+        {{=LOAD('../../ERP/Deals/deal_upload.load',vars=dict(deal_key_id = deal_key_id , user_id = session.user_id ,company_id = session.company_id , user_name=session.name, session_id=session.session_id , deal_status_id = current_deal_status,update_head='competitors'), ajax=True)}}
+
+             </div>
+      </div>
+
+    </div>  
+    <!-- main section ends -->
+  <!-- Main layout(L-update) ends here --> 
+  <script>
+    
+
+  $(document).ready(function() {
+    $('select').material_select();
+    $('.modal').modal();
+
+  });
+     function openModal(id) {
+      $('#'+id).modal('open');
+     }
+  </script>
+
+  
+</body>
+</html>

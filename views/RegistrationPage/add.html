@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+   	<meta name="viewport" content="width=device-width, initial-scale=1">
+  	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  	<script src="https://use.fontawesome.com/6353c44d0f.js"></script>
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  	<!-- Compiled and minified CSS -->
+  	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+
+  	<!-- Compiled and minified JavaScript -->
+  	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+          
+  	<script src="js/script.js"></script>
+  	<link href="https://fonts.googleapis.com/css?family=Montserrat|Roboto" rel="stylesheet">
+	<link rel="stylesheet" href="{{=URL('static','css/new_style.css')}}" /> <!--  a custom css file for flash massage -->
+
+</head>
+
+
+<body>
+	<!-- Nav bar started  -->
+	<header>
+		<div class="upper_nav_container">
+			<div class="upper_nav">
+				<div>
+					<span class="glyphicon glyphicon-th" aria-hidden="true"></span>
+				</div>
+				<div>
+					Home
+				</div>
+				<div>
+					<strong>CRM</strong>
+				</div>
+				<div class="pull-right">
+					<div class="right_menu">
+						Welcome! <strong>Priyesh Sharma, <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span></strong>
+					</div>
+					<div id="Avyakt">
+						<div class="right_menu">
+							Avyakt
+						</div>
+					</div>
+				</div>	
+			</div>
+		</div>
+		<!-- Main menu -->
+		<div class="main_nav_container">
+			<div class="main_nav">
+				<div class="main_nav_left">
+					<!-- <div class="logo" id="logo_client">
+						<img src="images/bidec_logo_blue.png">
+					</div> -->
+					<div class="main_menu">
+						<div class="menu_options">
+							Dashboard
+						</div>
+						<div class="menu_options">
+							Leads
+						</div>
+						<div class="menu_options">
+							Accounts
+						</div>
+						<div class="menu_options">
+							Deals
+						</div>
+						<div class="menu_options">
+							Contacts
+						</div>
+						<div class="menu_options">
+							Meetings
+						</div>
+					</div>
+				</div>
+				<div class="main_nav_right pull-right">
+					<div class="menu_options">
+						<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+					</div>
+					<div class="menu_options">
+						<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+					</div>
+					<div class="menu_options">
+						<span class="glyphicon glyphicon-bell" aria-hidden="true"></span>
+					</div>
+					<div class="menu_options">
+						<span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+					</div>
+					<div class="menu_options">
+						<span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</header>	
+	<!-- Nav bar ended -->
+
+	<!-- Main Layout(L-update) start here -->
+		
+		<!-- main section -->
+		<div class="main_full_block">
+		  <div class="row bg-light-gray padding-10 line_height_35">
+		    <div class="col-md-7 col-lg-7 col-xs-7 col-sm-7 main_block_head text-left">
+		      <div class="page_head">
+		        <h2 class="margin-0 padding-20">Add New Lead</h2>
+		      </div>
+		    </div>
+		    <div class="col-md-5 col-lg-5 col-xs-5 col-sm-5">
+		      <div class="text-center padding-20">
+		        <button type="button" class="btn btn-success">Submit</button>
+		        <button type="button" class="btn btn-primary">Save and Add New</button>
+		      </div>
+		    </div>          
+		  </div>
+		  <div class="container-fluid" id="sec_timeline">
+		    <div class="margin-tp-20">
+		    	<div class="sec_container padding-20">
+          			<div class="sec_head padding-20">
+            			<h3 class="margin-0">Company Information</h3>
+          			</div>
+          			<div class="sec_body padding-20">
+          				  <div class="row">
+						    <form class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+						      <div class="row">
+						        <div class="input-field col s6">
+						          <input id="company_name" type="text" class="validate">
+						          <label for="company_name">Company Name</label>
+						        </div>
+						        <div class="input-field col s6">
+						          <input id="type_of_industry" type="text" class="validate">
+						          <label for="type_of_industry">Type of Industry</label>
+						        </div>
+						      </div>
+						      <div class="row">
+						        <div class="input-field col s6">
+						          <input id="website" type="text" class="validate">
+						          <label for="website">Website</label>
+						        </div>
+						        <div class="input-field col s6">
+						          <input id="email" type="email" class="validate">
+          						  <label for="email">Email</label>
+						        </div>
+						      </div>
+
+						      <div class="row">
+						        <div class="input-field col s6">
+						          <input id="phone" type="text" class="validate">
+						          <label for="phone">Phone</label>
+						        </div>
+						        <div class="input-field col s6">
+						          <input id="fax_no" type="text" class="validate">
+          						  <label for="fax_no">Fax No</label>
+						        </div>
+						      </div>
+
+						      <div class="row">
+						        <div class="input-field col s6">
+						          <input id="street" type="text" class="validate">
+						          <label for="street">Street</label>
+						        </div>
+						        <div class="input-field col s6">
+						          	<input id="city" type="text" class="validate">
+						          	<label for="city">City</label>
+						        </div>
+
+						      <div class="row">
+						      	<div class="input-field col s6">
+						          	<input id="state" type="text" class="validate">
+						          	<label for="state">State</label>
+						        </div>
+						        <div class="input-field col s6">
+						          <input id="pincode" type="text" class="validate">
+						          <label for="pincode">Pincode</label>
+						        </div>
+						      </div>
+
+						      <div class="row">
+						        <div class="input-field col s12">
+						          <input id="country" type="text" class="validate">
+						          <label for="country">Country</label>
+						        </div>
+						      </div>
+
+						      <div class="row">
+						        <div class="input-field col s12">
+						          	<textarea id="textarea1" class="materialize-textarea"></textarea>
+          							<label for="textarea1">Textarea</label>
+						        </div>
+						      </div>
+
+						      <div class="row">
+						      	  <div class="input-field col s12">
+								    <select>
+								      <option value="" disabled selected>Choose your option</option>
+								      <option value="1">Option 1</option>
+								      <option value="2">Option 2</option>
+								      <option value="3">Option 3</option>
+								    </select>
+								    <label>Materialize Select</label>
+								  </div>
+						      </div>
+
+
+						    </form>
+						  </div>
+          			</div>
+          		</div>
+
+          		<!-- Contact info section -->
+          		<div class="sec_container padding-20">
+          			<div class="sec_head padding-20">
+            			<h3 class="margin-0">Contact Information</h3>
+          			</div>
+          			<div class="sec_body padding-20">
+          				  
+          			</div>
+          		</div>
+		    </div>
+		  </div>
+		  <div class="row bg-light-gray padding-10 line_height_35">
+		    <div class="col-md-7 col-lg-7 col-xs-7 col-sm-7 main_block_head text-left">
+		      
+		    </div>
+		    <div class="col-md-5 col-lg-5 col-xs-5 col-sm-5">
+		      <div class="text-center padding-20">
+		        <button type="button" class="btn btn-success">Submit</button>
+		        <button type="button" class="btn btn-primary">Save and Add New</button>
+		      </div>
+		    </div>          
+		  </div>
+		</div>  
+		<!-- main section ends -->
+	<!-- Main layout(L-add) ends here --> 
+	<script>
+		
+  $(document).ready(function() {
+    $('select').material_select();
+  });
+        
+	</script>
+</body>
+</html>

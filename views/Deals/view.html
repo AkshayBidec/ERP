@@ -1,0 +1,85 @@
+{{extend 'navbar.html'}}
+<head>
+  
+  <link rel="stylesheet" href="/ERP/static/css/navbar.css"/> <!--  a custom css file for flash massage -->
+  <link rel="stylesheet" href="/ERP/static/css/custom_styles.css"/> <!--  a custom css file for flash massage -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+</head>
+<body>
+{{ include 'CRM/crm_navbar.html'}}
+<div class="container-fluid">
+  <div class="row bg-gray padding-10">
+    <div class="col-md-3 col-lg-3 col-xs-3 col-sm-3 text-center">
+      <div class="btn-group">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Action <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+          <li><a href="#">Action</a></li>
+          <li><a href="#">Another action</a></li>
+          <li role="separator" class="divider"></li>
+          <li><a href="#">Separated link</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+    </div>
+   <div class="col-md-3 col-lg-3 col-xs-3 col-sm-3 text-center">
+    <div class="btn-group" role="group" aria-label="...">
+      <a href="{{=URL('add')}}" class="btn tooltipped" data-position="bottom" data-delay="50" data-tooltip="Add New Deal"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
+      <button type="button" class="btn btn-default" disabled=""><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></button>
+      <button type="button" class="btn btn-default" disabled=""><span class="glyphicon glyphicon-sort-by-alphabet" aria-hidden="true"></span></button>
+    </div>
+   </div> 
+  </div>
+
+  <div class="row margin-10">
+    <div class="col-md-3 col-lg-3 col-xs-3 col-sm-3 bg-light-gray padding-10 border-right">
+      <div class="section_head padding-10">
+        <h3 class="margin-10">Filter Deals</h3>
+      </div>
+      {{=LOAD('CRM','load_filter.load', vars=dict(filter_field=filter_fields,filter_value=lFilterData['lFilterOutput']), ajax=True,ajax_trap=False)}}
+    </div>
+      
+        {{=LOAD('CRM','datatable.load', vars=dict(data=data, lRedirectKey= 'deal_key_id',data_flag=data_flag), ajax=False)}}
+
+  </div>  
+</div>
+</body>
+<script>
+  $(document).ready(function(){
+    $.noConflict();
+    $('#leads_table').DataTable();
+    $('select').material_select();
+  });
+
+  function page_redirect(id){
+    id = $(id).parent().attr('id');
+    window.location.href = "{{=URL('update')}}"+'/'+id;
+  }
+  //setAccordian();
+
+  
+  /*function setAccordian() {
+    var elems = document.getElementsByClassName('accordian-head'),
+        active_class = 'open';
+
+    for (var i in elems) {
+
+        elems[i].onclick = function () {
+            if (this.classList.contains(active_class)) {
+                this.classList.remove(active_class);
+            } else {
+                this.classList.add(active_class);
+            }
+
+        };
+
+    }*/
+
+
+
+/*{{=session.message}}*/
+</script>
+</body>

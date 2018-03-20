@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://use.fontawesome.com/6353c44d0f.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- <script src="js/bootstrap.js"></script> -->
+    <!-- Compiled and minified CSS -->
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+     <!-- <link rel="stylesheet" href="css/bootstrap.css"> -->
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+          
+    <script src="js/script.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat|Roboto" rel="stylesheet">
+  <link rel="stylesheet" href="{{=URL('static','css/new_style.css')}}" /> <!--  a custom css file for flash massage -->
+
+</head>
+
+
+<body>
+  <!-- Nav bar started  -->
+  <header>
+    <div class="upper_nav_container">
+      <div class="upper_nav">
+        <div>
+          <span class="glyphicon glyphicon-th" aria-hidden="true"></span>
+        </div>
+        <div>
+          Home
+        </div>
+        <div>
+          <strong>CRM</strong>
+        </div>
+        <div class="pull-right">
+          <div class="right_menu">
+            Welcome! <strong>Priyesh Sharma, <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span></strong>
+          </div>
+          <div id="Avyakt">
+            <div class="right_menu">
+              Avyakt
+            </div>
+          </div>
+        </div>  
+      </div>
+    </div>
+    <!-- Main menu -->
+    <div class="main_nav_container">
+      <div class="main_nav">
+        <div class="main_nav_left">
+          <!-- <div class="logo" id="logo_client">
+            <img src="images/bidec_logo_blue.png">
+          </div> -->
+          <div class="main_menu">
+            <div class="menu_options">
+              Dashboard
+            </div>
+            <div class="menu_options">
+              Leads
+            </div>
+            <div class="menu_options">
+              Accounts
+            </div>
+            <div class="menu_options">
+              Deals
+            </div>
+            <div class="menu_options">
+              Contacts
+            </div>
+            <div class="menu_options">
+              Meetings
+            </div>
+          </div>
+        </div>
+        <div class="main_nav_right pull-right">
+          <div class="menu_options">
+            <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+          </div>
+          <div class="menu_options">
+            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+          </div>
+          <div class="menu_options">
+            <span class="glyphicon glyphicon-bell" aria-hidden="true"></span>
+          </div>
+          <div class="menu_options">
+            <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+          </div>
+          <div class="menu_options">
+            <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header> 
+  <!-- Nav bar ended -->
+
+
+  
+<div class="container-fluid">
+  <div class="row bg-gray padding-10">
+    <div class="col-md-3 col-lg-3 col-xs-3 col-sm-3 text-center">
+      <div class="btn-group">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Action <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+          <li><a href="#">Action</a></li>
+          <li><a href="#">Another action</a></li>
+          <li><a href="#">Something else here</a></li>
+          <li role="separator" class="divider"></li>
+          <li><a href="#">Separated link</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+    </div>
+   <div class="col-md-3 col-lg-3 col-xs-3 col-sm-3 text-center">
+    <div class="btn-group" role="group" aria-label="...">
+      <a href="/ERP/CRM/leads_add"><button type="button" class="btn btn-default"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button></a>
+      <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></button>
+      <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-sort-by-alphabet" aria-hidden="true"></span></button>
+    </div>
+   </div> 
+  </div>
+
+  <div class="row margin-10">
+    <div class="col-md-3 col-lg-3 col-xs-3 col-sm-3 bg-light-gray padding-10 border-right">
+      <div class="section_head padding-10">
+        <h3 class="margin-10">Filter Leads</h3>
+      </div>
+      <div class="filter accordian-container">
+        <div class="custom-checkbox filter-head accordian-head">
+          <input type="checkbox" value="#" name="price" id="check-cat-price-0" class="filter-checkbox">
+          <label for="check-cat-price-0">Koyla kaala hai </label>
+        </div>
+        <div class="filter-body accordian-body">
+          <div class="padding-l-35">
+            <input type="checkbox" value="#" name="price" id="check-cat-price-0" class="filter-checkbox">
+            <label for="check-cat-price-0">Filter 1 </label>
+          </div>
+          <div class="padding-l-35">
+            <input type="checkbox" value="#" name="price" id="check-cat-price-0" class="filter-checkbox">
+            <label for="check-cat-price-0">Filter 2 </label>
+          </div>
+          <div class="padding-l-35">
+            <input type="checkbox" value="#" name="price" id="check-cat-price-0" class="filter-checkbox">
+            <label for="check-cat-price-0">Filter 3 </label>
+          </div>
+          <div class="padding-l-35">
+            <input type="text" placeholder="name" name="price" id="check-cat-price-0" class="filter-checkbox">
+          </div>
+        </div>
+      </div>
+      <div class="filter accordian-container">
+        <div class="custom-checkbox">
+          <input type="checkbox" value="#" name="price" id="check-cat-price-1" class="filter-checkbox">
+          <label for="check-cat-price-1">Chattano ne paala </label>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-9 col-lg-9 col-xs-9 col-sm-9 ">
+      <table class="table table-bordered">
+        <tr>
+          <th>Company</th>
+          <th>Name</th>
+          <th>E-mail</th>
+          <th>Phone</th>
+          <th>Lead Source</th>
+          <th>Description</th>
+          <th>Status</th>
+        </tr>
+
+        
+        <tr><td colspan=7 class="text-center">Add <a href="/ERP/CRM/leads_add">new lead!</a></td></tr>
+        
+        []
+        []&lt;ProtocolError for 127.0.0.1:8000/CRM/Leads/call/xmlrpc: 500 INTERNAL SERVER ERROR&gt;
+      </table>
+    </div>
+  </div>  
+</div>
+
+</body>
+
+</html>

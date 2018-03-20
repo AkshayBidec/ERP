@@ -7,7 +7,7 @@
 </head>
 <body>
 
-
+{{ include 'CRM/crm_navbar.html'}}
   
 <div class="container-fluid">
   <div class="row padding-10">
@@ -16,23 +16,23 @@
     </div>
     <div class="col-md-10 col-lg-10 col-sm-10 col-xs-10">
       <div class="row bg-light-gray padding-10">
-        <div class="col-md-8 col-lg-8 col-xs-8 col-sm-8  text-center">
-          
+        <div class="col-md-7 col-lg-7 col-xs-7 col-sm-7 text-left">
+           <h2 class="margin-0"><a href="{{=URL('leads')}}"><span class="glyphicon glyphicon-arrow-left padding-lr-10" aria-hidden="true"></span></a> {{=data['company_details'][0]['crm_company_field_value']['field_value']}}</h2>
         </div>
-        <div class="col-md-4 col-lg-4 col-xs-4 col-sm-4">
+        <div class="col-md-5 col-lg-5 col-xs-5 col-sm-5">
           <div class="#">
             <!-- <button type="button" class="btn btn-success">Convert</button> -->
             <button type="button" class="btn btn-primary">Send E-mail</button>
             <!-- <button type="button" class="btn btn-default">Edit</button> -->
-            <a href="{{=URL('contacts_edit',args=[contact_key_id])}}" class="btn btn-default">Edit Contact</a>
+            <a href="{{=URL('contacts_edit',args=[contact_key_id])}}" class="btn btn-default">Edit</a>
           </div>
         </div>          
       </div>
-      <div class="sec_head">
+      <!-- <div class="sec_head">
           <h2>{{=data['company_details'][0]['crm_company_field_value']['field_value'] or NA}}</h2>
           {{ name = str(data['contact_details'][0]['crm_contact_field_value']['field_value']) + " " + str(data['contact_details'][1]['crm_contact_field_value']['field_value']) }}
           <h4>{{=name.title()}}</h4>
-        </div>
+      </div> -->
 
         <input type="hidden" name="lead_key_id" id="lead_key_id" value="16">
         
@@ -40,206 +40,212 @@
 
 
 <!-- contact info -->
-        <div class="margin-10" style="width: 100%">
-          <div class="row">
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-              <div class="field_label">
-               <strong> Contact Info :--</strong>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-              <div class="field_label">
-                Designation
-              </div>
-            </div>
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-              <div class="field_value">
-                {{=data['contact_details'][2]['crm_contact_field_value']['field_value'] or 'NO Email present'}}
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-              <div class="field_label">
-                E-mail
-              </div>
-            </div>
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-              <div class="field_value">
-                {{=data['contact_details'][6]['crm_contact_field_value']['field_value'] or 'NO Email present'}}
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-              <div class="field_label">
-                Mobile 
-              </div>
-            </div>
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-              <div class="field_value">
-                {{=data['contact_details'][5]['crm_contact_field_value']['field_value'] or 'NO Email present'}}
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-              <div class="field_label">
-                Department                     
-              </div>
-            </div>
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-              <div class="field_value">
-                {{=data['contact_details'][3]['crm_contact_field_value']['field_value'] or 'NO Email present'}}
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-              <div class="field_label">
-                Type Of Contact
-              </div>
-            </div>
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-              <div class="field_value">
-                {{=data['contact_details'][4]['crm_contact_field_value']['field_value'] or 'NO Email present'}}
-              </div>
-            </div>
-          </div>
-<div>
-  <br>
-</div>
      
 
 <!-- company info , div are exact copy of the contact-->
-       <div class="margin-0" style="width: 100%"> <!-- changed the margin to 0 -->
+  <div class="container-fluid" id="sec_lead_info_2">
+        <div class="margin-tp-20 padding-lr-10">
+              
           <div class="row">
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-              <div class="field_label">
-                <strong>Company Info :--</strong>
-              </div>
+            <div class="col-md-12 col-xs-12 col-lg-12 col-sm-12">
+              <blockquote>
+                <h5 class="margin-0">Company Info</h5>
+              </blockquote>
             </div>
-          </div>
-          <div class="row">
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+            <div class="row">
+            <div class="col-md-2 col-xs-2 col-sm-2 col-lg-2">
               <div class="field_label">
                 Company Name
               </div>
             </div>
-            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+            <div class="col-md-2 col-xs-2 col-sm-2 col-lg-2">
               <div class="field_value">
-                {{=data['company_details'][0]['crm_company_field_value']['field_value']}}
+                Bidec Innovations
               </div>
             </div>
-          </div>
-          <div class="row">
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+            <div class="col-md-2 col-sm-2 col-xs-2 col-lg-2">
+              
+            </div>
+            <div class="col-md-2 col-xs-2 col-sm-2 col-lg-2">
               <div class="field_label">
-                Type Of Industry
+                Type of Industry
               </div>
             </div>
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+            <div class="col-md-2 col-xs-2 col-sm-2 col-lg-2">
               <div class="field_value">
-                {{=data['company_details'][1]['crm_company_field_value']['field_value']}}
+              IT
               </div>
             </div>
-          </div>
-          <div class="row">
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+            <div class="col-md-2 col-sm-2 col-xs-2 col-lg-2">
+              
+            </div>
+
+            </div>
+            
+            <div class="row">
+            <div class="col-md-2 col-xs-2 col-sm-2 col-lg-2">
               <div class="field_label">
-                Website 
+                Website
               </div>
             </div>
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+            <div class="col-md-2 col-xs-2 col-sm-2 col-lg-2">
               <div class="field_value">
-                {{=data['company_details'][2]['crm_company_field_value']['field_value']}}
+              bidec.xyz
               </div>
             </div>
-          </div>
-          <div class="row">
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+            <div class="col-md-2 col-sm-2 col-xs-2 col-lg-2">
+              
+            </div>
+            <div class="col-md-2 col-xs-2 col-sm-2 col-lg-2">
               <div class="field_label">
-                Phone                     
+                Phone No.
               </div>
             </div>
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+            <div class="col-md-2 col-xs-2 col-sm-2 col-lg-2">
               <div class="field_value">
-                {{=data['company_details'][3]['crm_company_field_value']['field_value']}}
+              987654321
               </div>
             </div>
-          </div>
-          <div class="row">
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+            <div class="col-md-2 col-sm-2 col-xs-2 col-lg-2">
+              
+            </div>
+            </div>
+            <!-- -->
+            <div class="row">
+            <div class="col-md-2 col-xs-2 col-sm-2 col-lg-2">
               <div class="field_label">
-                Fax No
+                Fax No.
               </div>
             </div>
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+            <div class="col-md-2 col-xs-2 col-sm-2 col-lg-2">
               <div class="field_value">
-                {{=data['company_details'][4]['crm_company_field_value']['field_value']}}
+                NA
               </div>
             </div>
-          </div>
-          <div class="row">
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+            <div class="col-md-2 col-sm-2 col-xs-2 col-lg-2">
+              
+            </div>
+            <div class="col-md-2 col-xs-2 col-sm-2 col-lg-2">
               <div class="field_label">
-               Street
+                Address
               </div>
             </div>
-            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+            <div class="col-md-2 col-xs-2 col-sm-2 col-lg-2">
               <div class="field_value">
-                {{=data['company_details'][5]['crm_company_field_value']['field_value']}}
+                Anand Bazaar, Indore,<br>
+                Madhya Pradesh, 452001,<br>
+                India
               </div>
             </div>
+            <div class="col-md-2 col-sm-2 col-xs-2 col-lg-2">
+              
+            </div>
+            </div>
+            <!-- -->
           </div>
+          <!-- -->
           <div class="row">
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+            <div class="col-md-12 col-xs-12 col-lg-12 col-sm-12">
+              <blockquote>
+                <h5 class="margin-0">Contact Info</h5>
+              </blockquote>
+            </div>
+            <div class="row">
+            <div class="col-md-2 col-xs-2 col-sm-2 col-lg-2">
               <div class="field_label">
-                State
+                Name
               </div>
             </div>
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+            <div class="col-md-2 col-xs-2 col-sm-2 col-lg-2">
               <div class="field_value">
-                {{=data['company_details'][6]['crm_company_field_value']['field_value']}}
+                Akshay Jain
               </div>
             </div>
-          </div>
-          <div class="row">
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+            <div class="col-md-2 col-sm-2 col-xs-2 col-lg-2">
+              
+            </div>
+            <div class="col-md-2 col-xs-2 col-sm-2 col-lg-2">
               <div class="field_label">
-                City
+                Designation
               </div>
             </div>
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+            <div class="col-md-2 col-xs-2 col-sm-2 col-lg-2">
               <div class="field_value">
-                {{=data['company_details'][7]['crm_company_field_value']['field_value']}}
+               Developer
               </div>
             </div>
-          </div>
-          <div class="row">
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+            <div class="col-md-2 col-sm-2 col-xs-2 col-lg-2">
+              
+            </div>
+
+            </div>
+            <div class="row">
+            <div class="col-md-2 col-xs-2 col-sm-2 col-lg-2">
               <div class="field_label">
-                Pincode
+                Department
               </div>
             </div>
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+            <div class="col-md-2 col-xs-2 col-sm-2 col-lg-2">
               <div class="field_value">
-                {{=data['company_details'][8]['crm_company_field_value']['field_value']}}
+                Cse 
               </div>
             </div>
-          </div>
-          <div class="row">
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+            <div class="col-md-2 col-sm-2 col-xs-2 col-lg-2">
+              
+            </div>
+            <div class="col-md-2 col-xs-2 col-sm-2 col-lg-2">
               <div class="field_label">
-                Country
+                Type of Contact
               </div>
             </div>
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+            <div class="col-md-2 col-xs-2 col-sm-2 col-lg-2">
               <div class="field_value">
-                {{=data['company_details'][9]['crm_company_field_value']['field_value']}}
+                Customer
               </div>
             </div>
+            <div class="col-md-2 col-sm-2 col-xs-2 col-lg-2">
+              
+            </div>
+            </div>
+            <!-- -->
+            <div class="row">
+            <div class="col-md-2 col-xs-2 col-sm-2 col-lg-2">
+              <div class="field_label">
+                Phone
+              </div>
+            </div>
+            <div class="col-md-2 col-xs-2 col-sm-2 col-lg-2">
+              <div class="field_value">
+                9876543210 
+              </div>
+            </div>
+            <div class="col-md-2 col-sm-2 col-xs-2 col-lg-2">
+              
+            </div>
+            <div class="col-md-2 col-xs-2 col-sm-2 col-lg-2">
+              <div class="field_label">
+                E-mail
+              </div>
+            </div>
+            <div class="col-md-2 col-xs-2 col-sm-2 col-lg-2">
+              <div class="field_value">
+                Akshay@Bidec.Xyz
+              </div>
+            </div>
+            <div class="col-md-2 col-sm-2 col-xs-2 col-lg-2">
+              
+            </div>
+            </div>
+            <!-- -->
           </div>
+            <!-- -->
+          
+
+          
+            <!-- -->
+            
+            <!-- -->
+         
+          </div>
+        </div>
 

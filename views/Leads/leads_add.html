@@ -1,7 +1,10 @@
-{{=request.env.wsgi_url_scheme}}
-{{=request.env.http_host}}
-{{=lData}}
-{{=link}}
-//===
-
-{{=session.message}}
+{{extend 'navbar.html'}}
+{{=form}}
+{{if request.vars['dfa']:
+	d=request.vars['dfa']
+	pass
+  else:
+  	d=30
+}}
+{{pass}}
+{{=d}}

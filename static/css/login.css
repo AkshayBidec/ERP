@@ -9,21 +9,20 @@
 }
 
 .login-page {
-  width: 360px;
-  padding: 8% 0 0;
+  width: 35%;
+  padding: 4% 0 0;
   margin: auto;
 }
 .form {
   position: relative;
   /*z-index: 0;*/
-  background: #FFFFFF;
-  max-width: 360px;
-  margin: 0 auto 100px;
-  padding: 45px;
+  background: rgba(255,255,255,0.5);
+  padding: 6%;
   text-align: center;
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+  border-radius: 5px;
 }
-.form input {
+/*.form input {
   font-family: "Roboto", sans-serif;
   outline: 0;
   background: #f2f2f2;
@@ -51,7 +50,7 @@
 .form button:hover,.form button:active,.form button:focus {
   background: #43A047;
 }
-.form .message {
+*/.form .message {
   margin: 15px 0 0;
   color: #b3b3b3;
   font-size: 12px;
@@ -97,12 +96,18 @@
   color: #EF3B3A;
 }
 
+img{
+  width: 40%;
+}
+
 body {
-  background: #76b852; /* fallback for old browsers */
-  background: -webkit-linear-gradient(right, #76b852, #8DC26F);
-  background: -moz-linear-gradient(right, #76b852, #8DC26F);
-  background: -o-linear-gradient(right, #76b852, #8DC26F);
-  background: linear-gradient(to left, #76b852, #8DC26F);
+  /*background-image: url('../../static/images/milky-way.jpg');
+  background-size: cover;*/
+  background: #5271b8; /* fallback for old browsers */
+  background: -webkit-linear-gradient(right, #5271b8, #6fc28c);
+  background: -moz-linear-gradient(right, #5271b8, #6fc28c);
+  background: -o-linear-gradient(right, #5271b8, #6fc28c);
+  background: linear-gradient(to left, #5271b8, #6fc28c);
   font-family: "Roboto", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;      

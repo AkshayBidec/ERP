@@ -1,0 +1,93 @@
+{{extend 'navbar.html'}}
+{{ include 'web2py_ajax.html'}}
+    <head>
+       
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    </head>
+
+    <body>
+
+
+        {{ include 'CRM/crm_navbar.html'}}
+
+        <div class="main_full_block">
+            {{=form.custom.begin}}
+            <div class="well " style="padding: 0;">
+                <div class="row bg-light-gray ">
+                    <div class="col-md-7 col-lg-7 col-xs-7 col-sm-7 main_block_head text-left">
+                      <div class="page_head">
+                        <h2 class="margin-0 padding-20">Edit Deal</h2>
+                      </div>
+                    </div>
+                    <div class="col-md-5 col-lg-5 col-xs-5 col-sm-5">
+                      <div class="text-center padding-20">
+                        <button type="submit" class="btn btn-success">Save</button>
+                        <a href="{{=URL('../../../ERP/Deals/view')}}"><button type="button" class="btn btn-default btn-lg">Cancel</button></a>
+                      </div>
+                    </div>  
+                </div>
+                <div class="container-fluid" id="sec_timeline">
+                    <div class="sec_container padding-20">
+                        <div class="sec_head padding-20">
+                            <h3 class="margin-0">Deal Information</h3>
+                        </div>
+                        <div class="sec_body padding-20">
+                            <div class="row">
+                                {{for key in deal_form_fields.keys():}}
+                                <div class="input-field col s6">
+                                    {{=eval('form.custom.widget.'+key)}}
+                                    <label for="no_table_{{=key}}">{{=deal_form_fields[key]}}</label>
+                                </div>
+                                {{pass}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row bg-light-gray padding-10 line_height_35">
+                    <div class="col-md-7 col-lg-7 col-xs-7 col-sm-7 main_block_head text-left">
+                      
+                    </div>
+                    <div class="col-md-5 col-lg-5 col-xs-5 col-sm-5">
+                      <div class="text-center padding-20">
+                        <button class="btn waves-effect waves-light" type="submit" name="action">Save
+                        </button>
+                        <a href="{{=URL('../../../ERP/Deals/view')}}"><button type="button" class="btn btn-default btn-lg">Cancel</button></a>
+                      </div>
+                    </div>          
+                </div>
+            </div>
+            {{=form.custom.end}}
+            
+        </div>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('select').material_select();
+      });
+    function setUserTimeZone() {
+        $('#local_timezone').val(Intl.DateTimeFormat().resolvedOptions().timeZone);
+        //debugger;
+        var now = new Date();
+        var month = parseInt(now.getMonth()) + 1;
+        $('#local_entry_time').val(now.getFullYear()+'-'+month+'-'+now.getDate()+' '+now.toLocaleTimeString());
+    }
+    setUserTimeZone();
+
+    function setValue(jsonData) {
+        $.each(jsonData, function(k,v){
+            // debugger;
+            var element = $('#no_table_'+k).prop('tagName');
+            switch(element) {
+                case '':
+                    break;
+                default:
+                    $('#no_table_'+k).val(v);
+                    $('#no_table_'+k).prop('readonly',true);
+                    break;
+            } 
+        });
+        $('#suggestions').hide();
+    }
+</script>
+
+    </body>

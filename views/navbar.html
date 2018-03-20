@@ -8,13 +8,15 @@
   	
     <link rel="stylesheet" href="{{=URL('static','css/navbar.css')}}"/> <!--  a custom css file for flash massage -->
     <link rel="stylesheet" href="{{=URL('static','css/jquery.dataTables.min.css')}}"/> <!--  a jquery for datatables -->
-    
-    <script src="{{=URL('static','js/jquery.js')}}"></script>
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="{{=URL('static','css/new_style.css')}}" /> <!--  a custom css file for flash massage -->
 
+    <!-- <script src="{{=URL('static','js/jquery.js')}}"></script> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <!-- <script src="{{=URL('static','js/web2py_bootstrap.js')}}"></script> -->
     
-    
-
     <script src="https://use.fontawesome.com/6353c44d0f.js"></script>
    
     <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
@@ -22,13 +24,55 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
    
     <script src="{{=URL('static','js/jquery.dataTables.min.js')}}"></script>
+    
 
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+          
+    <!-- <script src="{{=URL('static','js/script.js')}}"></script> -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat|Roboto" rel="stylesheet">
+    
 {{include 'web2py_ajax.html'}}
 </head>
 <body>
 
 {{include 'flash.html'}}
-<nav class="navbar navbar-inverse margin-0">
+  <header>
+    <div class="upper_nav_container">
+      <div class="upper_nav">
+        <div>
+          <a href="#"><span class="glyphicon glyphicon-th" aria-hidden="true"></span></a>
+        </div>
+        <div>
+          <a href="{{=URL('../../../ERP/DashBoard/dashboard')}}">Home</a>
+        </div>
+        <div>
+          <a href="{{=URL('../../../ERP/CRM/crm')}}"><strong>CRM</strong></a>
+        </div>
+        <div class="pull-right">
+          <div class="right_menu">
+            Welcome! <a href="#" class="dropdown-toggle" type="button" data-toggle="dropdown"><i class="fa fa-user"></i><span> <strong>{{=session.name or 'Name'}} <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span></strong></span> </a>
+            <div class="dropdown-menu pull-right dd-menu" style="right: auto;">
+              <ul>
+                <li><strong>{{=session.name or 'Name'}}</strong></li>
+                <li><strong>User Id :{{=session.email_id or 'email id'}}</strong></li>
+                <li><a href="{{=URL('../../../ERP/DashBoard/dashboard')}}">My Account</a></li>
+                <div class="border"></div>
+                <li><a href="{{=URL('../../../ERP/LoginPage/logout')}}">Logout</a></li>
+              </ul>
+            </div>
+          </div>
+          <div id="Avyakt">
+            <div class="right_menu">
+              {{=session.company_name or 'Company Name'}}
+            </div>
+          </div>
+        </div>  
+      </div>
+    </div>
+    
+  </header> 
+<!-- <nav class="navbar navbar-inverse margin-0">
   <div class="container-fluid">
     <div class="navbar-header">
       <a class="navbar-brand" href="#"><i class="fa fa-bars"></i></a>
@@ -42,12 +86,12 @@
     </ul>
     
     <ul class="nav navbar-nav pull-right" style="width: 35%;">
-      
+ -->      
       <!-- <li class="progress-bar" role="progressbar"
        aria-valuemax="100" style="width:30%;margin-top: 4%;">
         70%
       </li> -->
-      <li> </li>
+      <!-- <li> </li>
       <li> </li>
       <li class="dropdown " style="margin-left: 3%;">
         <a href="#" class="dropdown-toggle" type="button" data-toggle="dropdown">
@@ -76,12 +120,6 @@
                 <li><strong>User Id :{{=session.username or 'email id'}}</strong></li>
                 <li><a href="{{=URL('../../../ERP/DashBoard/dashboard')}}">My Account</a></li>
                 <div class="border"></div>
-               <!--  <li><a href="#">another option</a></li>
-                <li><a href="#">another option</a></li>
-                <li><a href="#">another option</a></li>
-                <div class="border"></div>
-                <li><a href="#">another option</a></li>
-                <li><a href="#">another option</a></li> -->
                 <li><a href="{{=URL('../../../ERP/LoginPage/logout')}}">Logout</a></li>
               </ul>
           </div>
@@ -91,8 +129,7 @@
     </ul>
     
   </div>
-</nav>
+</nav> -->
 {{include}}
-
 </body>
 </html>

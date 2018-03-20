@@ -33,8 +33,8 @@ def login():
 								Field('password', requires=[IS_NOT_EMPTY('Enter password')],type='password')
 								)
 		# add the place holders in the form
-		lForm.custom.widget.email_id.update(_placeholder='Email ID')
-		lForm.custom.widget.password.update(_placeholder='Password')
+		#lForm.custom.widget.email_id.update(_placeholder='Email ID')
+		#lForm.custom.widget.password.update(_placeholder='Password')
 		lForm.custom.update(_class='form')
 
 		if lForm.process().accepted:
@@ -83,10 +83,11 @@ def login():
 										)
 									session.company_id=row.company_id
 									session.active=1
-									session.username=row.email_id
+									session.email_id=row.email_id
 									session.name= row.first_name +" "+ row.last_name
 									session.user_id=row.id
 									session.user_type='superadmin'
+									session.company_name=db(db.general_company_details.id == row.company_id ).select(db.general_company_details.company_name)[0].company_name
 									# session.flash='*succesful insert in session db'
 									pass 
 

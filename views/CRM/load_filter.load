@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+
+
+
+{{=form.custom.begin}}
+<div class="padding-10">
+
+</div>
+<div class="filter_parent_container">
+{{for category in filter_field.keys():
+    for key in filter_field[category].keys():
+            response.write("<div class='filter accordian-container'>",escape=False)
+            response.write("<div class='filter-head accordian-head'>%s <label onclick='openFilterOption(%s);' for='no_table_%s'>%s</label> </div>"%(eval('form.custom.widget.'+key),key,key,eval('form.custom.label.'+key)),escape=False)
+            if eval('form.custom.widget.'+key+'_condition'):
+                response.write("<div class='filter-body' id='%s' style='display: none;'><div class='padding-l-35'>%s"%(key,eval('form.custom.widget.'+key+'_condition')),escape=False)
+                eval('form.custom.widget.'+key+'_condition_data.update(_placeholder="value")')
+                response.write("%s</div></div>"%eval('form.custom.widget.'+key+'_condition_data'),escape=False)
+                
+            elif eval('form.custom.widget.'+key+'_option'):
+                response.write("<div class='filter-body' id='%s' style='display: none;'><div class='padding-l-35'>%s</div></div>"%(key,eval('form.custom.widget.'+key+'_option')),escape=False)
+                #eval('form.custom.widget.'+key+'_option_data.update(_type="hidden")')
+                #response.write("%s</div></div>"%eval('form.custom.widget.'+key+'_option_data'),escape=False)
+                pass
+            response.write("</div>",escape=False)
+            pass
+  }}
+{{pass}}
+</div>
+<div class="padding-10">
+{{=form.custom.submit}}
+<a href="{{=URL(request.env.http_referer.split('/')[-3],request.env.http_referer.split('/')[-2],request.env.http_referer.split('/')[-1].split('?')[0],extension=False)}}" class="btn tooltipped pull-right grey lighten-1" data-position="bottom" data-delay="50" data-tooltip="Add New Lead"><span class="" aria-hidden="true">Clear</span></a>
+</div>
+{{=form.custom.end}}
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    {{for key in field_value.keys():
+        response.write("$('#no_table_%s').prop('checked', true);"%key,escape=False)
+        response.write("$('#%s').css('display','block');"%key,escape=False)
+        response.write("$('#no_table_%s_condition').val('%s');"%(key,field_value[key][0]),escape=False)
+        response.write("$('#no_table_%s_condition_data').val('%s');"%(key,field_value[key][1]),escape=False)
+        pass
+         }}  });
+
+  function openFilterOption(divID) {
+    conditionID='no_table_'+divID.getAttribute('id')+'_condition_data';
+    var displayValue = divID.style.display;
+    if (displayValue == 'none') {
+      divID.setAttribute('style', 'display: block;');
+      $('#'+conditionID).prop('required','true');
+    } else {
+      divID.setAttribute('style', 'display: none;');
+      $('#'+conditionID).removeAttr('required');
+    }
+  }
+  
+</script>
+
+

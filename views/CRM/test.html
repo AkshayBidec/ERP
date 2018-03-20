@@ -1,0 +1,410 @@
+{{=lRequestData}}
+{{=session.message}}
+{{=lData}}
+
+
+      <!-- <div class="container-fluid" id="sec_timeline">
+        <div class="margin-tp-20">
+              <div class="sec_head">
+                <h3>Contact Info</h3>
+              </div>
+              <table class="table table-striped">
+                <tr>
+                  <th>Activity</th>
+                  <th>Stage</th>
+                  <th>Progress</th>
+                  <th>Modified Date</th>
+                  <th>Modified Time</th>
+                  <th>Modified By</th>
+                </tr>
+                <tr>
+                  <td>Status Changed</td>
+                  <td>Design Basis</td>
+                  <td>50%</td>
+                  <td>Feb 18th, 2018</td>
+                  <td>08:24 PM</td>
+                  <td>Priyesh</td>
+                </tr>
+                <tr>
+                  <td>Note added</td>
+                  <td>Water test completed</td>
+                  <td>30%</td>
+                  <td>Feb 15th, 2018</td>
+                  <td>08:24 PM</td>
+                  <td>Priyesh</td>
+                </tr>
+             </table>
+        </div>
+      </div>
+ -->
+
+ <table class="table table-striped">
+                <tr>
+                  <th>Description</th>
+                  <th>File Name</th>
+                  <th>Uploaded on</th>
+                  <th>Entered By</th>
+                  <th>Version no.</th>
+                  <th>Delete</th>
+                </tr>
+                <tr>
+                  <td>Design Basis</td>
+                  <td>FileName.pdf</td>
+                  <td>Feb 18th, 2018</td>
+                  <td>08:24 PM</td>
+                  <td>1.1.1<span class="padding-lr-10"></span></td>
+                  <td><button>Delete</button></td>
+                </tr>
+              </table>
+              <div class="padding-10">
+                <h6><span>Add Water Analysis Data </span> <span class="padding-lr-20"><a class="waves-effect waves-light btn modal-trigger" href="#modal0">New</a></span></h6>
+                <!-- add modal -->
+                  <!-- Modal Trigger -->
+            <!-- <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Modal</a> -->
+
+            <!-- Modal Structure -->
+            <div id="modal0" class="modal">
+              <div class="modal-content">
+                  <h4>Add Design Basis File</h4>
+                  <div class="modal_inner_content">
+                    
+                       
+                        <div class="row margin-10">
+                          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <div class="field_label text-center">
+                              Source of Water
+                            </div>
+                          </div>
+                          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <div class="field_value text-left">
+                              <input type="text" class="form-control">
+                            </div>
+                          </div>
+                          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <div class="field_label text-center">
+                              Appearance
+                            </div>
+                          </div>
+                          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <div class="field_value text-left">
+                              <input type="text" class="form-control">
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row margin-10">
+                          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <div class="field_label text-center">
+                              Colour, Hazen units
+                            </div>
+                          </div>
+                          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <div class="field_value text-left">
+                              <input type="text" class="form-control">
+                            </div>
+                          </div>
+                          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <div class="field_label text-center">
+                              Turbidity
+                            </div>
+                          </div>
+                          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <div class="field_value text-left">
+                              <input type="text" class="form-control">
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row margin-10">
+                          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <div class="field_label text-center">
+                              Conductivity Micro Siemens per cm at 25 deg C
+                            </div>
+                          </div>
+                          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <div class="field_value text-left">
+                              <input type="text" class="form-control">
+                            </div>
+                          </div>
+                          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <div class="field_label text-center">
+                              PH
+                            </div>
+                          </div>
+                          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <div class="field_value text-left">
+                              <input type="text" class="form-control">
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row margin-10">
+                          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <div class="field_label text-center">
+                              Free Mineral Acidity (EMA) ppm as CaCO3
+                            </div>
+                          </div>
+                          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <div class="field_value text-left">
+                              <input type="text" class="form-control">
+                            </div>
+                          </div>
+                          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <div class="field_label text-center">
+                              Total Alkalinity, as CaCO3
+                            </div>
+                          </div>
+                          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <div class="field_value text-left">
+                              <input type="text" class="form-control">
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row margin-10">
+                          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <div class="field_label text-center">
+                              Phenopthalein Alkalinity, as CaCO3
+                            </div>
+                          </div>
+                          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <div class="field_value text-left">
+                              <input type="text" class="form-control">
+                            </div>
+                          </div>
+                          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <div class="field_label text-center">
+                              Free Carbondioxide, as CaCO3
+                            </div>
+                          </div>
+                          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <div class="field_value text-left">
+                              <input type="text" class="form-control">
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row margin-10">
+                          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <div class="field_label text-center">
+                              Bicarbonate, as CaCO3
+                            </div>
+                          </div>
+                          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <div class="field_value text-left">
+                              <input type="text" class="form-control">
+                            </div>
+                          </div>
+                          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <div class="field_label text-center">
+                              Carbonate, as CaCO3
+                            </div>
+                          </div>
+                          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <div class="field_value text-left">
+                              <input type="text" class="form-control">
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row margin-10">
+                          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <div class="field_label text-center">
+                              Hydroxide, as CaCO3
+                            </div>
+                          </div>
+                          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <div class="field_value text-left">
+                              <input type="text" class="form-control">
+                            </div>
+                          </div>
+                          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <div class="field_label text-center">
+                              Sulphate, as CaCO3
+                            </div>
+                          </div>
+                          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <div class="field_value text-left">
+                              <input type="text" class="form-control">
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row margin-10">
+                          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <div class="field_label text-center">
+                              Chloride, as CaCO3
+                            </div>
+                          </div>
+                          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <div class="field_value text-left">
+                              <input type="text" class="form-control">
+                            </div>
+                          </div>
+                          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <div class="field_label text-center">
+                              Silica, as CaCO3
+                            </div>
+                          </div>
+                          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <div class="field_value text-left">
+                              <input type="text" class="form-control">
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row margin-10">
+                          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <div class="field_label text-center">
+                              Calcium, as CaCO3
+                            </div>
+                          </div>
+                          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <div class="field_value text-left">
+                              <input type="text" class="form-control">
+                            </div>
+                          </div>
+                          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <div class="field_label text-center">
+                              Magnesium, as CaCO3
+                            </div>
+                          </div>
+                          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <div class="field_value text-left">
+                              <input type="text" class="form-control">
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row margin-10">
+                          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <div class="field_label text-center">
+                              Total Hardness, as CaCO3
+                            </div>
+                          </div>
+                          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <div class="field_value text-left">
+                              <input type="text" class="form-control">
+                            </div>
+                          </div>
+                          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <div class="field_label text-center">
+                              Sodium, as CaCO3
+                            </div>
+                          </div>
+                          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <div class="field_value text-left">
+                              <input type="text" class="form-control">
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row margin-10">
+                          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <div class="field_label text-center">
+                              Potassium, as CaCO3
+                            </div>
+                          </div>
+                          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <div class="field_value text-left">
+                              <input type="text" class="form-control">
+                            </div>
+                          </div>
+                          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <div class="field_label text-center">
+                              Total Iron, as Fe
+                            </div>
+                          </div>
+                          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <div class="field_value text-left">
+                              <input type="text" class="form-control">
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row margin-10">
+                          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <div class="field_label text-center">
+                              Manganese
+                            </div>
+                          </div>
+                          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <div class="field_value text-left">
+                              <input type="text" class="form-control">
+                            </div>
+                          </div>
+                          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <div class="field_label text-center">
+                              Aluminum
+                            </div>
+                          </div>
+                          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <div class="field_value text-left">
+                              <input type="text" class="form-control">
+                            </div>
+                          </div>
+                        </div> 
+                        <div class="row margin-10">
+                          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <div class="field_label text-center">
+                              Dissolved Oxygen
+                            </div>
+                          </div>
+                          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <div class="field_value text-left">
+                              <input type="text" class="form-control">
+                            </div>
+                          </div>
+                          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <div class="field_label text-center">
+                              Total Suspended Solids
+                            </div>
+                          </div>
+                          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <div class="field_value text-left">
+                              <input type="text" class="form-control">
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row margin-10">
+                          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <div class="field_label text-center">
+                              Total Dissolved Solids
+                            </div>
+                          </div>
+                          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <div class="field_value text-left">
+                              <input type="text" class="form-control">
+                            </div>
+                          </div>
+                          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <div class="field_label text-center">
+                              Chemical Oxygen demand mg/ltr.
+                            </div>
+                          </div>
+                          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <div class="field_value text-left">
+                              <input type="text" class="form-control">
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row margin-10">
+                          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <div class="field_label text-center">
+                              Biological Oxygen demand mg/ltr.
+                            </div>
+                          </div>
+                          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <div class="field_value text-left">
+                              <input type="text" class="form-control">
+                            </div>
+                          </div>
+                          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <div class="field_label text-center">
+                              Oil &amp; Grease
+                            </div>
+                          </div>
+                          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <div class="field_value text-left">
+                              <input type="text" class="form-control">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                
+              </div>
+              <div class="modal-footer">
+                <a href="#!" class="modal-action btn modal-close waves-effect waves-green btn-flat">Submit</a>
+              </div>
+            </div>
+                <!-- add modal khatam -->
+            </div>

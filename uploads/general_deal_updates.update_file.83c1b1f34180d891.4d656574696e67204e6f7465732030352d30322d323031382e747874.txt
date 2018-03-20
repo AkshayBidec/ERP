@@ -1,0 +1,18 @@
+Meeting Notes 05-02-2018
+1. Firm name should come "Add client leads"
+2. Form submission link issue fix it urgently
+3. Add location of client manually and enter it with the customer info
+4. With the customer info take the legal reg no and type of reg no
+5. 
+
+CRM -> Design -> Inventory -> Sales & Purchase
+
+Main Portal:
+1. More than 1 person can be associated with one lead
+2. Feature to add the primary contact info out of the added
+3. Lead status displayed in the view lead option
+4. Module and data entry feature for associating with the lead
+5. O&M calculate the chemical consumption and daily operating cost automation - Future discussion when discussing regarding the O&M
+
+
+Meet in next week over skype with Kavishk

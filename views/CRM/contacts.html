@@ -7,9 +7,7 @@
 
 </head>
 <body>
-
-
-  
+{{ include 'CRM/crm_navbar.html'}}
 <div class="container-fluid">
   <div class="row bg-gray padding-10">
     <div class="col-md-3 col-lg-3 col-xs-3 col-sm-3 text-center">
@@ -26,13 +24,20 @@
         </ul>
       </div> -->
     </div>
-    <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+    <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1">
+    </div>
+    <div class="col-md-5 col-lg-5 col-sm-5 col-xs-5">
+      <div class="display_none" id="action_menu" role="group" aria-label="...">
+        <button type="button" class="btn btn-default">Convert</button>
+        <button type="button" class="btn btn-default">Send e-mail</button>
+        <button type="button" class="btn btn-default red darken-4">Delete</button>
+      </div>
     </div>
    <div class="col-md-3 col-lg-3 col-xs-3 col-sm-3 text-center">
     <div class="btn-group" role="group" aria-label="...">
-      <a href="{{=URL('contacts_add')}}"><button type="button" class="btn btn-default"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button></a>
-      <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></button>
-      <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-sort-by-alphabet" aria-hidden="true"></span></button>
+      <a href="{{=URL('contacts_add')}}" class="btn tooltipped" data-position="bottom" data-delay="50" data-tooltip="Add New Customer" ><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
+      <button type="button" class="btn btn-default" disabled=""><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></button>
+      <button type="button" class="btn btn-default" disabled=""><span class="glyphicon glyphicon-sort-by-alphabet" aria-hidden="true"></span></button>
     </div>
    </div> 
   </div>
@@ -42,73 +47,61 @@
       <div class="section_head padding-10">
         <h3 class="margin-10">Filter Contact</h3>
       </div>
-      
-      <div class="filter accordian-container">
-        <div class="custom-checkbox  accordian-head">
-          <input type="checkbox" value="#" name="price" id="check-cat-price-0" class="filter-checkbox">
-          <label for="check-cat-price-0">Name </label>
-        </div>
-        <div class="filter-body accordian-body">
-          Name Starting With
-        </div>
-      </div>
-      
-      <div class="filter accordian-container">
-        <div class="custom-checkbox  accordian-head">
-          <input type="checkbox" value="#" name="price" id="check-cat-price-1" class="filter-checkbox">
-          <label for="check-cat-price-1">Company Name </label>
-        </div>
-      </div>
-   
-    </div>
-    <div class="col-md-9 col-lg-9 col-xs-9 col-sm-9 ">
-      <table class="table table-bordered table-hover" id="contacts_table">
-        <thead>
-        <tr>
-          <th>Company</th>
-          <th>Name</th>
-          <th>E-mail</th>
-          <th>Phone</th>
-          <th>Type Of Contact</th>
-          <th>Designation</th>
-          <th>Department</th>
-        </tr>
-        </thead>
-        <tbody>
-        {{  if len(data)>0:
-                
-                for key in data.keys():
-                    response.write("<tr id='%s' onclick='page_redirect(this.id)' style='cursor: pointer;'>"%data[key]['contact_key_id'],escape=False)
-                    response.write("<td>%s</td>"%data[key]['Company'],escape=False)
-                    response.write("<td>%s</td>"%data[key]['Name'],escape=False)
-                    response.write("<td>%s</td>"%data[key]['Email'],escape=False)
-                    response.write("<td>%s</td>"%data[key]['Phone'],escape=False)
-                    response.write("<td>%s</td>"%data[key]['Type Of Contact'],escape=False)
-                    response.write("<td>%s</td>"%data[key]['Designation'],escape=False)
-                    response.write("<td>%s</td>"%data[key]['Department'],escape=False)
-                    response.write("</tr>",escape=False)
-                    pass
-                    
-        }}
+      {{=LOAD('CRM','load_filter.load', vars=dict(filter_field=filter_field,filter_value=lFilterData['lFilterOutput']), ajax=True,ajax_trap=False)}}
 
-        {{ else:}}
-        <tr><td colspan=7 class="text-center">Add <a href="{{=URL('leads_add')}}">new lead!</a></td></tr>
-        {{pass}}
-        {{=session.message}}
-        </tbody>
-      </table>
     </div>
+
+        {{=LOAD('CRM','datatable.load', vars=dict(data=data, lRedirectKey= 'contact_key_id',data_flag=data_flag), ajax=False)}}
+
   </div>  
 </div>
 </body>
 <script>
   $(document).ready(function(){
-    $('#contacts_table').DataTable();
+    $('#leads_table').DataTable();
   });
   function page_redirect(id){
+    id = $(id).parent().attr('id');
     window.location.href = "{{=URL('contacts_view')}}"+'/'+id;
   }
   setAccordian();
+
+
+  function action_menu(classNme){
+    //id = $(id).parent().attr('id');
+    
+    var elems = document.getElementsByClassName(classNme);
+      active_class = 'active';
+      var checked_elems = [];
+      var unchecked_elems = [];
+   
+    for (var i in elems){
+      if($(elems[i]).prop("checked") == true){
+                //add active 
+                console.log(elems[i]);
+              checked_elems.push(elems[i]);
+            }
+            else if($(this).prop("checked") == false){
+                //del active
+               unchecked_elems.push(elems[i]); 
+            }
+    }
+    console.log(checked_elems);
+    console.log(checked_elems.length);
+    if(checked_elems.length > 0){
+      //display buttons
+      $('#action_menu').removeClass('display_none');
+    }
+    else{
+     $('#action_menu').addClass('display_none');
+      //hide buttons
+    }  
+  }
+
+
+  
+
+
 function setAccordian() {
 
     var elems = document.getElementsByClassName('accordian-head'),

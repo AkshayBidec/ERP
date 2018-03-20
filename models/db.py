@@ -323,6 +323,240 @@ db.define_table('image',
         Field('file_data', 'upload'),
         format = '%(title)s')
 
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ DEALS
+db.define_table(
+    'general_deal_field_key',
+    Field('contact_key_id',type='integer',required=True,notnull=True),
+    Field('lead_key_id',type='integer',default=0,required=True,notnull=True),
+    Field('company_id',db.general_company_details),
+    Field('is_active', type='boolean', default=True, required=True, notnull=True),
+    Field('session_id',db.general_session),
+    Field('db_entry_time', type='datetime',  required=True, notnull=True),
+    Field('db_entered_by', type='integer',required=False,notnull=False),
+    Field('db_update_time', type='datetime', notnull=False),
+    Field('db_updated_by',type='integer',required=False,notnull=False)
+)
+
+db.define_table(
+    'general_deal_status_master',
+    Field('deal_status',type='string',length=250, required=True, notnull=True),
+    Field('progress',type='string',length=250, required=False, notnull=False),
+    Field('is_active',type='boolean',default=True, required=True, notnull=True),
+    Field('db_entry_time', type='datetime',  required=True, notnull=True),
+    Field('db_entered_by', type='integer',required=False,notnull=False),
+    Field('db_update_time', type='datetime', notnull=False),
+    Field('db_updated_by',type='integer',required=False,notnull=False),
+    Field('company_id',db.general_company_details)
+)
+
+db.define_table(
+    'general_deal_status',
+    Field('activity',type='string',length=250, required=False, notnull=False),
+    Field('current_stage',type='integer',default=0,required=True, notnull=True),
+    Field('session_id',db.general_session),
+    Field('company_id',db.general_company_details),
+    Field('deal_key_id',db.general_deal_field_key),
+    Field('deal_status_master_id',db.general_deal_status_master),
+    Field('is_active',type='boolean',default=True, required=True, notnull=True),
+    Field('db_entry_time', type='datetime',  required=True, notnull=True),
+    Field('db_entered_by', type='integer',required=False,notnull=False),
+    Field('db_entered_by_name', type='string',required=False,notnull=False),
+    Field('db_update_time', type='datetime', notnull=False),
+    Field('db_updated_by',type='integer',required=False,notnull=False)
+)
+
+db.define_table(
+    'general_deal_updates',
+    Field('session_id',db.general_session),
+    Field('company_id',db.general_company_details),
+    Field('deal_key_id',db.general_deal_field_key),
+    Field('deal_status_id',db.general_deal_status_master),
+    Field('update_head',type='string',length=1000,required=False,notnull=False),
+    Field('update_data',type='string',length=2000,required=False,notnull=False),
+    Field('update_file_name',type='string',length=1000,required=False,notnull=False),
+    Field('update_file',type='upload',required=False,notnull=False),
+    Field('head_version',type='integer',required=False,notnull=False),
+    Field('title',type='string',required=False,notnull=False),
+    Field('head_id',type='integer',required=False,notnull=False),
+    Field('is_active',type='boolean',default=True, required=True, notnull=True),
+    Field('db_entry_time', type='datetime',  required=True, notnull=True),
+    Field('db_entered_by', type='integer',required=False,notnull=False),
+    Field('db_entered_by_name', type='string',required=False,notnull=False),
+    Field('db_update_time', type='datetime', notnull=False),
+    Field('db_updated_by',type='integer',required=False,notnull=False)
+)
+
+
+
+db.define_table(
+    'general_deal_field',
+    Field('company_id',db.general_company_details),
+    Field('feature_id',type='integer', required=True,notnull=True),
+    Field('sequence_no',type='integer',default=0,required=True,notnull=True),
+    Field('session_id',db.general_session),
+    Field('form_name',type='string',length=250,required=True,notnull=True),
+    Field('field_name',type='string',length=500,required=False,notnull=False),
+    Field('field_widget_attributes',type='string',length=500,required=False,notnull=False),
+    Field('field_requires_attributes',type='string',length=500,required=False,notnull=False),
+    Field('field_suggestion_attributes',type='string',length=500,required=False,notnull=False),            
+    Field('is_active',type='boolean',default=True, required=True, notnull=True),
+    Field('filter_flag', type='boolean', default=True, required=True, notnull=True),
+    Field('db_entry_time', type='datetime',  required=True, notnull=True),
+    Field('db_entered_by', type='integer',required=False,notnull=False),
+    Field('db_update_time', type='datetime', notnull=False),
+    Field('db_updated_by',type='integer',required=False,notnull=False)
+)
+
+db.define_table(
+    'general_deal_field_value',
+    Field('field_id',db.general_deal_field),
+    Field('deal_key_id',db.general_deal_field_key),
+    Field('company_id',db.general_company_details),
+    Field('session_id',db.general_session),
+    Field('field_value',type='string',length=1000,required=True,notnull=True),
+    Field('is_active',type='boolean',default=True, required=True, notnull=True), # to represent that data is present or deleted
+    Field('db_entry_time', type='datetime',  required=True, notnull=True),
+    Field('db_entered_by', type='integer',required=False,notnull=False),
+    Field('db_update_time', type='datetime', notnull=False),
+    Field('db_updated_by',type='integer',required=False,notnull=False),
+)
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  WATER TEST
+
+db.define_table(
+    'general_water_test_field',
+    Field('company_id',type='integer',required=True,notnull=True),
+    Field('feature_id',type='integer', required=False,notnull=False),
+    Field('sequence_no',type='integer',default=0,required=True,notnull=True),
+    Field('session_id',type='integer',required=True,notnull=True),
+    Field('form_name',type='string',length=250,required=True,notnull=True),
+    Field('field_name',type='string',length=500,required=False,notnull=False),
+    Field('field_widget_attributes',type='string',length=500,required=False,notnull=False),
+    Field('field_requires_attributes',type='string',length=500,required=False,notnull=False),
+    Field('field_suggestion_attributes',type='string',length=500,required=False,notnull=False),            
+    Field('is_active',type='boolean',default=True, required=True, notnull=True),
+    Field('filter_flag', type='boolean', default=True, required=True, notnull=True),
+    Field('db_entry_time', type='datetime',  required=True, notnull=True),
+    Field('db_entered_by', type='integer',required=False,notnull=False),
+    Field('db_update_time', type='datetime', notnull=False),
+    Field('db_updated_by',type='integer',required=False,notnull=False)
+)
+
+db.define_table(
+    'general_water_test_value',
+    Field('field_id',db.general_water_test_field),
+    Field('key_id', type='integer',required=False,notnull=False),
+    Field('key_reference', type='string',required=False,notnull=False),
+    Field('update_key', type='integer',required=False,notnull=False),
+    Field('update_referece', type='string',required=False,notnull=False),
+    Field('test_title', type='string',required=False,notnull=False),
+    Field('test_value', type='string',required=False,notnull=False),
+    Field('company_id',type='integer',required=True,notnull=True),
+    Field('session_id',type='integer',required=True,notnull=True),
+    Field('is_active', type='boolean', default=True, required=True, notnull=True),
+    Field('db_entry_time', type='datetime',  required=True, notnull=True),
+    Field('db_entered_by', type='integer',required=False,notnull=False),
+    Field('db_update_time', type='datetime', notnull=False),
+    Field('db_updated_by',type='integer',required=False,notnull=False)
+)
+
+
+
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ CONTACT COMPANY
+
+db.define_table(
+    'general_contact_company_field_key',
+    Field('company_id',db.general_company_details),
+    Field('is_active', type='boolean', default=True, required=True, notnull=True),
+    Field('session_id',db.general_session),
+    Field('db_entry_time', type='datetime',  required=True, notnull=True),
+    Field('db_entered_by', type='integer',required=False,notnull=False),
+    Field('db_update_time', type='datetime', notnull=False),
+    Field('db_updated_by',type='integer',required=False,notnull=False)
+)
+
+
+db.define_table(
+    'general_contact_company_field',
+    Field('company_id',db.general_company_details),
+    Field('feature_id',type='integer', required=True,notnull=True),
+    Field('sequence_no',type='integer',default=0,required=True,notnull=True),
+    Field('session_id',db.general_session),
+    Field('form_name',type='string',length=250,required=True,notnull=True),
+    Field('field_name',type='string',length=500,required=False,notnull=False),
+    Field('field_widget_attributes',type='string',length=500,required=False,notnull=False),
+    Field('field_requires_attributes',type='string',length=500,required=False,notnull=False),
+    Field('field_suggestion_attributes',type='string',length=500,required=False,notnull=False),            
+    Field('is_active',type='boolean',default=True, required=True, notnull=True),
+    Field('filter_flag', type='boolean', default=True, required=True, notnull=True),
+    Field('db_entry_time', type='datetime',  required=True, notnull=True),
+    Field('db_entered_by', type='integer',required=False,notnull=False),
+    Field('db_update_time', type='datetime', notnull=False),
+    Field('db_updated_by',type='integer',required=False,notnull=False)
+)
+
+db.define_table(
+    'general_contact_company_field_value',
+    Field('field_id',db.general_contact_company_field),
+    Field('company_key_id',db.general_contact_company_field_key),
+    Field('company_id',db.general_company_details),
+    Field('session_id',db.general_session),
+    Field('field_value',type='string',length=1000,required=True,notnull=True),
+    Field('is_active',type='boolean',default=True, required=True, notnull=True), # to represent that data is present or deleted
+    Field('db_entry_time', type='datetime',  required=True, notnull=True),
+    Field('db_entered_by', type='integer',required=False,notnull=False),
+    Field('db_update_time', type='datetime', notnull=False),
+    Field('db_updated_by',type='integer',required=False,notnull=False),
+)
+
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ CONTACT
+
+db.define_table(
+    'general_contact_field_key',
+    Field('company_key_id',type='integer',required=False,notnull=False),
+    Field('is_active', type='boolean', default=True, required=True, notnull=True),
+    Field('company_id',db.general_company_details),
+    Field('session_id',db.general_session),
+    Field('db_entry_time', type='datetime',  required=True, notnull=True),
+    Field('db_entered_by', type='integer',required=False,notnull=False),
+    Field('db_update_time', type='datetime', notnull=False),
+    Field('db_updated_by',type='integer',required=False,notnull=False)
+)
+
+
+db.define_table(
+    'general_contact_field',
+    Field('company_id',db.general_company_details),
+    Field('feature_id',type='integer', required=True,notnull=True),
+    Field('sequence_no',type='integer',default=0,required=True,notnull=True),
+    Field('session_id',db.general_session),
+    Field('form_name',type='string',length=250,required=True,notnull=True),
+    Field('field_name',type='string',length=500,required=False,notnull=False),
+    Field('field_widget_attributes',type='string',length=500,required=False,notnull=False),
+    Field('field_requires_attributes',type='string',length=500,required=False,notnull=False),
+    Field('field_suggestion_attributes',type='string',length=500,required=False,notnull=False),            
+    Field('is_active',type='boolean',default=True, required=True, notnull=True),
+    Field('filter_flag', type='boolean', default=True, required=True, notnull=True),
+    Field('db_entry_time', type='datetime',  required=True, notnull=True),
+    Field('db_entered_by', type='integer',required=False,notnull=False),
+    Field('db_update_time', type='datetime', notnull=False),
+    Field('db_updated_by',type='integer',required=False,notnull=False)
+)
+
+db.define_table(
+    'general_contact_field_value',
+    Field('field_id',db.general_contact_field),
+    Field('contact_key_id',db.general_contact_field_key),
+    Field('company_id',db.general_company_details),
+    Field('session_id',db.general_session),
+    Field('field_value',type='string',length=1000,required=True,notnull=True),
+    Field('is_active',type='boolean',default=True, required=True, notnull=True), # to represent that data is present or deleted
+    Field('db_entry_time', type='datetime',  required=True, notnull=True),
+    Field('db_entered_by', type='integer',required=False,notnull=False),
+    Field('db_update_time', type='datetime', notnull=False),
+    Field('db_updated_by',type='integer',required=False,notnull=False),
+)
+
+
 # -------------------------------------------------------------------------
 # after defining tables, uncomment below to enable auditing
 # -------------------------------------------------------------------------

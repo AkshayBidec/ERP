@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+      {{if session_data['update_head'] == 'notes':
+      pass
+      }}
+          
+          <div class="#">
+              <!-- Already added notes -->
+              <table class="table table-striped" id="{{=session_data['update_head']}}_upload_table">
+              <thead>
+              <tr>
+                  <th>Title</th>
+                  <th>{{='Description' if session_data['update_head'] != 'notes' else 'Note'}}</th>
+                  <th>File</th>
+                  <!-- <th>Version NO</th> -->
+                  <th>Added Time</th>
+                  <th>Added By</th>
+                  <th>Version</th>
+                  <th>Delete</th>
+              </tr>
+              </thead>
+         
+              <tbody>
+         
+                     {{  if len(data)>0:
+                  
+                        for key in data.keys():
+                            response.write("<tr >",escape=False)
+                            response.write("<td>%s</td>"%data[key]['title'],escape=False)
+                            response.write("<td>%s</td>"%data[key]['update_data'],escape=False)
+                            response.write("<td><a href='%s'>%s</a></td>"  %(URL('download',args=data[key]['update_file']) , data[key]['update_file_name']),escape=False)
+                            response.write("<td>%s</td>"%data[key]['db_entry_time'],escape=False)
+                            response.write("<td>%s</td>"%data[key]['db_entered_by_name'],escape=False)
+                            response.write("<td>%s</td>"%data[key]['head_version'],escape=False)
+                            response.write("<td><button>Delete</button></td>",escape=False)
+                            response.write("</tr>",escape=False)
+                            pass
+                            
+                }}
+                {{ else:}}
+                  <tr><td colspan=8 class="text-center">Add New Diagram!</td></tr>
+                {{pass}}
+              
+              </tbody>
+              
+              </table>
+
+              {{update_head=session_data['update_head']}}
+              {{update_head=update_head.title().replace('_',' ')}}
+
+
+              <div class="padding-10">
+                <h6><span>Add Files to the {{=update_head}}</span> <span class="padding-lr-20"><a class="waves-effect waves-light btn modal-trigger" href="#modal{{=session_data['update_head']}}">New</a></span></h6>
+                <!-- add modal -->
+                 
+            <!-- Modal Structure -->
+            <div id="modal{{=session_data['update_head']}}" class="modal">
+                  <form action="" enctype="multipart/form-data" method="post">
+
+              <div class="modal-content">
+                  <h4>Add {{=update_head}}</h4>
+
+                    <input name="_formname" type="hidden" value="upload_form">
+
+                    <div class="modal_inner_content">
+                      
+
+                      <div class="row">
+                        <div class="input-field col s12">
+                            <label for="{{=session_data['update_head']}}_title">Title</label>
+                            <input  id="{{=session_data['update_head']}}_title" class="text materialize-textarea" name="title" type="text" value="" autocomplete="off" >
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="input-field col s12">
+                          
+                            <label for='{{=session_data['update_head']}}_description'>{{='Description' if session_data['update_head'] != 'notes' else 'Note'}}</label>
+                            <textarea  id="{{=session_data['update_head']}}_description" class="string materialize-textarea" name="description" type="text-area" ></textarea>
+                        </div>
+                      </div>
+
+                     <!--  <div class="row">
+                        <div class="input-field col s12">
+                            <label for="{{=session_data['update_head']}}_version">Version NO</label> -->
+                            <input  id="{{=session_data['update_head']}}_version" hidden="" class="float materialize-textarea" name="version" type="text" value="0" autocomplete="off" >
+                        <!-- </div>
+                      </div>
+                      
+                      <div class="row">
+                        <div class="input-field col s12">
+                            <label for="{{=session_data['update_head']}}_head_id">File Id</label> -->
+                            <input  id="{{=session_data['update_head']}}_head_id" hidden="" class="integer materialize-textarea" name="head_id" type="text" value="" autocomplete="off" >
+                        <!-- </div>
+                      </div> -->
+
+                      <div class="row">
+                        <div class="file-field input-field">
+                        <div class="btn">
+                          <span>{{='File' if session_data['update_head'] != 'notes' else 'Attachment'}}</span>
+                          <input class="upload" name="update_file" type="file">
+                        </div>
+                        
+                        <div class="file-path-wrapper">
+                          <input class="file-path validate" type="text" placeholder="Upload a file">
+                        </div>
+                      </div>
+                      </div>
+                      
+                    </div> 
+                  
+                </div>
+              <div class="modal-footer">
+                <input type="submit" value="Submit" class="modal-action modal-close btn  waves-effect waves-green btn-flat">
+                <!-- <a href="#!" >Submit</a> -->
+              </div>
+              </form>
+            </div>
+
+          </div>
+
+          </div>
+
+            {{if session_data['update_head']=='water_analysis_report':}}
+            <div class="padding-10">
+                <h6><span>Add Water Analysis Data </span> <span class="padding-lr-20"><a class="waves-effect waves-light btn modal-trigger" href="#modal{{=session_data['update_head']}}_data">New</a></span></h6>
+                <!-- add modal -->
+                  <!-- Modal Trigger -->
+            <!-- <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Modal</a> -->
+
+            <!-- Modal Structure -->
+            <div id="modal{{=session_data['update_head']}}_data" class="modal">
+              <div class="modal-content">
+                  <h3>Water Analysis Data</h3>
+                  <div class="modal_inner_content">
+                    
+               
+                       {{#lWaterTestForm.custom.begin}}
+                        <form>
+                         <input name="_formname" type="hidden" value="water_test">
+
+                         {{for row in lWaterTestField:}}
+                           <div class="row margin-10">
+                              <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                <div class="field_label text-center">
+                                  {{=row.field_name}}
+                                </div>
+                              </div>
+                              <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                <div class="field_value text-left">
+                            <input  id="f_{{=row.id}}" class="integer materialize-textarea" name="f_{{=row.id}}" type="text" value="" autocomplete="off" >
+                                </div>
+                              </div>
+
+                           {{pass}}
+                            <div class="modal-footer">
+                              <a href="#!" class="modal-action btn modal-close waves-effect waves-green btn-flat">Submit</a>
+                            </div>
+                        {{#lWaterTestForm.custom.end}}
+                            </form>
+                      </div>
+                          
+                  </div>
+                
+              </div>
+
+            </div>
+            
+
+
+
+                <!-- add modal khatam -->
+              </div>
+        </div>
+            {{pass}}
+
+
+
+  <script>
+    
+  $(document).ready(function() {
+    $('select').material_select();
+    $('.modal').modal();      
+  });
+     function openModal(id) {
+      $('#'+id).modal('open');
+     }
+  </script>
+
+
+
